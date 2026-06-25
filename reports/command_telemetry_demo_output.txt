@@ -1,6 +1,6 @@
 # Command / Telemetry Demo Output
 
-Generated: 2026-06-25T20:06:07Z
+Generated: 2026-06-25T22:27:34Z
 
 ## Summary
 
@@ -55,22 +55,22 @@ Command/telemetry demo complete.
 
 ```text
 Listening for AstraSim-FSW telemetry on UDP 0.0.0.0:5005
-('127.0.0.1', 44294): seq=1 t_ms=8529176 mode=BOOT fault=NONE cpu=18.00% mem=42.25% hb=1
-('127.0.0.1', 44294): seq=2 t_ms=8529680 mode=BOOT fault=NONE cpu=18.00% mem=42.50% hb=2
-('127.0.0.1', 44294): seq=3 t_ms=8530184 mode=NOMINAL fault=NONE cpu=18.00% mem=42.75% hb=3
-('127.0.0.1', 44294): seq=4 t_ms=8530598 mode=NOMINAL fault=NONE cpu=18.00% mem=43.00% hb=4
-('127.0.0.1', 44294): seq=5 t_ms=8531100 mode=NOMINAL fault=NONE cpu=18.00% mem=43.25% hb=5
-('127.0.0.1', 44294): seq=6 t_ms=8531604 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=18.00% mem=43.50% hb=6
-('127.0.0.1', 44294): seq=7 t_ms=8532004 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=92.00% mem=43.75% hb=7
-('127.0.0.1', 44294): seq=8 t_ms=8532508 mode=DEGRADED_PAYLOAD fault=NONE cpu=92.00% mem=44.00% hb=8
-('127.0.0.1', 44294): seq=9 t_ms=8532908 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=44.25% hb=9
-('127.0.0.1', 44294): seq=10 t_ms=8533412 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=44.50% hb=10
-('127.0.0.1', 44294): seq=11 t_ms=8533916 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=44.75% hb=11
-('127.0.0.1', 44294): seq=12 t_ms=8534420 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=45.00% hb=12
-('127.0.0.1', 44294): seq=13 t_ms=8534924 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=45.25% hb=13
-('127.0.0.1', 44294): seq=14 t_ms=8535428 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=45.50% hb=14
-('127.0.0.1', 44294): seq=15 t_ms=8535932 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=45.75% hb=15
-('127.0.0.1', 44294): seq=16 t_ms=8536436 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=46.00% hb=16
-('127.0.0.1', 44294): seq=17 t_ms=8536940 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=46.25% hb=17
-('127.0.0.1', 44294): seq=18 t_ms=8537444 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=46.50% hb=18
+('127.0.0.1', 52175): seq=1 t_ms=11966152 mode=BOOT fault=NONE cpu=18.00% mem=42.25% hb=1
+('127.0.0.1', 52175): seq=2 t_ms=11966656 mode=BOOT fault=NONE cpu=18.00% mem=42.50% hb=2
+('127.0.0.1', 52175): seq=3 t_ms=11967160 mode=NOMINAL fault=NONE cpu=18.00% mem=42.75% hb=3
+('127.0.0.1', 52175): seq=4 t_ms=11967579 mode=NOMINAL fault=NONE cpu=18.00% mem=43.00% hb=4
+('127.0.0.1', 52175): seq=5 t_ms=11968080 mode=NOMINAL fault=NONE cpu=18.00% mem=43.25% hb=5
+('127.0.0.1', 52175): seq=6 t_ms=11968584 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=18.00% mem=43.50% hb=6
+('127.0.0.1', 52175): seq=7 t_ms=11968984 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=92.00% mem=43.75% hb=7
+('127.0.0.1', 52175): seq=8 t_ms=11969488 mode=DEGRADED_PAYLOAD fault=NONE cpu=92.00% mem=44.00% hb=8
+('127.0.0.1', 52175): seq=9 t_ms=11969888 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=44.25% hb=9
+('127.0.0.1', 52175): seq=10 t_ms=11970392 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=44.50% hb=10
+('127.0.0.1', 52175): seq=11 t_ms=11970896 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=44.75% hb=11
+('127.0.0.1', 52175): seq=12 t_ms=11971400 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=45.00% hb=12
+('127.0.0.1', 52175): seq=13 t_ms=11971904 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=45.25% hb=13
+('127.0.0.1', 52175): seq=14 t_ms=11972408 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=45.50% hb=14
+('127.0.0.1', 52175): seq=15 t_ms=11972912 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=45.75% hb=15
+('127.0.0.1', 52175): seq=16 t_ms=11973416 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=46.00% hb=16
+('127.0.0.1', 52175): seq=17 t_ms=11973920 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=46.25% hb=17
+('127.0.0.1', 52175): seq=18 t_ms=11974424 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=46.50% hb=18
 ```
