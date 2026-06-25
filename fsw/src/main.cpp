@@ -1,54 +1,56 @@
+#include "astra/mode_manager.hpp"
+
 #include <chrono>
 #include <iostream>
-#include <string>
 #include <thread>
 
-enum class Mode {
-    BOOT,
-    NOMINAL,
-    DEGRADED_SENSOR,
-    DEGRADED_PAYLOAD,
-    SAFE,
-    RECOVERY
-};
-
-std::string mode_to_string(Mode mode) {
-    switch (mode) {
-        case Mode::BOOT: return "BOOT";
-        case Mode::NOMINAL: return "NOMINAL";
-        case Mode::DEGRADED_SENSOR: return "DEGRADED_SENSOR";
-        case Mode::DEGRADED_PAYLOAD: return "DEGRADED_PAYLOAD";
-        case Mode::SAFE: return "SAFE";
-        case Mode::RECOVERY: return "RECOVERY";
-        default: return "UNKNOWN";
-    }
-}
-
 int main() {
-    Mode current_mode = Mode::BOOT;
+    astra::ModeManager mode_manager;
 
     std::cout << "AstraSim-FSW starting..." << std::endl;
-    std::cout << "Mode: " << mode_to_string(current_mode) << std::endl;
+    std::cout << "Mode: "
+              << astra::mode_to_string(mode_manager.current_mode())
+              << std::endl;
 
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
-    Mode previous_mode = current_mode;
-    current_mode = Mode::NOMINAL;
+    const auto previous_mode = mode_manager.current_mode();
+    const bool transitioned = mode_manager.transition_to(
+        astra::Mode::NOMINAL,
+        astra::FaultCode::NONE
+    );
 
-    std::cout << "Mode transition: "
-              << mode_to_string(previous_mode)
-              << " -> "
-              << mode_to_string(current_mode)
-              << std::endl;
+    if (transitioned) {
+        std::cout << "Mode transition: "
+                  << astra::mode_to_string(previous_mode)
+                  << " -> "
+                  << astra::mode_to_string(mode_manager.current_mode())
+                  << std::endl;
+    } else {
+        std::cout << "Mode transition rejected." << std::endl;
+    }
 
     for (int i = 0; i < 5; ++i) {
         std::cout << "Heartbeat " << i + 1
                   << " | Mode: "
-                  << mode_to_string(current_mode)
+                  << astra::mode_to_string(mode_manager.current_mode())
                   << std::endl;
 
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
+
+    std::cout << "Injecting simulated CPU overload fault..." << std::endl;
+
+    const auto before_fault = mode_manager.current_mode();
+    mode_manager.handle_fault(astra::FaultCode::CPU_OVERLOAD);
+
+    std::cout << "Mode transition: "
+              << astra::mode_to_string(before_fault)
+              << " -> "
+              << astra::mode_to_string(mode_manager.current_mode())
+              << " | Reason: "
+              << astra::fault_to_string(astra::FaultCode::CPU_OVERLOAD)
+              << std::endl;
 
     std::cout << "AstraSim-FSW shutdown." << std::endl;
     return 0;

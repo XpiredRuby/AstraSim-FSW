@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(astra_fsw
     fsw/src/main.cpp
+    fsw/src/mode_manager.cpp
 )
 
 target_include_directories(astra_fsw PRIVATE
