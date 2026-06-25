@@ -24,6 +24,11 @@ Implemented:
 - UDP command receiver
 - Python command sender
 - Command processor connected to the mode manager
+- `FlightSoftwareApp` central app loop
+- `HealthMonitor` for CPU, memory, sensor, payload, and loop health checks
+- Automatic critical health-fault injection
+- `Watchdog` for loop timing and stale execution detection
+- Automatic watchdog fault injection
 - Live UDP telemetry demo
 - Integrated command/telemetry demo
 - Automated demo capture reports
@@ -36,6 +41,15 @@ Current test coverage:
 - Command packet tests
 - Command processor tests
 - UDP command receiver tests
+- Flight software app tests
+- Health monitor tests
+- Watchdog tests
+
+Current local test status:
+
+```text
+9/9 test suites passing
+```
 
 ## System Flow
 
@@ -52,10 +66,15 @@ C++ UDP command receiver
 CommandPacket decoder + CRC validation
         |
         v
-CommandProcessor
+FlightSoftwareApp
         |
-        v
-ModeManager
+        +--> Watchdog
+        |
+        +--> HealthMonitor
+        |
+        +--> CommandProcessor
+        |
+        +--> ModeManager
         |
         v
 TelemetryPacket encoder + CRC
@@ -92,7 +111,7 @@ ctest --output-on-failure
 |---|---|
 | `astra_fsw` | Basic flight software mode/fault demo |
 | `astra_fsw_telemetry_demo` | Sends live UDP telemetry to the Python receiver |
-| `astra_fsw_command_telemetry_demo` | Receives UDP commands, updates mode/fault state, and sends UDP telemetry |
+| `astra_fsw_command_telemetry_demo` | Receives UDP commands, updates mode/fault state through `FlightSoftwareApp`, and sends UDP telemetry |
 
 ## Python Tools
 
@@ -161,6 +180,9 @@ Fault state clears after CLEAR_FAULT
 | `docs/command_processor.md` | Command processor behavior |
 | `docs/udp_command_receiver.md` | UDP command receiver design |
 | `docs/command_telemetry_demo.md` | Integrated command/telemetry demo |
+| `docs/flight_software_app.md` | Central app-loop behavior |
+| `docs/health_monitor.md` | Health monitoring behavior |
+| `docs/watchdog.md` | Watchdog behavior |
 
 ## Project Goal
 
@@ -169,6 +191,8 @@ The goal is to build a professional-grade simulation and flight-software verific
 - Embedded C++
 - State-machine design
 - Fault handling
+- Watchdog logic
+- Health monitoring
 - Binary packet design
 - UDP command and telemetry links
 - Python ground tooling
@@ -178,11 +202,10 @@ The goal is to build a professional-grade simulation and flight-software verific
 
 ## Planned Next Steps
 
-- Add a `FlightSoftwareApp` core loop
 - Add command acknowledgement telemetry
-- Add watchdog and health monitor
 - Add YAML scenario runner
 - Add requirement checker
 - Add Monte Carlo regression runner
 - Deploy the C++ target on Raspberry Pi
 - Connect real sensor/payload health inputs
+- Add HIL test procedure and evidence
