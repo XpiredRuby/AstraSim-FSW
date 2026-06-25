@@ -1,0 +1,28 @@
+# Build outputs
+build/
+*.o
+*.a
+*.so
+*.exe
+
+# CMake files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Logs and reports generated during runs
+*.log
+*.csv
+reports/latest/
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
