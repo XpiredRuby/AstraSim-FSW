@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(astra_fsw_core
     fsw/src/mode_manager.cpp
+    fsw/src/telemetry_packet.cpp
 )
 
 target_include_directories(astra_fsw_core PUBLIC
@@ -29,5 +30,14 @@ target_link_libraries(astra_fsw_tests PRIVATE
     astra_fsw_core
 )
 
+add_executable(astra_telemetry_tests
+    fsw/tests/test_telemetry_packet.cpp
+)
+
+target_link_libraries(astra_telemetry_tests PRIVATE
+    astra_fsw_core
+)
+
 enable_testing()
 add_test(NAME mode_manager_tests COMMAND astra_fsw_tests)
+add_test(NAME telemetry_packet_tests COMMAND astra_telemetry_tests)
