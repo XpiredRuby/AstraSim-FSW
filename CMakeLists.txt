@@ -9,6 +9,7 @@ add_library(astra_fsw_core
     fsw/src/mode_manager.cpp
     fsw/src/telemetry_packet.cpp
     fsw/src/udp_telemetry_sender.cpp
+    fsw/src/command_packet.cpp
 )
 
 target_include_directories(astra_fsw_core PUBLIC
@@ -55,7 +56,16 @@ target_link_libraries(astra_udp_telemetry_tests PRIVATE
     astra_fsw_core
 )
 
+add_executable(astra_command_tests
+    fsw/tests/test_command_packet.cpp
+)
+
+target_link_libraries(astra_command_tests PRIVATE
+    astra_fsw_core
+)
+
 enable_testing()
 add_test(NAME mode_manager_tests COMMAND astra_fsw_tests)
 add_test(NAME telemetry_packet_tests COMMAND astra_telemetry_tests)
 add_test(NAME udp_telemetry_sender_tests COMMAND astra_udp_telemetry_tests)
+add_test(NAME command_packet_tests COMMAND astra_command_tests)
