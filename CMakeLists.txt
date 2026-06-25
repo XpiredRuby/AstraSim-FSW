@@ -23,6 +23,14 @@ target_link_libraries(astra_fsw PRIVATE
     astra_fsw_core
 )
 
+add_executable(astra_fsw_telemetry_demo
+    fsw/src/telemetry_demo.cpp
+)
+
+target_link_libraries(astra_fsw_telemetry_demo PRIVATE
+    astra_fsw_core
+)
+
 add_executable(astra_fsw_tests
     fsw/tests/test_mode_manager.cpp
 )
