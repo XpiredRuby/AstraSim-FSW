@@ -1,0 +1,75 @@
+# Command / Telemetry Demo Output
+
+Generated: 2026-06-25T19:45:14Z
+
+## Summary
+
+- Command port: 6000
+- Telemetry port: 5005
+- Telemetry packets received: 18
+- Expected command sequence:
+  - seq=1 SET_MODE NOMINAL
+  - seq=2 INJECT_FAULT CPU_OVERLOAD
+  - seq=3 CLEAR_FAULT
+
+## Command Sender Output
+
+```text
+Sent command SET_MODE argument=NOMINAL seq=1 to 127.0.0.1:6000
+Sent command INJECT_FAULT argument=CPU_OVERLOAD seq=2 to 127.0.0.1:6000
+Sent command CLEAR_FAULT argument=0 seq=3 to 127.0.0.1:6000
+```
+
+## C++ Command / Telemetry Server Output
+
+```text
+AstraSim-FSW command/telemetry demo
+Listening for UDP commands on port 6000
+Sending UDP telemetry to 127.0.0.1:5005
+TX telemetry seq=1 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=2 mode=BOOT fault=NONE sent=yes
+RX command seq=1 id=SET_MODE status=ACCEPTED mode=NOMINAL fault=NONE msg="SET_MODE accepted"
+TX telemetry seq=3 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=4 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=5 mode=NOMINAL fault=NONE sent=yes
+RX command seq=2 id=INJECT_FAULT status=ACCEPTED mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD msg="INJECT_FAULT accepted"
+TX telemetry seq=6 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX telemetry seq=7 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+RX command seq=3 id=CLEAR_FAULT status=ACCEPTED mode=DEGRADED_PAYLOAD fault=NONE msg="Fault state cleared"
+TX telemetry seq=8 mode=DEGRADED_PAYLOAD fault=NONE sent=yes
+TX telemetry seq=9 mode=DEGRADED_PAYLOAD fault=NONE sent=yes
+TX telemetry seq=10 mode=DEGRADED_PAYLOAD fault=NONE sent=yes
+TX telemetry seq=11 mode=DEGRADED_PAYLOAD fault=NONE sent=yes
+TX telemetry seq=12 mode=DEGRADED_PAYLOAD fault=NONE sent=yes
+TX telemetry seq=13 mode=DEGRADED_PAYLOAD fault=NONE sent=yes
+TX telemetry seq=14 mode=DEGRADED_PAYLOAD fault=NONE sent=yes
+TX telemetry seq=15 mode=DEGRADED_PAYLOAD fault=NONE sent=yes
+TX telemetry seq=16 mode=DEGRADED_PAYLOAD fault=NONE sent=yes
+TX telemetry seq=17 mode=DEGRADED_PAYLOAD fault=NONE sent=yes
+TX telemetry seq=18 mode=DEGRADED_PAYLOAD fault=NONE sent=yes
+Command/telemetry demo complete.
+```
+
+## Python Telemetry Receiver Output
+
+```text
+Listening for AstraSim-FSW telemetry on UDP 0.0.0.0:5005
+('127.0.0.1', 46367): seq=1 t_ms=7330024 mode=BOOT fault=NONE cpu=18.00% mem=42.25% hb=1
+('127.0.0.1', 46367): seq=2 t_ms=7330528 mode=BOOT fault=NONE cpu=18.00% mem=42.50% hb=2
+('127.0.0.1', 46367): seq=3 t_ms=7330944 mode=NOMINAL fault=NONE cpu=18.00% mem=42.75% hb=3
+('127.0.0.1', 46367): seq=4 t_ms=7331448 mode=NOMINAL fault=NONE cpu=18.00% mem=43.00% hb=4
+('127.0.0.1', 46367): seq=5 t_ms=7331952 mode=NOMINAL fault=NONE cpu=18.00% mem=43.25% hb=5
+('127.0.0.1', 46367): seq=6 t_ms=7332352 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=92.00% mem=43.50% hb=6
+('127.0.0.1', 46367): seq=7 t_ms=7332856 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=92.00% mem=43.75% hb=7
+('127.0.0.1', 46367): seq=8 t_ms=7333256 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=44.00% hb=8
+('127.0.0.1', 46367): seq=9 t_ms=7333760 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=44.25% hb=9
+('127.0.0.1', 46367): seq=10 t_ms=7334264 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=44.50% hb=10
+('127.0.0.1', 46367): seq=11 t_ms=7334768 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=44.75% hb=11
+('127.0.0.1', 46367): seq=12 t_ms=7335272 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=45.00% hb=12
+('127.0.0.1', 46367): seq=13 t_ms=7335776 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=45.25% hb=13
+('127.0.0.1', 46367): seq=14 t_ms=7336280 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=45.50% hb=14
+('127.0.0.1', 46367): seq=15 t_ms=7336784 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=45.75% hb=15
+('127.0.0.1', 46367): seq=16 t_ms=7337288 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=46.00% hb=16
+('127.0.0.1', 46367): seq=17 t_ms=7337792 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=46.25% hb=17
+('127.0.0.1', 46367): seq=18 t_ms=7338296 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=46.50% hb=18
+```
