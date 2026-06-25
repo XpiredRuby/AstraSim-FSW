@@ -13,7 +13,7 @@ import struct
 TELEMETRY_MAGIC = 0x41535452
 TELEMETRY_VERSION = 1
 TELEMETRY_PACKET_TYPE_HEALTH = 1
-TELEMETRY_PACKET_SIZE_BYTES = 37
+TELEMETRY_PACKET_SIZE_BYTES = 43
 
 MODES = {
     0: "BOOT",
@@ -38,6 +38,14 @@ FAULTS = {
     600: "WATCHDOG_DEADLINE_MISS",
 }
 
+COMMANDS = {
+    0: "NOOP",
+    1: "SET_MODE",
+    2: "INJECT_FAULT",
+    3: "REQUEST_TELEMETRY",
+    4: "CLEAR_FAULT",
+}
+
 
 def crc16_ccitt(data: bytes) -> int:
     crc = 0xFFFF
@@ -52,6 +60,12 @@ def crc16_ccitt(data: bytes) -> int:
                 crc = (crc << 1) & 0xFFFF
 
     return crc
+
+
+def command_name(command_id: int) -> str:
+    if command_id == 0:
+        return "NONE"
+    return COMMANDS.get(command_id, f"UNKNOWN({command_id})")
 
 
 def decode_packet(data: bytes) -> dict:
@@ -75,8 +89,11 @@ def decode_packet(data: bytes) -> dict:
         cpu_load_percent,
         memory_load_percent,
         heartbeat_count,
+        last_command_sequence_number,
+        last_command_id,
+        last_command_status,
         _crc,
-    ) = struct.unpack("<IHHIQBHffIH", data)
+    ) = struct.unpack("<IHHIQBHffIIBBH", data)
 
     if magic != TELEMETRY_MAGIC:
         raise ValueError(f"bad magic: 0x{magic:08X}")
@@ -95,6 +112,9 @@ def decode_packet(data: bytes) -> dict:
         "cpu_load_percent": cpu_load_percent,
         "memory_load_percent": memory_load_percent,
         "heartbeat_count": heartbeat_count,
+        "last_command_sequence_number": last_command_sequence_number,
+        "last_command_id": command_name(last_command_id),
+        "last_command_status": last_command_status,
     }
 
 
@@ -126,7 +146,10 @@ def main() -> None:
             f"fault={packet['last_fault']} "
             f"cpu={packet['cpu_load_percent']:.2f}% "
             f"mem={packet['memory_load_percent']:.2f}% "
-            f"hb={packet['heartbeat_count']}"
+            f"hb={packet['heartbeat_count']} "
+            f"ack_seq={packet['last_command_sequence_number']} "
+            f"ack_cmd={packet['last_command_id']} "
+            f"ack_status={packet['last_command_status']}"
         )
 
 

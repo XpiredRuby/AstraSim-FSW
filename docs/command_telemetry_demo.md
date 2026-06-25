@@ -78,3 +78,14 @@ mode=NOMINAL fault=NONE
 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD
 mode=DEGRADED_PAYLOAD fault=NONE
 ```
+
+
+## Command ACK Telemetry
+
+Telemetry now includes command acknowledgement fields:
+
+- Last ground command sequence number
+- Last ground command ID
+- Last ground command status
+
+This allows the ground side to verify that a command was received and processed, not just infer behavior from the mode/fault state.

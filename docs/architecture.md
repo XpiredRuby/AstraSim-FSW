@@ -135,3 +135,16 @@ Current test suites:
 - Watchdog
 
 The CI workflow builds the project and runs the local test script.
+
+
+## Command ACK Telemetry
+
+The telemetry packet carries command acknowledgement fields for the last processed ground command.
+
+This lets the ground tool verify:
+
+- Which command sequence number was processed
+- Which command ID was processed
+- The command processing status
+
+Internal watchdog and health faults are intentionally separate from the ground command ACK fields.

@@ -152,6 +152,10 @@ std::vector<std::uint8_t> serialize_telemetry_packet(const TelemetryPacket& pack
 
     append_u32(bytes, packet.heartbeat_count);
 
+    append_u32(bytes, packet.last_command_sequence_number);
+    append_u8(bytes, packet.last_command_id);
+    append_u8(bytes, packet.last_command_status);
+
     const std::uint16_t crc = telemetry_crc16_ccitt(bytes);
     append_u16(bytes, crc);
 
@@ -213,6 +217,10 @@ bool deserialize_telemetry_packet(
     packet.cpu_load_percent = read_float32(bytes, offset);
     packet.memory_load_percent = read_float32(bytes, offset);
     packet.heartbeat_count = read_u32(bytes, offset);
+
+    packet.last_command_sequence_number = read_u32(bytes, offset);
+    packet.last_command_id = read_u8(bytes, offset);
+    packet.last_command_status = read_u8(bytes, offset);
 
     packet_out = packet;
     return true;

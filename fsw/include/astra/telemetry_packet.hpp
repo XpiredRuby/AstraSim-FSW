@@ -10,7 +10,7 @@ namespace astra {
 constexpr std::uint32_t TELEMETRY_MAGIC = 0x41535452;  // ASCII: ASTR
 constexpr std::uint16_t TELEMETRY_VERSION = 1;
 constexpr std::uint16_t TELEMETRY_PACKET_TYPE_HEALTH = 1;
-constexpr std::size_t TELEMETRY_PACKET_SIZE_BYTES = 37;
+constexpr std::size_t TELEMETRY_PACKET_SIZE_BYTES = 43;
 
 struct TelemetryPacket {
     std::uint32_t sequence_number = 0;
@@ -23,6 +23,10 @@ struct TelemetryPacket {
     float memory_load_percent = 0.0F;
 
     std::uint32_t heartbeat_count = 0;
+
+    std::uint32_t last_command_sequence_number = 0;
+    std::uint8_t last_command_id = 0;
+    std::uint8_t last_command_status = 0;
 };
 
 std::uint16_t telemetry_crc16_ccitt(const std::vector<std::uint8_t>& bytes);

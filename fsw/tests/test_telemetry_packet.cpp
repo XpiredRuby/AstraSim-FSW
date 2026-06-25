@@ -19,74 +19,90 @@ void expect_true(bool condition, const std::string& test_name) {
     }
 }
 
-bool nearly_equal(float a, float b) {
-    return std::fabs(a - b) < 0.0001F;
-}
-
-void test_packet_has_fixed_size() {
-    astra::TelemetryPacket packet;
-    const auto bytes = astra::serialize_telemetry_packet(packet);
-
-    expect_true(
-        bytes.size() == astra::TELEMETRY_PACKET_SIZE_BYTES,
-        "serialized packet has fixed expected size"
-    );
-}
-
-void test_telemetry_round_trip() {
+astra::TelemetryPacket make_packet() {
     astra::TelemetryPacket packet;
     packet.sequence_number = 42;
     packet.timestamp_ms = 123456789ULL;
     packet.mode = astra::Mode::DEGRADED_PAYLOAD;
     packet.last_fault = astra::FaultCode::CPU_OVERLOAD;
-    packet.cpu_load_percent = 87.5F;
-    packet.memory_load_percent = 64.25F;
-    packet.heartbeat_count = 9001;
+    packet.cpu_load_percent = 76.5F;
+    packet.memory_load_percent = 52.25F;
+    packet.heartbeat_count = 99;
+    packet.last_command_sequence_number = 7;
+    packet.last_command_id = 2;
+    packet.last_command_status = 0;
+    return packet;
+}
 
-    const auto bytes = astra::serialize_telemetry_packet(packet);
+void test_serialized_packet_size() {
+    const auto bytes = astra::serialize_telemetry_packet(make_packet());
+
+    expect_true(
+        bytes.size() == astra::TELEMETRY_PACKET_SIZE_BYTES,
+        "serialized telemetry packet has expected size"
+    );
+    expect_true(
+        astra::TELEMETRY_PACKET_SIZE_BYTES == 43,
+        "telemetry packet size includes command ACK fields"
+    );
+}
+
+void test_round_trip_serialization() {
+    const auto original = make_packet();
+    const auto bytes = astra::serialize_telemetry_packet(original);
 
     astra::TelemetryPacket decoded;
     const bool ok = astra::deserialize_telemetry_packet(bytes, decoded);
 
     expect_true(ok, "valid telemetry packet deserializes");
-    expect_true(decoded.sequence_number == 42, "sequence number round trip");
-    expect_true(decoded.timestamp_ms == 123456789ULL, "timestamp round trip");
-    expect_true(decoded.mode == astra::Mode::DEGRADED_PAYLOAD, "mode round trip");
-    expect_true(decoded.last_fault == astra::FaultCode::CPU_OVERLOAD, "fault code round trip");
-    expect_true(nearly_equal(decoded.cpu_load_percent, 87.5F), "CPU load round trip");
-    expect_true(nearly_equal(decoded.memory_load_percent, 64.25F), "memory load round trip");
-    expect_true(decoded.heartbeat_count == 9001, "heartbeat count round trip");
+    expect_true(decoded.sequence_number == original.sequence_number, "sequence number round trips");
+    expect_true(decoded.timestamp_ms == original.timestamp_ms, "timestamp round trips");
+    expect_true(decoded.mode == original.mode, "mode round trips");
+    expect_true(decoded.last_fault == original.last_fault, "fault round trips");
+    expect_true(
+        std::fabs(decoded.cpu_load_percent - original.cpu_load_percent) < 0.001F,
+        "CPU load round trips"
+    );
+    expect_true(
+        std::fabs(decoded.memory_load_percent - original.memory_load_percent) < 0.001F,
+        "memory load round trips"
+    );
+    expect_true(decoded.heartbeat_count == original.heartbeat_count, "heartbeat count round trips");
+    expect_true(
+        decoded.last_command_sequence_number == original.last_command_sequence_number,
+        "last command sequence number round trips"
+    );
+    expect_true(decoded.last_command_id == original.last_command_id, "last command ID round trips");
+    expect_true(
+        decoded.last_command_status == original.last_command_status,
+        "last command status round trips"
+    );
 }
 
-void test_corrupted_packet_rejected() {
-    astra::TelemetryPacket packet;
-    packet.sequence_number = 7;
-
-    auto bytes = astra::serialize_telemetry_packet(packet);
+void test_bad_crc_is_rejected() {
+    auto bytes = astra::serialize_telemetry_packet(make_packet());
     bytes.at(10) ^= 0xFFU;
 
     astra::TelemetryPacket decoded;
     const bool ok = astra::deserialize_telemetry_packet(bytes, decoded);
 
-    expect_true(!ok, "corrupted packet rejected by CRC");
+    expect_true(!ok, "packet with bad CRC is rejected");
 }
 
-void test_wrong_size_packet_rejected() {
-    astra::TelemetryPacket packet;
-    auto bytes = astra::serialize_telemetry_packet(packet);
+void test_wrong_size_is_rejected() {
+    auto bytes = astra::serialize_telemetry_packet(make_packet());
     bytes.pop_back();
 
     astra::TelemetryPacket decoded;
     const bool ok = astra::deserialize_telemetry_packet(bytes, decoded);
 
-    expect_true(!ok, "wrong-size packet rejected");
+    expect_true(!ok, "wrong packet size is rejected");
 }
 
-void test_invalid_mode_rejected() {
-    astra::TelemetryPacket packet;
-    auto bytes = astra::serialize_telemetry_packet(packet);
+void test_invalid_mode_is_rejected() {
+    auto bytes = astra::serialize_telemetry_packet(make_packet());
 
-    constexpr std::size_t mode_offset = 4 + 2 + 2 + 4 + 8;
+    constexpr std::size_t mode_offset = 20;
     bytes.at(mode_offset) = 99;
 
     const std::vector<std::uint8_t> without_crc(bytes.begin(), bytes.end() - 2);
@@ -97,25 +113,25 @@ void test_invalid_mode_rejected() {
     astra::TelemetryPacket decoded;
     const bool ok = astra::deserialize_telemetry_packet(bytes, decoded);
 
-    expect_true(!ok, "invalid mode rejected even with valid CRC");
+    expect_true(!ok, "invalid mode is rejected");
 }
 
 }  // namespace
 
 int main() {
-    std::cout << "Running TelemetryPacket tests..." << std::endl;
+    std::cout << "Running telemetry packet tests..." << std::endl;
 
-    test_packet_has_fixed_size();
-    test_telemetry_round_trip();
-    test_corrupted_packet_rejected();
-    test_wrong_size_packet_rejected();
-    test_invalid_mode_rejected();
+    test_serialized_packet_size();
+    test_round_trip_serialization();
+    test_bad_crc_is_rejected();
+    test_wrong_size_is_rejected();
+    test_invalid_mode_is_rejected();
 
     if (failures == 0) {
-        std::cout << "All TelemetryPacket tests passed." << std::endl;
+        std::cout << "All telemetry packet tests passed." << std::endl;
         return EXIT_SUCCESS;
     }
 
-    std::cout << failures << " TelemetryPacket test(s) failed." << std::endl;
+    std::cout << failures << " telemetry packet test(s) failed." << std::endl;
     return EXIT_FAILURE;
 }

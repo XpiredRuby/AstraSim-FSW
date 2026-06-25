@@ -8,7 +8,10 @@ FlightSoftwareApp::FlightSoftwareApp()
       health_monitor_(),
       watchdog_(),
       watchdog_initialized_(false),
-      telemetry_sequence_(0) {}
+      telemetry_sequence_(0),
+      last_ground_command_sequence_number_(0),
+      last_ground_command_id_(0),
+      last_ground_command_status_(0) {}
 
 FlightSoftwareStepOutput FlightSoftwareApp::step(const FlightSoftwareStepInput& input) {
     FlightSoftwareStepOutput output;
@@ -32,6 +35,9 @@ FlightSoftwareStepOutput FlightSoftwareApp::step(const FlightSoftwareStepInput& 
     if (input.has_command) {
         output.command_processed = true;
         output.command_result = command_processor_.process(input.command);
+        last_ground_command_sequence_number_ = output.command_result.sequence_number;
+        last_ground_command_id_ = static_cast<std::uint8_t>(output.command_result.command_id);
+        last_ground_command_status_ = static_cast<std::uint8_t>(output.command_result.status);
     }
 
     HealthSnapshot health_snapshot;
@@ -63,6 +69,9 @@ FlightSoftwareStepOutput FlightSoftwareApp::step(const FlightSoftwareStepInput& 
     output.telemetry.cpu_load_percent = input.cpu_load_percent;
     output.telemetry.memory_load_percent = input.memory_load_percent;
     output.telemetry.heartbeat_count = input.heartbeat_count;
+    output.telemetry.last_command_sequence_number = last_ground_command_sequence_number_;
+    output.telemetry.last_command_id = last_ground_command_id_;
+    output.telemetry.last_command_status = last_ground_command_status_;
 
     return output;
 }

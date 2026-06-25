@@ -61,6 +61,9 @@ private:
     Watchdog watchdog_;
     bool watchdog_initialized_;
     std::uint32_t telemetry_sequence_;
+    std::uint32_t last_ground_command_sequence_number_;
+    std::uint8_t last_ground_command_id_;
+    std::uint8_t last_ground_command_status_;
 };
 
 }  // namespace astra

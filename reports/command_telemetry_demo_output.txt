@@ -1,6 +1,6 @@
 # Command / Telemetry Demo Output
 
-Generated: 2026-06-25T22:45:16Z
+Generated: 2026-06-25T23:10:11Z
 
 ## Summary
 
@@ -55,22 +55,22 @@ Command/telemetry demo complete.
 
 ```text
 Listening for AstraSim-FSW telemetry on UDP 0.0.0.0:5005
-('127.0.0.1', 43848): seq=1 t_ms=12995177 mode=BOOT fault=NONE cpu=18.00% mem=42.25% hb=1
-('127.0.0.1', 43848): seq=2 t_ms=12995382 mode=BOOT fault=NONE cpu=18.00% mem=42.50% hb=2
-('127.0.0.1', 43848): seq=3 t_ms=12995586 mode=BOOT fault=NONE cpu=18.00% mem=42.75% hb=3
-('127.0.0.1', 43848): seq=4 t_ms=12995790 mode=BOOT fault=NONE cpu=18.00% mem=43.00% hb=4
-('127.0.0.1', 43848): seq=5 t_ms=12995994 mode=BOOT fault=NONE cpu=18.00% mem=43.25% hb=5
-('127.0.0.1', 43848): seq=6 t_ms=12996198 mode=NOMINAL fault=NONE cpu=18.00% mem=43.50% hb=6
-('127.0.0.1', 43848): seq=7 t_ms=12996350 mode=NOMINAL fault=NONE cpu=18.00% mem=43.75% hb=7
-('127.0.0.1', 43848): seq=8 t_ms=12996554 mode=NOMINAL fault=NONE cpu=18.00% mem=44.00% hb=8
-('127.0.0.1', 43848): seq=9 t_ms=12996758 mode=NOMINAL fault=NONE cpu=18.00% mem=44.25% hb=9
-('127.0.0.1', 43848): seq=10 t_ms=12996962 mode=NOMINAL fault=NONE cpu=18.00% mem=44.50% hb=10
-('127.0.0.1', 43848): seq=11 t_ms=12997166 mode=NOMINAL fault=NONE cpu=18.00% mem=44.75% hb=11
-('127.0.0.1', 43848): seq=12 t_ms=12997371 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=18.00% mem=45.00% hb=12
-('127.0.0.1', 43848): seq=13 t_ms=12997521 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=92.00% mem=45.25% hb=13
-('127.0.0.1', 43848): seq=14 t_ms=12997726 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=92.00% mem=45.50% hb=14
-('127.0.0.1', 43848): seq=15 t_ms=12997930 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=92.00% mem=45.75% hb=15
-('127.0.0.1', 43848): seq=16 t_ms=12998134 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=92.00% mem=46.00% hb=16
-('127.0.0.1', 43848): seq=17 t_ms=12998338 mode=DEGRADED_PAYLOAD fault=NONE cpu=92.00% mem=46.25% hb=17
-('127.0.0.1', 43848): seq=18 t_ms=12998488 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=46.50% hb=18
+('127.0.0.1', 34898): seq=1 t_ms=14441405 mode=BOOT fault=NONE cpu=18.00% mem=42.25% hb=1 ack_seq=0 ack_cmd=NONE ack_status=0
+('127.0.0.1', 34898): seq=2 t_ms=14441610 mode=BOOT fault=NONE cpu=18.00% mem=42.50% hb=2 ack_seq=0 ack_cmd=NONE ack_status=0
+('127.0.0.1', 34898): seq=3 t_ms=14441814 mode=BOOT fault=NONE cpu=18.00% mem=42.75% hb=3 ack_seq=0 ack_cmd=NONE ack_status=0
+('127.0.0.1', 34898): seq=4 t_ms=14442018 mode=BOOT fault=NONE cpu=18.00% mem=43.00% hb=4 ack_seq=0 ack_cmd=NONE ack_status=0
+('127.0.0.1', 34898): seq=5 t_ms=14442222 mode=BOOT fault=NONE cpu=18.00% mem=43.25% hb=5 ack_seq=0 ack_cmd=NONE ack_status=0
+('127.0.0.1', 34898): seq=6 t_ms=14442426 mode=NOMINAL fault=NONE cpu=18.00% mem=43.50% hb=6 ack_seq=1 ack_cmd=SET_MODE ack_status=0
+('127.0.0.1', 34898): seq=7 t_ms=14442594 mode=NOMINAL fault=NONE cpu=18.00% mem=43.75% hb=7 ack_seq=1 ack_cmd=SET_MODE ack_status=0
+('127.0.0.1', 34898): seq=8 t_ms=14442798 mode=NOMINAL fault=NONE cpu=18.00% mem=44.00% hb=8 ack_seq=1 ack_cmd=SET_MODE ack_status=0
+('127.0.0.1', 34898): seq=9 t_ms=14443002 mode=NOMINAL fault=NONE cpu=18.00% mem=44.25% hb=9 ack_seq=1 ack_cmd=SET_MODE ack_status=0
+('127.0.0.1', 34898): seq=10 t_ms=14443206 mode=NOMINAL fault=NONE cpu=18.00% mem=44.50% hb=10 ack_seq=1 ack_cmd=SET_MODE ack_status=0
+('127.0.0.1', 34898): seq=11 t_ms=14443410 mode=NOMINAL fault=NONE cpu=18.00% mem=44.75% hb=11 ack_seq=1 ack_cmd=SET_MODE ack_status=0
+('127.0.0.1', 34898): seq=12 t_ms=14443618 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=18.00% mem=45.00% hb=12 ack_seq=2 ack_cmd=INJECT_FAULT ack_status=0
+('127.0.0.1', 34898): seq=13 t_ms=14443768 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=92.00% mem=45.25% hb=13 ack_seq=2 ack_cmd=INJECT_FAULT ack_status=0
+('127.0.0.1', 34898): seq=14 t_ms=14443974 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=92.00% mem=45.50% hb=14 ack_seq=2 ack_cmd=INJECT_FAULT ack_status=0
+('127.0.0.1', 34898): seq=15 t_ms=14444178 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=92.00% mem=45.75% hb=15 ack_seq=2 ack_cmd=INJECT_FAULT ack_status=0
+('127.0.0.1', 34898): seq=16 t_ms=14444382 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=92.00% mem=46.00% hb=16 ack_seq=2 ack_cmd=INJECT_FAULT ack_status=0
+('127.0.0.1', 34898): seq=17 t_ms=14444586 mode=DEGRADED_PAYLOAD fault=NONE cpu=92.00% mem=46.25% hb=17 ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0
+('127.0.0.1', 34898): seq=18 t_ms=14444736 mode=DEGRADED_PAYLOAD fault=NONE cpu=18.00% mem=46.50% hb=18 ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0
 ```

@@ -102,6 +102,15 @@ void test_set_mode_command_changes_mode_to_nominal() {
     );
     expect_true(app.current_mode() == astra::Mode::NOMINAL, "app mode becomes NOMINAL");
     expect_true(output.telemetry.mode == astra::Mode::NOMINAL, "telemetry reports NOMINAL");
+    expect_true(output.telemetry.last_command_sequence_number == 1, "telemetry ACKs command sequence");
+    expect_true(
+        output.telemetry.last_command_id == static_cast<std::uint8_t>(astra::CommandId::SET_MODE),
+        "telemetry ACKs SET_MODE command ID"
+    );
+    expect_true(
+        output.telemetry.last_command_status == static_cast<std::uint8_t>(astra::CommandStatus::ACCEPTED),
+        "telemetry ACKs accepted command status"
+    );
 }
 
 void test_cpu_fault_command_changes_mode_to_degraded_payload() {
