@@ -2,7 +2,9 @@
 
 This demo sends AstraSim-FSW binary telemetry over UDP.
 
-## Terminal 1: Start Receiver
+## Manual Demo
+
+### New terminal: receiver
 
 From the project root:
 
@@ -16,12 +18,26 @@ Expected startup message:
 Listening for AstraSim-FSW telemetry on UDP 0.0.0.0:5005
 ```
 
-## Terminal 2: Send Telemetry
+### Old terminal: sender
 
 From the project root:
 
 ```bash
 ./build/astra_fsw_telemetry_demo 127.0.0.1 5005
+```
+
+## Automated Capture
+
+From the project root:
+
+```bash
+tools/run_live_telemetry_demo.sh
+```
+
+This starts the Python receiver, runs the C++ telemetry sender, captures both outputs, and writes:
+
+```text
+reports/live_telemetry_demo_output.txt
 ```
 
 ## Expected Behavior
@@ -44,3 +60,4 @@ This demonstrates:
 - UDP telemetry transmission
 - Python ground-side telemetry decoding
 - Mode and fault state reporting
+- Repeatable demo capture for portfolio evidence

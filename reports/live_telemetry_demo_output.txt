@@ -1,0 +1,47 @@
+# Live Telemetry Demo Output
+
+Generated: 2026-06-25T19:03:07Z
+
+## Summary
+
+- UDP packets received: 12
+- Expected packets: 12
+- Expected fault transition: NOMINAL -> DEGRADED_PAYLOAD at sequence 8
+
+## Sender Output
+
+```text
+AstraSim-FSW live telemetry demo
+Sending UDP telemetry to 127.0.0.1:5005
+TX seq=1 mode=BOOT fault=NONE sent=yes
+TX seq=2 mode=NOMINAL fault=NONE sent=yes
+TX seq=3 mode=NOMINAL fault=NONE sent=yes
+TX seq=4 mode=NOMINAL fault=NONE sent=yes
+TX seq=5 mode=NOMINAL fault=NONE sent=yes
+TX seq=6 mode=NOMINAL fault=NONE sent=yes
+TX seq=7 mode=NOMINAL fault=NONE sent=yes
+TX seq=8 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX seq=9 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX seq=10 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX seq=11 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX seq=12 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+Telemetry demo complete.
+```
+
+## Receiver Output
+
+```text
+Listening for AstraSim-FSW telemetry on UDP 0.0.0.0:5005
+('127.0.0.1', 53169): seq=1 t_ms=4912427 mode=BOOT fault=NONE cpu=19.00% mem=41.50% hb=1
+('127.0.0.1', 53169): seq=2 t_ms=4912927 mode=NOMINAL fault=NONE cpu=20.00% mem=43.00% hb=2
+('127.0.0.1', 53169): seq=3 t_ms=4913427 mode=NOMINAL fault=NONE cpu=21.00% mem=44.50% hb=3
+('127.0.0.1', 53169): seq=4 t_ms=4913928 mode=NOMINAL fault=NONE cpu=22.00% mem=46.00% hb=4
+('127.0.0.1', 53169): seq=5 t_ms=4914428 mode=NOMINAL fault=NONE cpu=23.00% mem=47.50% hb=5
+('127.0.0.1', 53169): seq=6 t_ms=4914928 mode=NOMINAL fault=NONE cpu=24.00% mem=49.00% hb=6
+('127.0.0.1', 53169): seq=7 t_ms=4915428 mode=NOMINAL fault=NONE cpu=25.00% mem=50.50% hb=7
+('127.0.0.1', 53169): seq=8 t_ms=4915929 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=91.00% mem=52.00% hb=8
+('127.0.0.1', 53169): seq=9 t_ms=4916429 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=91.00% mem=53.50% hb=9
+('127.0.0.1', 53169): seq=10 t_ms=4916929 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=91.00% mem=55.00% hb=10
+('127.0.0.1', 53169): seq=11 t_ms=4917430 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=91.00% mem=56.50% hb=11
+('127.0.0.1', 53169): seq=12 t_ms=4917930 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD cpu=91.00% mem=58.00% hb=12
+```
