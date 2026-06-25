@@ -2,11 +2,15 @@
 
 This demo connects the command side and telemetry side of AstraSim-FSW.
 
+The executable now uses `FlightSoftwareApp` as the central flight-software core loop.
+
 ## What It Demonstrates
 
 - Python sends UDP command packets.
 - C++ receives and decodes command packets.
+- `FlightSoftwareApp` processes commands through `CommandProcessor`.
 - `CommandProcessor` applies valid commands to `ModeManager`.
+- `FlightSoftwareApp` generates telemetry from current state.
 - C++ sends telemetry packets back over UDP.
 - Python receiver decodes the updated flight software state.
 

@@ -1,5 +1,6 @@
 #include "astra/command_packet.hpp"
 #include "astra/command_processor.hpp"
+#include "astra/flight_software_app.hpp"
 #include "astra/mode_manager.hpp"
 #include "astra/telemetry_packet.hpp"
 #include "astra/udp_command_receiver.hpp"
@@ -30,6 +31,14 @@ void print_usage(const char* executable_name) {
         << "  " << executable_name << " 6000 127.0.0.1 5005 30\n";
 }
 
+float cpu_load_for_state(astra::FaultCode fault) {
+    if (fault == astra::FaultCode::CPU_OVERLOAD) {
+        return 92.0F;
+    }
+
+    return 18.0F;
+}
+
 }  // namespace
 
 int main(int argc, char* argv[]) {
@@ -57,8 +66,7 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    astra::ModeManager mode_manager;
-    astra::CommandProcessor command_processor(mode_manager);
+    astra::FlightSoftwareApp app;
 
     astra::UdpCommandReceiver command_receiver(command_port, "0.0.0.0", 100);
     astra::UdpTelemetrySender telemetry_sender(telemetry_ip, telemetry_port);
@@ -74,39 +82,40 @@ int main(int argc, char* argv[]) {
     }
 
     std::cout << "AstraSim-FSW command/telemetry demo" << std::endl;
+    std::cout << "Using FlightSoftwareApp core loop" << std::endl;
     std::cout << "Listening for UDP commands on port " << command_receiver.bound_port() << std::endl;
     std::cout << "Sending UDP telemetry to " << telemetry_ip << ":" << telemetry_port << std::endl;
 
     for (std::uint32_t loop = 1; loop <= loop_count; ++loop) {
+        astra::FlightSoftwareStepInput input;
+        input.timestamp_ms = monotonic_time_ms();
+        input.cpu_load_percent = cpu_load_for_state(app.last_fault());
+        input.memory_load_percent = 42.0F + static_cast<float>(loop) * 0.25F;
+        input.heartbeat_count = loop;
+
         astra::CommandPacket command;
-
         if (command_receiver.receive_packet(command)) {
-            const auto result = command_processor.process(command);
+            input.has_command = true;
+            input.command = command;
+        }
 
-            std::cout << "RX command seq=" << result.sequence_number
-                      << " id=" << astra::command_id_to_string(result.command_id)
-                      << " status=" << astra::command_status_to_string(result.status)
-                      << " mode=" << astra::mode_to_string(result.resulting_mode)
-                      << " fault=" << astra::fault_to_string(result.resulting_fault)
-                      << " msg=\"" << result.message << "\""
+        const auto output = app.step(input);
+
+        if (output.command_processed) {
+            std::cout << "RX command seq=" << output.command_result.sequence_number
+                      << " id=" << astra::command_id_to_string(output.command_result.command_id)
+                      << " status=" << astra::command_status_to_string(output.command_result.status)
+                      << " mode=" << astra::mode_to_string(output.command_result.resulting_mode)
+                      << " fault=" << astra::fault_to_string(output.command_result.resulting_fault)
+                      << " msg=\"" << output.command_result.message << "\""
                       << std::endl;
         }
 
-        astra::TelemetryPacket telemetry;
-        telemetry.sequence_number = loop;
-        telemetry.timestamp_ms = monotonic_time_ms();
-        telemetry.mode = mode_manager.current_mode();
-        telemetry.last_fault = command_processor.last_fault();
-        telemetry.cpu_load_percent =
-            (telemetry.last_fault == astra::FaultCode::CPU_OVERLOAD) ? 92.0F : 18.0F;
-        telemetry.memory_load_percent = 42.0F + static_cast<float>(loop) * 0.25F;
-        telemetry.heartbeat_count = loop;
+        const bool sent = telemetry_sender.send_packet(output.telemetry);
 
-        const bool sent = telemetry_sender.send_packet(telemetry);
-
-        std::cout << "TX telemetry seq=" << telemetry.sequence_number
-                  << " mode=" << astra::mode_to_string(telemetry.mode)
-                  << " fault=" << astra::fault_to_string(telemetry.last_fault)
+        std::cout << "TX telemetry seq=" << output.telemetry.sequence_number
+                  << " mode=" << astra::mode_to_string(output.telemetry.mode)
+                  << " fault=" << astra::fault_to_string(output.telemetry.last_fault)
                   << " sent=" << (sent ? "yes" : "no")
                   << std::endl;
 
