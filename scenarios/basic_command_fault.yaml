@@ -1,0 +1,36 @@
+name: basic_command_fault
+description: SET_MODE, inject CPU fault, then clear fault.
+
+command_port: 6000
+telemetry_port: 5005
+loop_count: 22
+
+steps:
+  - name: set nominal
+    command: SET_MODE
+    argument: NOMINAL
+    expect:
+      ack_seq: 1
+      ack_cmd: SET_MODE
+      ack_status: 0
+      mode: NOMINAL
+      fault: NONE
+
+  - name: inject cpu fault
+    command: INJECT_FAULT
+    argument: CPU_OVERLOAD
+    expect:
+      ack_seq: 2
+      ack_cmd: INJECT_FAULT
+      ack_status: 0
+      mode: DEGRADED_PAYLOAD
+      fault: CPU_OVERLOAD
+
+  - name: clear fault
+    command: CLEAR_FAULT
+    expect:
+      ack_seq: 3
+      ack_cmd: CLEAR_FAULT
+      ack_status: 0
+      mode: DEGRADED_PAYLOAD
+      fault: NONE
