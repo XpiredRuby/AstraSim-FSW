@@ -5,6 +5,7 @@
 #include "astra/health_monitor.hpp"
 #include "astra/mode_manager.hpp"
 #include "astra/telemetry_packet.hpp"
+#include "astra/watchdog.hpp"
 
 #include <cstdint>
 
@@ -28,6 +29,10 @@ struct FlightSoftwareStepOutput {
     bool command_processed = false;
     CommandResult command_result;
 
+    WatchdogReport watchdog_report;
+    bool watchdog_fault_processed = false;
+    CommandResult watchdog_fault_result;
+
     HealthReport health_report;
     bool health_fault_processed = false;
     CommandResult health_fault_result;
@@ -45,7 +50,7 @@ public:
     FaultCode last_fault() const;
 
 private:
-    CommandPacket make_health_fault_command(
+    CommandPacket make_internal_fault_command(
         FaultCode fault,
         std::uint64_t timestamp_ms
     ) const;
@@ -53,6 +58,8 @@ private:
     ModeManager mode_manager_;
     CommandProcessor command_processor_;
     HealthMonitor health_monitor_;
+    Watchdog watchdog_;
+    bool watchdog_initialized_;
     std::uint32_t telemetry_sequence_;
 };
 

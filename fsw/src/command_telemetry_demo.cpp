@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
 
     astra::FlightSoftwareApp app;
 
-    astra::UdpCommandReceiver command_receiver(command_port, "0.0.0.0", 100);
+    astra::UdpCommandReceiver command_receiver(command_port, "0.0.0.0", 50);
     astra::UdpTelemetrySender telemetry_sender(telemetry_ip, telemetry_port);
 
     if (!command_receiver.is_ready()) {
@@ -123,7 +123,7 @@ int main(int argc, char* argv[]) {
             return EXIT_FAILURE;
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+        std::this_thread::sleep_for(std::chrono::milliseconds(150));
     }
 
     std::cout << "Command/telemetry demo complete." << std::endl;

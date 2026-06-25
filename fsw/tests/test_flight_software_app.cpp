@@ -72,6 +72,8 @@ void test_initial_step_reports_boot() {
     const auto output = app.step(make_input_without_command(1));
 
     expect_true(!output.command_processed, "step without command does not process command");
+    expect_true(!output.watchdog_fault_processed, "initial watchdog does not inject fault");
+    expect_true(output.watchdog_report.status == astra::WatchdogStatus::OK, "initial watchdog reports OK");
     expect_true(!output.health_fault_processed, "nominal health does not inject fault");
     expect_true(output.health_report.status == astra::HealthStatus::OK, "initial health reports OK");
     expect_true(output.telemetry.sequence_number == 1, "first telemetry sequence is 1");
@@ -242,6 +244,53 @@ void test_sensor_timeout_drives_safe_mode() {
     );
 }
 
+void test_watchdog_timeout_drives_safe_mode() {
+    astra::FlightSoftwareApp app;
+
+    command_app_to_nominal(app);
+
+    auto input = make_input_without_command(2);
+    input.timestamp_ms = 1700;
+    input.loop_duration_ms = 20;
+
+    const auto output = app.step(input);
+
+    expect_true(
+        output.watchdog_report.status == astra::WatchdogStatus::EXPIRED,
+        "watchdog timeout reports EXPIRED"
+    );
+    expect_true(
+        output.watchdog_report.fault == astra::FaultCode::WATCHDOG_DEADLINE_MISS,
+        "watchdog timeout maps to WATCHDOG_DEADLINE_MISS"
+    );
+    expect_true(output.watchdog_fault_processed, "watchdog timeout is processed as fault");
+    expect_true(
+        output.watchdog_fault_result.status == astra::CommandStatus::ACCEPTED,
+        "watchdog fault command accepted"
+    );
+    expect_true(app.current_mode() == astra::Mode::SAFE, "watchdog timeout changes mode to SAFE");
+    expect_true(output.telemetry.mode == astra::Mode::SAFE, "telemetry reports SAFE after watchdog timeout");
+}
+
+void test_watchdog_warning_does_not_inject_fault() {
+    astra::FlightSoftwareApp app;
+
+    command_app_to_nominal(app);
+
+    auto input = make_input_without_command(2);
+    input.timestamp_ms = 1450;
+    input.loop_duration_ms = 20;
+
+    const auto output = app.step(input);
+
+    expect_true(
+        output.watchdog_report.status == astra::WatchdogStatus::WARNING,
+        "watchdog warning reports WARNING"
+    );
+    expect_true(!output.watchdog_fault_processed, "watchdog warning does not inject fault");
+    expect_true(app.current_mode() == astra::Mode::NOMINAL, "watchdog warning keeps NOMINAL");
+}
+
 }  // namespace
 
 int main() {
@@ -255,6 +304,8 @@ int main() {
     test_critical_health_fault_is_injected_automatically();
     test_warning_health_does_not_inject_fault();
     test_sensor_timeout_drives_safe_mode();
+    test_watchdog_timeout_drives_safe_mode();
+    test_watchdog_warning_does_not_inject_fault();
 
     if (failures == 0) {
         std::cout << "All FlightSoftwareApp tests passed." << std::endl;

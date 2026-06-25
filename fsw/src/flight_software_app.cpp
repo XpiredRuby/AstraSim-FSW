@@ -6,10 +6,28 @@ FlightSoftwareApp::FlightSoftwareApp()
     : mode_manager_(),
       command_processor_(mode_manager_),
       health_monitor_(),
+      watchdog_(),
+      watchdog_initialized_(false),
       telemetry_sequence_(0) {}
 
 FlightSoftwareStepOutput FlightSoftwareApp::step(const FlightSoftwareStepInput& input) {
     FlightSoftwareStepOutput output;
+
+    if (!watchdog_initialized_) {
+        watchdog_.reset(input.timestamp_ms);
+        watchdog_initialized_ = true;
+    }
+
+    output.watchdog_report = watchdog_.evaluate(input.timestamp_ms, input.loop_duration_ms);
+
+    if (output.watchdog_report.status == WatchdogStatus::EXPIRED &&
+        output.watchdog_report.fault != FaultCode::NONE) {
+        const auto watchdog_fault_command =
+            make_internal_fault_command(output.watchdog_report.fault, input.timestamp_ms);
+
+        output.watchdog_fault_processed = true;
+        output.watchdog_fault_result = command_processor_.process(watchdog_fault_command);
+    }
 
     if (input.has_command) {
         output.command_processed = true;
@@ -28,11 +46,13 @@ FlightSoftwareStepOutput FlightSoftwareApp::step(const FlightSoftwareStepInput& 
     if (output.health_report.status == HealthStatus::CRITICAL &&
         output.health_report.fault != FaultCode::NONE) {
         const auto health_fault_command =
-            make_health_fault_command(output.health_report.fault, input.timestamp_ms);
+            make_internal_fault_command(output.health_report.fault, input.timestamp_ms);
 
         output.health_fault_processed = true;
         output.health_fault_result = command_processor_.process(health_fault_command);
     }
+
+    watchdog_.kick(input.timestamp_ms);
 
     telemetry_sequence_ += 1;
 
@@ -55,7 +75,7 @@ FaultCode FlightSoftwareApp::last_fault() const {
     return command_processor_.last_fault();
 }
 
-CommandPacket FlightSoftwareApp::make_health_fault_command(
+CommandPacket FlightSoftwareApp::make_internal_fault_command(
     FaultCode fault,
     std::uint64_t timestamp_ms
 ) const {

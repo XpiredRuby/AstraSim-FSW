@@ -1,6 +1,6 @@
 # FlightSoftwareApp
 
-`FlightSoftwareApp` is the central application layer that connects the flight software state machine, command processing, health monitoring, and telemetry generation.
+`FlightSoftwareApp` is the central application layer that connects the flight software state machine, command processing, watchdog monitoring, health monitoring, and telemetry generation.
 
 ## Purpose
 
@@ -11,6 +11,7 @@ Before this module, the project had separate pieces:
 - `CommandProcessor`
 - `TelemetryPacket`
 - `HealthMonitor`
+- `Watchdog`
 - UDP command and telemetry modules
 
 `FlightSoftwareApp` provides a single core step function that can be used by future demos, simulations, Raspberry Pi deployment, and HIL tests.
@@ -34,6 +35,9 @@ Each app step returns:
 
 - Whether a ground command was processed
 - The ground command result, if applicable
+- The watchdog report for the current step
+- Whether an automatic watchdog fault was processed
+- The automatic watchdog fault result, if applicable
 - The health report for the current step
 - Whether an automatic health fault was processed
 - The automatic health fault result, if applicable
@@ -43,18 +47,20 @@ Each app step returns:
 
 - Starts in `BOOT`
 - Processes valid ground commands through `CommandProcessor`
+- Evaluates watchdog state through `Watchdog`
+- Automatically injects expired watchdog faults
 - Evaluates health inputs through `HealthMonitor`
 - Automatically injects `CRITICAL` health faults
-- Does not inject faults for `WARNING` health reports
+- Does not inject faults for watchdog or health `WARNING` reports
 - Preserves mode and fault state internally
 - Generates telemetry every step
 - Increments telemetry sequence number automatically
 
 ## Fault Handling
 
-Health faults are converted into internal `INJECT_FAULT` commands.
+Watchdog faults and health faults are converted into internal `INJECT_FAULT` commands.
 
-This keeps manual ground fault injection and automatic health fault detection on the same command-processing path.
+This keeps manual ground fault injection and automatic onboard fault detection on the same command-processing path.
 
 ## Future Use
 
@@ -63,6 +69,7 @@ Future modules should call `FlightSoftwareApp::step()` instead of manually wirin
 - `ModeManager`
 - `CommandProcessor`
 - `HealthMonitor`
+- `Watchdog`
 - `TelemetryPacket`
 
 This keeps the flight software behavior centralized and easier to test.
