@@ -25,10 +25,11 @@ std::uint64_t monotonic_time_ms() {
 void print_usage(const char* executable_name) {
     std::cout
         << "Usage: " << executable_name
-        << " [command_port] [telemetry_ip] [telemetry_port] [loop_count]\n"
+        << " [command_port] [telemetry_ip] [telemetry_port] [loop_count] [sensor_timeout_loop]\n"
         << "\n"
         << "Example:\n"
-        << "  " << executable_name << " 6000 127.0.0.1 5005 30\n";
+        << "  " << executable_name << " 6000 127.0.0.1 5005 30\n"
+        << "  " << executable_name << " 6000 127.0.0.1 5005 30 8\n";
 }
 
 float cpu_load_for_state(astra::FaultCode fault) {
@@ -46,6 +47,7 @@ int main(int argc, char* argv[]) {
     std::string telemetry_ip = "127.0.0.1";
     std::uint16_t telemetry_port = 5005;
     std::uint32_t loop_count = 30;
+    std::uint32_t sensor_timeout_loop = 0;
 
     if (argc == 2) {
         const std::string arg = argv[1];
@@ -56,11 +58,15 @@ int main(int argc, char* argv[]) {
         }
 
         command_port = static_cast<std::uint16_t>(std::stoi(arg));
-    } else if (argc == 5) {
+    } else if (argc == 5 || argc == 6) {
         command_port = static_cast<std::uint16_t>(std::stoi(argv[1]));
         telemetry_ip = argv[2];
         telemetry_port = static_cast<std::uint16_t>(std::stoi(argv[3]));
         loop_count = static_cast<std::uint32_t>(std::stoul(argv[4]));
+
+        if (argc == 6) {
+            sensor_timeout_loop = static_cast<std::uint32_t>(std::stoul(argv[5]));
+        }
     } else if (argc != 1) {
         print_usage(argv[0]);
         return EXIT_FAILURE;
@@ -93,6 +99,10 @@ int main(int argc, char* argv[]) {
         input.memory_load_percent = 42.0F + static_cast<float>(loop) * 0.25F;
         input.heartbeat_count = loop;
 
+        if (sensor_timeout_loop != 0U && loop >= sensor_timeout_loop) {
+            input.sensor_age_ms = 1500;
+        }
+
         astra::CommandPacket command;
         if (command_receiver.receive_packet(command)) {
             input.has_command = true;
@@ -108,6 +118,14 @@ int main(int argc, char* argv[]) {
                       << " mode=" << astra::mode_to_string(output.command_result.resulting_mode)
                       << " fault=" << astra::fault_to_string(output.command_result.resulting_fault)
                       << " msg=\"" << output.command_result.message << "\""
+                      << std::endl;
+        }
+
+        if (output.health_fault_processed) {
+            std::cout << "AUTO health fault status="
+                      << astra::command_status_to_string(output.health_fault_result.status)
+                      << " mode=" << astra::mode_to_string(output.health_fault_result.resulting_mode)
+                      << " fault=" << astra::fault_to_string(output.health_fault_result.resulting_fault)
                       << std::endl;
         }
 

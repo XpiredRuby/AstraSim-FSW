@@ -161,6 +161,7 @@ def main() -> int:
     command_port = int(scenario.get("command_port", 6000))
     telemetry_port = int(scenario.get("telemetry_port", 5005))
     loop_count = int(scenario.get("loop_count", 22))
+    sensor_timeout_loop = scenario.get("sensor_timeout_loop")
     steps = scenario.get("steps", [])
 
     server_exe = REPO_ROOT / "build" / "astra_fsw_command_telemetry_demo"
@@ -178,14 +179,19 @@ def main() -> int:
     listener = threading.Thread(target=telemetry_listener, args=(sock, stop_event, packets), daemon=True)
     listener.start()
 
+    server_args = [
+        str(server_exe),
+        str(command_port),
+        args.host,
+        str(telemetry_port),
+        str(loop_count),
+    ]
+
+    if sensor_timeout_loop is not None:
+        server_args.append(str(int(sensor_timeout_loop)))
+
     server = subprocess.Popen(
-        [
-            str(server_exe),
-            str(command_port),
-            args.host,
-            str(telemetry_port),
-            str(loop_count),
-        ],
+        server_args,
         cwd=REPO_ROOT,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
@@ -202,12 +208,16 @@ def main() -> int:
 
         for step in steps:
             name = step.get("name", f"step {sequence}")
-            command = step["command"]
+            command = step.get("command")
             argument = step.get("argument")
             expected = step.get("expect", {})
 
-            print(f"[SEND] seq={sequence} {command} {argument or ''}".rstrip())
-            send_command(args.host, command_port, sequence, command, argument)
+            if command is not None:
+                print(f"[SEND] seq={sequence} {command} {argument or ''}".rstrip())
+                send_command(args.host, command_port, sequence, command, argument)
+                sequence += 1
+            else:
+                print(f"[WAIT] {name}")
 
             matched = wait_for_expectation(packets, expected, args.expect_timeout)
 
@@ -224,8 +234,6 @@ def main() -> int:
                 f"ack_cmd={matched['last_command_id']} "
                 f"ack_status={matched['last_command_status']}"
             )
-
-            sequence += 1
 
         try:
             server.wait(timeout=6)

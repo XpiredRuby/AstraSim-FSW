@@ -1,0 +1,26 @@
+name: sensor_timeout_safe_mode
+description: Verify that the health monitor detects sensor timeout and drives the app to SAFE mode.
+
+command_port: 6000
+telemetry_port: 5005
+loop_count: 20
+sensor_timeout_loop: 8
+
+steps:
+  - name: set nominal before sensor timeout
+    command: SET_MODE
+    argument: NOMINAL
+    expect:
+      ack_seq: 1
+      ack_cmd: SET_MODE
+      ack_status: 0
+      mode: NOMINAL
+      fault: NONE
+
+  - name: wait for sensor timeout safe mode
+    expect:
+      ack_seq: 1
+      ack_cmd: SET_MODE
+      ack_status: 0
+      mode: SAFE
+      fault: SENSOR_TIMEOUT
