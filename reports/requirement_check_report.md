@@ -2,9 +2,9 @@
 
 ## Summary
 
-- PASS: 9
+- PASS: 10
 - MANUAL: 8
-- PLANNED: 4
+- PLANNED: 3
 - FAIL: 0
 - UNKNOWN_REFERENCES: 0
 
@@ -30,7 +30,7 @@
 | VER-REQ-003 | MANUAL | Verified | `tools/run_all_scenarios.py` |
 | VER-REQ-004 | PASS | Verified | basic_command_fault, invalid_transition_rejected, sensor_timeout_safe_mode, watchdog_timeout_safe_mode |
 | VER-REQ-005 | PLANNED | Planned | Planned |
-| VER-REQ-006 | PLANNED | Planned | Planned |
+| VER-REQ-006 | PASS | Verified | `tools/run_monte_carlo.py`, `reports/monte_carlo_report.md` |
 | VER-REQ-007 | PLANNED | Planned | Planned |
 | VER-REQ-008 | PLANNED | Planned | Planned |
 

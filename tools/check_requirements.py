@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check AstraSim-FSW requirement traceability against YAML scenario evidence."""
+"""Check AstraSim-FSW requirement traceability against test evidence."""
 
 from __future__ import annotations
 
@@ -77,6 +77,21 @@ def report_passed(report_path: Path) -> bool:
     return "Result: PASS" in text or "Scenario passed." in text
 
 
+def evidence_report_passed(evidence: str) -> bool:
+    report_paths = re.findall(r"`(reports/[^`]+)`", evidence)
+
+    for report_path_text in report_paths:
+        report_path = REPO_ROOT / report_path_text
+        if not report_path.exists():
+            continue
+
+        text = report_path.read_text(encoding="utf-8", errors="replace")
+        if "Result: PASS" in text:
+            return True
+
+    return False
+
+
 def load_scenarios(path: Path) -> list[ScenarioEvidence]:
     scenarios: list[ScenarioEvidence] = []
 
@@ -146,6 +161,9 @@ def write_report(
             result = "FAIL"
             failed += 1
         elif linked_passed:
+            result = "PASS"
+            passed += 1
+        elif evidence_report_passed(req.evidence):
             result = "PASS"
             passed += 1
         else:
