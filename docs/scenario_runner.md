@@ -42,3 +42,11 @@ The scenario runner proves the full loop:
 ```text
 YAML scenario -> UDP command -> C++ FSW app -> telemetry ACK -> expected state check -> report
 ```
+
+## Run All Scenarios
+
+```bash
+python3 tools/run_all_scenarios.py
+```
+
+This builds the project, runs unit tests, executes every YAML scenario, and prints a pass/fail summary.
