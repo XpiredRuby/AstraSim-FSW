@@ -30,22 +30,22 @@ steps:
 ## Telemetry Packets
 
 ```text
-seq=1 t_ms=23211261 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.25% hb=1
-seq=2 t_ms=23211467 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.50% hb=2
-seq=3 t_ms=23211670 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.75% hb=3
-seq=4 t_ms=23211874 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=43.00% hb=4
-seq=5 t_ms=23212078 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=43.25% hb=5
-seq=6 t_ms=23212282 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=43.50% hb=6
-seq=7 t_ms=23212433 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=43.75% hb=7
-seq=8 t_ms=23212638 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.00% hb=8
-seq=9 t_ms=23212842 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.25% hb=9
-seq=10 t_ms=23213046 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.50% hb=10
-seq=11 t_ms=23213250 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.75% hb=11
-seq=12 t_ms=23213454 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.00% hb=12
-seq=13 t_ms=23213658 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.25% hb=13
-seq=14 t_ms=23213862 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.50% hb=14
-seq=15 t_ms=23214066 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.75% hb=15
-seq=16 t_ms=23214270 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=46.00% hb=16
+seq=1 t_ms=23532982 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.25% hb=1
+seq=2 t_ms=23533186 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.50% hb=2
+seq=3 t_ms=23533390 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.75% hb=3
+seq=4 t_ms=23533594 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=43.00% hb=4
+seq=5 t_ms=23533798 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=43.25% hb=5
+seq=6 t_ms=23533990 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=43.50% hb=6
+seq=7 t_ms=23534194 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=43.75% hb=7
+seq=8 t_ms=23534398 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.00% hb=8
+seq=9 t_ms=23534602 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.25% hb=9
+seq=10 t_ms=23534806 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.50% hb=10
+seq=11 t_ms=23535011 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.75% hb=11
+seq=12 t_ms=23535214 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.00% hb=12
+seq=13 t_ms=23535418 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.25% hb=13
+seq=14 t_ms=23535622 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.50% hb=14
+seq=15 t_ms=23535826 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.75% hb=15
+seq=16 t_ms=23536030 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=46.00% hb=16
 ```
 
 ## C++ Server Output
@@ -59,8 +59,8 @@ TX telemetry seq=1 mode=BOOT fault=NONE sent=yes
 TX telemetry seq=2 mode=BOOT fault=NONE sent=yes
 TX telemetry seq=3 mode=BOOT fault=NONE sent=yes
 TX telemetry seq=4 mode=BOOT fault=NONE sent=yes
-TX telemetry seq=5 mode=BOOT fault=NONE sent=yes
 RX command seq=1 id=SET_MODE status=REJECTED_INVALID_TRANSITION mode=BOOT fault=NONE msg="SET_MODE rejected: invalid mode transition"
+TX telemetry seq=5 mode=BOOT fault=NONE sent=yes
 TX telemetry seq=6 mode=BOOT fault=NONE sent=yes
 TX telemetry seq=7 mode=BOOT fault=NONE sent=yes
 TX telemetry seq=8 mode=BOOT fault=NONE sent=yes
