@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run all AstraSim-FSW YAML scenarios."""
+"""Run AstraSim-FSW deterministic scenarios and verification checks."""
 
 from __future__ import annotations
 
@@ -10,19 +10,98 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+CI_TESTS = REPO_ROOT / "ci" / "run_local_tests.sh"
 SCENARIOS_DIR = REPO_ROOT / "scenarios"
 RUN_SCENARIO = REPO_ROOT / "tools" / "run_scenario.py"
 CHECK_REQUIREMENTS = REPO_ROOT / "tools" / "check_requirements.py"
 RUN_MONTE_CARLO = REPO_ROOT / "tools" / "run_monte_carlo.py"
+PACKAGE_PI_DEPLOYMENT = REPO_ROOT / "tools" / "package_pi_deployment.sh"
+
+
+def run_command(command: list[str], title: str) -> int:
+    print()
+    print(title)
+
+    result = subprocess.run(
+        command,
+        cwd=REPO_ROOT,
+        text=True,
+    )
+
+    if result.returncode != 0:
+        print(f"ERROR: {title.strip('= ')} failed.")
+        return result.returncode
+
+    return 0
+
+
+def run_build_and_unit_tests() -> int:
+    print("== Building and running unit tests ==")
+
+    result = subprocess.run(
+        ["bash", str(CI_TESTS)],
+        cwd=REPO_ROOT,
+        text=True,
+    )
+
+    if result.returncode != 0:
+        print("ERROR: build/unit tests failed.")
+        return result.returncode
+
+    return 0
+
+
+def scenario_files(pattern: str | None) -> list[Path]:
+    if pattern:
+        return sorted(SCENARIOS_DIR.glob(pattern))
+
+    return sorted(SCENARIOS_DIR.glob("*.yaml"))
+
+
+def run_scenarios(pattern: str | None) -> int:
+    print()
+    print("== Running YAML scenarios ==")
+
+    scenarios = scenario_files(pattern)
+
+    if not scenarios:
+        print("ERROR: no scenarios matched.")
+        return 1
+
+    results: list[tuple[Path, int]] = []
+
+    for scenario in scenarios:
+        print()
+        print(f"--- {scenario.relative_to(REPO_ROOT)} ---")
+
+        result = subprocess.run(
+            [sys.executable, str(RUN_SCENARIO), str(scenario)],
+            cwd=REPO_ROOT,
+            text=True,
+        )
+
+        results.append((scenario, result.returncode))
+
+    passed = sum(1 for _, code in results if code == 0)
+    failed = len(results) - passed
+
+    print()
+    print("== Scenario Summary ==")
+
+    for scenario, code in results:
+        status = "PASS" if code == 0 else "FAIL"
+        print(f"{status}: {scenario.relative_to(REPO_ROOT)}")
+
+    print()
+    print(f"Passed: {passed}")
+    print(f"Failed: {failed}")
+    print(f"Total:  {len(results)}")
+
+    return 0 if failed == 0 else 1
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--pattern",
-        default="*.yaml",
-        help="Scenario file glob pattern inside scenarios/.",
-    )
     parser.add_argument(
         "--skip-build",
         action="store_true",
@@ -31,12 +110,17 @@ def main() -> int:
     parser.add_argument(
         "--skip-requirements",
         action="store_true",
-        help="Skip requirement traceability check after scenarios.",
+        help="Skip requirement traceability check after verification.",
     )
     parser.add_argument(
         "--skip-monte-carlo",
         action="store_true",
         help="Skip Monte Carlo regression after deterministic scenarios.",
+    )
+    parser.add_argument(
+        "--skip-pi-package",
+        action="store_true",
+        help="Skip Raspberry Pi deployment package generation.",
     )
     parser.add_argument(
         "--monte-carlo-trials",
@@ -50,73 +134,23 @@ def main() -> int:
         default=20260626,
         help="Seed for reproducible Monte Carlo verification.",
     )
+    parser.add_argument(
+        "--pattern",
+        help="Only run scenarios matching this glob pattern, for example '*safe_mode.yaml'.",
+    )
     args = parser.parse_args()
 
-    scenario_files = sorted(SCENARIOS_DIR.glob(args.pattern))
-
-    if not scenario_files:
-        print(f"ERROR: no scenarios found for pattern {args.pattern!r}")
-        return 1
-
-    if not RUN_SCENARIO.exists():
-        print("ERROR: tools/run_scenario.py not found.")
-        return 1
-
     if not args.skip_build:
-        print("== Building and running unit tests ==")
-        build = subprocess.run(
-            ["bash", "ci/run_local_tests.sh"],
-            cwd=REPO_ROOT,
-            text=True,
-        )
-        if build.returncode != 0:
-            print("ERROR: build/tests failed.")
-            return build.returncode
+        code = run_build_and_unit_tests()
+        if code != 0:
+            return code
 
-    print()
-    print("== Running YAML scenarios ==")
-
-    results: list[tuple[Path, int]] = []
-
-    for scenario in scenario_files:
-        print()
-        print(f"--- {scenario.relative_to(REPO_ROOT)} ---")
-        result = subprocess.run(
-            [sys.executable, str(RUN_SCENARIO), str(scenario)],
-            cwd=REPO_ROOT,
-            text=True,
-        )
-        results.append((scenario, result.returncode))
-
-    print()
-    print("== Scenario Summary ==")
-
-    passed = 0
-    failed = 0
-
-    for scenario, returncode in results:
-        if returncode == 0:
-            passed += 1
-            status = "PASS"
-        else:
-            failed += 1
-            status = "FAIL"
-
-        print(f"{status}: {scenario.relative_to(REPO_ROOT)}")
-
-    print()
-    print(f"Passed: {passed}")
-    print(f"Failed: {failed}")
-    print(f"Total:  {len(results)}")
-
-    if failed != 0:
-        return 1
+    code = run_scenarios(args.pattern)
+    if code != 0:
+        return code
 
     if not args.skip_monte_carlo:
-        print()
-        print("== Running Monte Carlo regression ==")
-
-        monte_carlo_result = subprocess.run(
+        code = run_command(
             [
                 sys.executable,
                 str(RUN_MONTE_CARLO),
@@ -125,27 +159,26 @@ def main() -> int:
                 "--seed",
                 str(args.monte_carlo_seed),
             ],
-            cwd=REPO_ROOT,
-            text=True,
+            "== Running Monte Carlo regression ==",
         )
+        if code != 0:
+            return code
 
-        if monte_carlo_result.returncode != 0:
-            print("ERROR: Monte Carlo regression failed.")
-            return monte_carlo_result.returncode
+    if not args.skip_pi_package:
+        code = run_command(
+            ["bash", str(PACKAGE_PI_DEPLOYMENT)],
+            "== Building Raspberry Pi deployment package ==",
+        )
+        if code != 0:
+            return code
 
     if not args.skip_requirements:
-        print()
-        print("== Checking requirement traceability ==")
-
-        req_result = subprocess.run(
+        code = run_command(
             [sys.executable, str(CHECK_REQUIREMENTS)],
-            cwd=REPO_ROOT,
-            text=True,
+            "== Checking requirement traceability ==",
         )
-
-        if req_result.returncode != 0:
-            print("ERROR: requirement traceability check failed.")
-            return req_result.returncode
+        if code != 0:
+            return code
 
     return 0
 
