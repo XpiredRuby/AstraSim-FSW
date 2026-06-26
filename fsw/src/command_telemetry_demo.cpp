@@ -25,11 +25,12 @@ std::uint64_t monotonic_time_ms() {
 void print_usage(const char* executable_name) {
     std::cout
         << "Usage: " << executable_name
-        << " [command_port] [telemetry_ip] [telemetry_port] [loop_count] [sensor_timeout_loop]\n"
+        << " [command_port] [telemetry_ip] [telemetry_port] [loop_count] [sensor_timeout_loop] [watchdog_timeout_loop]\n"
         << "\n"
         << "Example:\n"
         << "  " << executable_name << " 6000 127.0.0.1 5005 30\n"
-        << "  " << executable_name << " 6000 127.0.0.1 5005 30 8\n";
+        << "  " << executable_name << " 6000 127.0.0.1 5005 30 8\n"
+        << "  " << executable_name << " 6000 127.0.0.1 5005 30 0 8\n";
 }
 
 float cpu_load_for_state(astra::FaultCode fault) {
@@ -48,6 +49,7 @@ int main(int argc, char* argv[]) {
     std::uint16_t telemetry_port = 5005;
     std::uint32_t loop_count = 30;
     std::uint32_t sensor_timeout_loop = 0;
+    std::uint32_t watchdog_timeout_loop = 0;
 
     if (argc == 2) {
         const std::string arg = argv[1];
@@ -58,14 +60,18 @@ int main(int argc, char* argv[]) {
         }
 
         command_port = static_cast<std::uint16_t>(std::stoi(arg));
-    } else if (argc == 5 || argc == 6) {
+    } else if (argc == 5 || argc == 6 || argc == 7) {
         command_port = static_cast<std::uint16_t>(std::stoi(argv[1]));
         telemetry_ip = argv[2];
         telemetry_port = static_cast<std::uint16_t>(std::stoi(argv[3]));
         loop_count = static_cast<std::uint32_t>(std::stoul(argv[4]));
 
-        if (argc == 6) {
+        if (argc >= 6) {
             sensor_timeout_loop = static_cast<std::uint32_t>(std::stoul(argv[5]));
+        }
+
+        if (argc == 7) {
+            watchdog_timeout_loop = static_cast<std::uint32_t>(std::stoul(argv[6]));
         }
     } else if (argc != 1) {
         print_usage(argv[0]);
@@ -93,6 +99,10 @@ int main(int argc, char* argv[]) {
     std::cout << "Sending UDP telemetry to " << telemetry_ip << ":" << telemetry_port << std::endl;
 
     for (std::uint32_t loop = 1; loop <= loop_count; ++loop) {
+        if (watchdog_timeout_loop != 0U && loop == watchdog_timeout_loop) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(650));
+        }
+
         astra::FlightSoftwareStepInput input;
         input.timestamp_ms = monotonic_time_ms();
         input.cpu_load_percent = cpu_load_for_state(app.last_fault());
@@ -118,6 +128,14 @@ int main(int argc, char* argv[]) {
                       << " mode=" << astra::mode_to_string(output.command_result.resulting_mode)
                       << " fault=" << astra::fault_to_string(output.command_result.resulting_fault)
                       << " msg=\"" << output.command_result.message << "\""
+                      << std::endl;
+        }
+
+        if (output.watchdog_fault_processed) {
+            std::cout << "AUTO watchdog fault status="
+                      << astra::command_status_to_string(output.watchdog_fault_result.status)
+                      << " mode=" << astra::mode_to_string(output.watchdog_fault_result.resulting_mode)
+                      << " fault=" << astra::fault_to_string(output.watchdog_fault_result.resulting_fault)
                       << std::endl;
         }
 

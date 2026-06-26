@@ -1,0 +1,26 @@
+name: watchdog_timeout_safe_mode
+description: Verify that the watchdog detects a delayed loop and drives the app to SAFE mode.
+
+command_port: 6000
+telemetry_port: 5005
+loop_count: 20
+watchdog_timeout_loop: 8
+
+steps:
+  - name: set nominal before watchdog timeout
+    command: SET_MODE
+    argument: NOMINAL
+    expect:
+      ack_seq: 1
+      ack_cmd: SET_MODE
+      ack_status: 0
+      mode: NOMINAL
+      fault: NONE
+
+  - name: wait for watchdog timeout safe mode
+    expect:
+      ack_seq: 1
+      ack_cmd: SET_MODE
+      ack_status: 0
+      mode: SAFE
+      fault: WATCHDOG_DEADLINE_MISS

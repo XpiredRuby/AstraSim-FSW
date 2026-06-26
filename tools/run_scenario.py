@@ -162,6 +162,7 @@ def main() -> int:
     telemetry_port = int(scenario.get("telemetry_port", 5005))
     loop_count = int(scenario.get("loop_count", 22))
     sensor_timeout_loop = scenario.get("sensor_timeout_loop")
+    watchdog_timeout_loop = scenario.get("watchdog_timeout_loop")
     steps = scenario.get("steps", [])
 
     server_exe = REPO_ROOT / "build" / "astra_fsw_command_telemetry_demo"
@@ -187,8 +188,11 @@ def main() -> int:
         str(loop_count),
     ]
 
-    if sensor_timeout_loop is not None:
-        server_args.append(str(int(sensor_timeout_loop)))
+    if sensor_timeout_loop is not None or watchdog_timeout_loop is not None:
+        server_args.append(str(int(sensor_timeout_loop or 0)))
+
+    if watchdog_timeout_loop is not None:
+        server_args.append(str(int(watchdog_timeout_loop)))
 
     server = subprocess.Popen(
         server_args,
