@@ -51,30 +51,30 @@ steps:
 ## Telemetry Packets
 
 ```text
-seq=1 t_ms=25367272 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.25% hb=1
-seq=2 t_ms=25367478 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.50% hb=2
-seq=3 t_ms=25367682 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.75% hb=3
-seq=4 t_ms=25367886 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=43.00% hb=4
-seq=5 t_ms=25368090 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=43.25% hb=5
-seq=6 t_ms=25368294 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=43.50% hb=6
-seq=7 t_ms=25368444 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=0 cpu=18.00% mem=43.75% hb=7
-seq=8 t_ms=25368595 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=92.00% mem=44.00% hb=8
-seq=9 t_ms=25368745 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=44.25% hb=9
-seq=10 t_ms=25368950 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=44.50% hb=10
-seq=11 t_ms=25369154 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=44.75% hb=11
-seq=12 t_ms=25369358 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=45.00% hb=12
-seq=13 t_ms=25369562 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=45.25% hb=13
-seq=14 t_ms=25369766 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=45.50% hb=14
-seq=15 t_ms=25369970 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=45.75% hb=15
-seq=16 t_ms=25370174 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=46.00% hb=16
-seq=17 t_ms=25370378 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=46.25% hb=17
-seq=18 t_ms=25370582 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=46.50% hb=18
-seq=19 t_ms=25370786 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=46.75% hb=19
-seq=20 t_ms=25370990 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=47.00% hb=20
-seq=21 t_ms=25371194 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=47.25% hb=21
-seq=22 t_ms=25371398 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=47.50% hb=22
-seq=23 t_ms=25371602 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=47.75% hb=23
-seq=24 t_ms=25371806 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=48.00% hb=24
+seq=1 t_ms=25628310 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.25% hb=1
+seq=2 t_ms=25628514 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.50% hb=2
+seq=3 t_ms=25628718 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.75% hb=3
+seq=4 t_ms=25628922 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=43.00% hb=4
+seq=5 t_ms=25629126 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=43.25% hb=5
+seq=6 t_ms=25629330 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=43.50% hb=6
+seq=7 t_ms=25629480 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=0 cpu=18.00% mem=43.75% hb=7
+seq=8 t_ms=25629630 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=92.00% mem=44.00% hb=8
+seq=9 t_ms=25629781 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=44.25% hb=9
+seq=10 t_ms=25629986 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=44.50% hb=10
+seq=11 t_ms=25630190 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=44.75% hb=11
+seq=12 t_ms=25630394 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=45.00% hb=12
+seq=13 t_ms=25630598 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=45.25% hb=13
+seq=14 t_ms=25630802 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=45.50% hb=14
+seq=15 t_ms=25631006 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=45.75% hb=15
+seq=16 t_ms=25631210 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=46.00% hb=16
+seq=17 t_ms=25631414 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=46.25% hb=17
+seq=18 t_ms=25631618 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=46.50% hb=18
+seq=19 t_ms=25631822 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=46.75% hb=19
+seq=20 t_ms=25632026 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=47.00% hb=20
+seq=21 t_ms=25632230 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=47.25% hb=21
+seq=22 t_ms=25632434 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=47.50% hb=22
+seq=23 t_ms=25632638 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=47.75% hb=23
+seq=24 t_ms=25632842 mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=0 cpu=18.00% mem=48.00% hb=24
 ```
 
 ## C++ Server Output
