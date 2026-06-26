@@ -1,0 +1,40 @@
+name: hil_smoke_test
+description: End-to-end HIL-style smoke test using external command injection and telemetry verification.
+requirements:
+- FSW-REQ-002
+- FSW-REQ-004
+- FSW-REQ-005
+- FSW-REQ-106
+- VER-REQ-002
+- VER-REQ-004
+- VER-REQ-008
+command_port: 6002
+telemetry_port: 5007
+loop_count: 24
+steps:
+- name: external controller sets nominal
+  command: SET_MODE
+  argument: NOMINAL
+  expect:
+    ack_seq: 1
+    ack_cmd: SET_MODE
+    ack_status: 0
+    mode: NOMINAL
+    fault: NONE
+- name: external controller injects cpu overload
+  command: INJECT_FAULT
+  argument: CPU_OVERLOAD
+  expect:
+    ack_seq: 2
+    ack_cmd: INJECT_FAULT
+    ack_status: 0
+    mode: DEGRADED_PAYLOAD
+    fault: CPU_OVERLOAD
+- name: external controller clears fault
+  command: CLEAR_FAULT
+  expect:
+    ack_seq: 3
+    ack_cmd: CLEAR_FAULT
+    ack_status: 0
+    mode: DEGRADED_PAYLOAD
+    fault: NONE
