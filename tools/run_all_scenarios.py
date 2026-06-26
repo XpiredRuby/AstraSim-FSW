@@ -13,6 +13,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 SCENARIOS_DIR = REPO_ROOT / "scenarios"
 RUN_SCENARIO = REPO_ROOT / "tools" / "run_scenario.py"
 CHECK_REQUIREMENTS = REPO_ROOT / "tools" / "check_requirements.py"
+RUN_MONTE_CARLO = REPO_ROOT / "tools" / "run_monte_carlo.py"
 
 
 def main() -> int:
@@ -31,6 +32,23 @@ def main() -> int:
         "--skip-requirements",
         action="store_true",
         help="Skip requirement traceability check after scenarios.",
+    )
+    parser.add_argument(
+        "--skip-monte-carlo",
+        action="store_true",
+        help="Skip Monte Carlo regression after deterministic scenarios.",
+    )
+    parser.add_argument(
+        "--monte-carlo-trials",
+        type=int,
+        default=25,
+        help="Number of Monte Carlo trials to run.",
+    )
+    parser.add_argument(
+        "--monte-carlo-seed",
+        type=int,
+        default=20260626,
+        help="Seed for reproducible Monte Carlo verification.",
     )
     args = parser.parse_args()
 
@@ -93,6 +111,27 @@ def main() -> int:
 
     if failed != 0:
         return 1
+
+    if not args.skip_monte_carlo:
+        print()
+        print("== Running Monte Carlo regression ==")
+
+        monte_carlo_result = subprocess.run(
+            [
+                sys.executable,
+                str(RUN_MONTE_CARLO),
+                "--trials",
+                str(args.monte_carlo_trials),
+                "--seed",
+                str(args.monte_carlo_seed),
+            ],
+            cwd=REPO_ROOT,
+            text=True,
+        )
+
+        if monte_carlo_result.returncode != 0:
+            print("ERROR: Monte Carlo regression failed.")
+            return monte_carlo_result.returncode
 
     if not args.skip_requirements:
         print()
