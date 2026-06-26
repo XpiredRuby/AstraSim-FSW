@@ -12,6 +12,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SCENARIOS_DIR = REPO_ROOT / "scenarios"
 RUN_SCENARIO = REPO_ROOT / "tools" / "run_scenario.py"
+CHECK_REQUIREMENTS = REPO_ROOT / "tools" / "check_requirements.py"
 
 
 def main() -> int:
@@ -25,6 +26,11 @@ def main() -> int:
         "--skip-build",
         action="store_true",
         help="Skip ci/run_local_tests.sh before running scenarios.",
+    )
+    parser.add_argument(
+        "--skip-requirements",
+        action="store_true",
+        help="Skip requirement traceability check after scenarios.",
     )
     args = parser.parse_args()
 
@@ -85,7 +91,24 @@ def main() -> int:
     print(f"Failed: {failed}")
     print(f"Total:  {len(results)}")
 
-    return 0 if failed == 0 else 1
+    if failed != 0:
+        return 1
+
+    if not args.skip_requirements:
+        print()
+        print("== Checking requirement traceability ==")
+
+        req_result = subprocess.run(
+            [sys.executable, str(CHECK_REQUIREMENTS)],
+            cwd=REPO_ROOT,
+            text=True,
+        )
+
+        if req_result.returncode != 0:
+            print("ERROR: requirement traceability check failed.")
+            return req_result.returncode
+
+    return 0
 
 
 if __name__ == "__main__":
