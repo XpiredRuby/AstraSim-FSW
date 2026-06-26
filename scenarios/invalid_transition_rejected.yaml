@@ -1,17 +1,20 @@
 name: invalid_transition_rejected
 description: Verify that an invalid BOOT -> RECOVERY mode transition is rejected.
-
+requirements:
+- FSW-REQ-003
+- FSW-REQ-106
+- VER-REQ-002
+- VER-REQ-004
 command_port: 6000
 telemetry_port: 5005
 loop_count: 16
-
 steps:
-  - name: reject boot to recovery
-    command: SET_MODE
-    argument: RECOVERY
-    expect:
-      ack_seq: 1
-      ack_cmd: SET_MODE
-      ack_status: 2
-      mode: BOOT
-      fault: NONE
+- name: reject boot to recovery
+  command: SET_MODE
+  argument: RECOVERY
+  expect:
+    ack_seq: 1
+    ack_cmd: SET_MODE
+    ack_status: 2
+    mode: BOOT
+    fault: NONE
