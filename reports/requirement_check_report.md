@@ -2,9 +2,9 @@
 
 ## Summary
 
-- PASS: 11
+- PASS: 12
 - MANUAL: 8
-- PLANNED: 2
+- PLANNED: 1
 - FAIL: 0
 - UNKNOWN_REFERENCES: 0
 
@@ -31,7 +31,7 @@
 | VER-REQ-004 | PASS | Verified | basic_command_fault, hil_smoke_test, invalid_transition_rejected, sensor_timeout_safe_mode, watchdog_timeout_safe_mode |
 | VER-REQ-005 | PLANNED | Planned | Planned |
 | VER-REQ-006 | PASS | Verified | `tools/run_monte_carlo.py`, `reports/monte_carlo_report.md` |
-| VER-REQ-007 | PLANNED | Planned | Planned |
+| VER-REQ-007 | PASS | Verified | `tools/package_pi_deployment.sh`, `reports/pi_deployment_package_report.md` |
 | VER-REQ-008 | PASS | Verified | hil_smoke_test |
 
 ## Scenario Evidence
