@@ -30,22 +30,22 @@ steps:
 ## Telemetry Packets
 
 ```text
-seq=1 t_ms=27342738 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.25% hb=1
-seq=2 t_ms=27342942 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.50% hb=2
-seq=3 t_ms=27343146 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.75% hb=3
-seq=4 t_ms=27343350 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=43.00% hb=4
-seq=5 t_ms=27343554 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=43.25% hb=5
-seq=6 t_ms=27343709 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=43.50% hb=6
-seq=7 t_ms=27343914 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=43.75% hb=7
-seq=8 t_ms=27344118 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.00% hb=8
-seq=9 t_ms=27344322 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.25% hb=9
-seq=10 t_ms=27344527 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.50% hb=10
-seq=11 t_ms=27344730 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.75% hb=11
-seq=12 t_ms=27344934 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.00% hb=12
-seq=13 t_ms=27345138 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.25% hb=13
-seq=14 t_ms=27345342 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.50% hb=14
-seq=15 t_ms=27345547 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.75% hb=15
-seq=16 t_ms=27345750 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=46.00% hb=16
+seq=1 t_ms=28842019 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.25% hb=1
+seq=2 t_ms=28842222 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.50% hb=2
+seq=3 t_ms=28842426 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.75% hb=3
+seq=4 t_ms=28842630 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=43.00% hb=4
+seq=5 t_ms=28842834 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=43.25% hb=5
+seq=6 t_ms=28842992 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=43.50% hb=6
+seq=7 t_ms=28843198 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=43.75% hb=7
+seq=8 t_ms=28843402 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.00% hb=8
+seq=9 t_ms=28843606 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.25% hb=9
+seq=10 t_ms=28843810 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.50% hb=10
+seq=11 t_ms=28844014 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=44.75% hb=11
+seq=12 t_ms=28844218 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.00% hb=12
+seq=13 t_ms=28844422 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.25% hb=13
+seq=14 t_ms=28844626 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.50% hb=14
+seq=15 t_ms=28844830 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=45.75% hb=15
+seq=16 t_ms=28845034 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=2 cpu=18.00% mem=46.00% hb=16
 ```
 
 ## C++ Server Output

@@ -39,26 +39,26 @@ steps:
 ## Telemetry Packets
 
 ```text
-seq=1 t_ms=27350246 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.25% hb=1
-seq=2 t_ms=27350450 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.50% hb=2
-seq=3 t_ms=27350654 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.75% hb=3
-seq=4 t_ms=27350858 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=43.00% hb=4
-seq=5 t_ms=27351062 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=43.25% hb=5
-seq=6 t_ms=27351232 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=43.50% hb=6
-seq=7 t_ms=27351438 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=43.75% hb=7
-seq=8 t_ms=27352292 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=44.00% hb=8
-seq=9 t_ms=27352499 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=44.25% hb=9
-seq=10 t_ms=27352702 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=44.50% hb=10
-seq=11 t_ms=27352906 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=44.75% hb=11
-seq=12 t_ms=27353110 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=45.00% hb=12
-seq=13 t_ms=27353314 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=45.25% hb=13
-seq=14 t_ms=27353518 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=45.50% hb=14
-seq=15 t_ms=27353722 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=45.75% hb=15
-seq=16 t_ms=27353926 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=46.00% hb=16
-seq=17 t_ms=27354130 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=46.25% hb=17
-seq=18 t_ms=27354334 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=46.50% hb=18
-seq=19 t_ms=27354538 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=46.75% hb=19
-seq=20 t_ms=27354742 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=47.00% hb=20
+seq=1 t_ms=28849506 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.25% hb=1
+seq=2 t_ms=28849710 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.50% hb=2
+seq=3 t_ms=28849914 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=42.75% hb=3
+seq=4 t_ms=28850118 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=0 cpu=18.00% mem=43.00% hb=4
+seq=5 t_ms=28850322 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=43.25% hb=5
+seq=6 t_ms=28850490 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=43.50% hb=6
+seq=7 t_ms=28850694 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=43.75% hb=7
+seq=8 t_ms=28851548 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=44.00% hb=8
+seq=9 t_ms=28851754 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=44.25% hb=9
+seq=10 t_ms=28851958 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=44.50% hb=10
+seq=11 t_ms=28852162 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=44.75% hb=11
+seq=12 t_ms=28852366 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=45.00% hb=12
+seq=13 t_ms=28852570 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=45.25% hb=13
+seq=14 t_ms=28852774 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=45.50% hb=14
+seq=15 t_ms=28852978 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=45.75% hb=15
+seq=16 t_ms=28853182 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=46.00% hb=16
+seq=17 t_ms=28853386 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=46.25% hb=17
+seq=18 t_ms=28853590 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=46.50% hb=18
+seq=19 t_ms=28853794 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=46.75% hb=19
+seq=20 t_ms=28853998 mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=0 cpu=18.00% mem=47.00% hb=20
 ```
 
 ## C++ Server Output
