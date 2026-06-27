@@ -31,6 +31,7 @@ Implemented:
 - Automatic watchdog fault injection
 - Live UDP telemetry demo
 - Integrated command/telemetry demo
+- Verified command/telemetry evidence capture
 - Automated demo capture reports
 
 Current test coverage:
@@ -158,6 +159,7 @@ Expected command sequence:
 SET_MODE NOMINAL
 INJECT_FAULT CPU_OVERLOAD
 CLEAR_FAULT
+SET_MODE NOMINAL
 ```
 
 Expected system behavior:
@@ -166,7 +168,15 @@ Expected system behavior:
 BOOT -> NOMINAL
 NOMINAL -> DEGRADED_PAYLOAD after CPU_OVERLOAD
 Fault state clears after CLEAR_FAULT
+DEGRADED_PAYLOAD -> NOMINAL after recovery command
 ```
+
+## Evidence
+
+| Evidence File | Shows |
+|---|---|
+| `evidence/command_telemetry_demo.txt` | Command receive, mode transition, fault injection, fault clear, and recovery to NOMINAL |
+| `evidence/ctest_results.txt` | 9/9 local test suites passing |
 
 ## Documentation
 
