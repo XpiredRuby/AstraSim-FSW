@@ -1,0 +1,24 @@
+Internal ctest changing into directory: /home/xpired/projects/AstraSim-FSW/build
+Test project /home/xpired/projects/AstraSim-FSW/build
+    Start 1: mode_manager_tests
+1/9 Test #1: mode_manager_tests ...............   Passed    0.00 sec
+    Start 2: telemetry_packet_tests
+2/9 Test #2: telemetry_packet_tests ...........   Passed    0.00 sec
+    Start 3: udp_telemetry_sender_tests
+3/9 Test #3: udp_telemetry_sender_tests .......   Passed    0.00 sec
+    Start 4: command_packet_tests
+4/9 Test #4: command_packet_tests .............   Passed    0.00 sec
+    Start 5: command_processor_tests
+5/9 Test #5: command_processor_tests ..........   Passed    0.01 sec
+    Start 6: udp_command_receiver_tests
+6/9 Test #6: udp_command_receiver_tests .......   Passed    0.00 sec
+    Start 7: flight_software_app_tests
+7/9 Test #7: flight_software_app_tests ........   Passed    0.00 sec
+    Start 8: health_monitor_tests
+8/9 Test #8: health_monitor_tests .............   Passed    0.00 sec
+    Start 9: watchdog_tests
+9/9 Test #9: watchdog_tests ...................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 9
+
+Total Test time (real) =   0.03 sec
