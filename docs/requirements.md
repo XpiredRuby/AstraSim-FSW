@@ -40,7 +40,7 @@ Each requirement should map to at least one verification method:
 | VER-REQ-002 | The project shall provide YAML scenario tests for command/telemetry behavior. | Tool execution | `tools/run_scenario.py` | Verified |
 | VER-REQ-003 | The project shall provide one command to run all YAML scenarios. | Tool execution | `tools/run_all_scenarios.py` | Verified |
 | VER-REQ-004 | The project shall generate evidence reports for scenario runs. | Report inspection | `reports/scenario_*_output.txt` | Verified |
-| VER-REQ-005 | The project shall provide an automated requirement checker that maps requirements to evidence. | Future tool | Planned | Planned |
+| VER-REQ-005 | The project shall provide an automated requirement checker that maps requirements to evidence. | `tools/check_requirements.py`, `reports/requirement_check_report.md` | Verified | Verified |
 | VER-REQ-006 | The project shall provide a Monte Carlo regression runner. | Monte Carlo | `tools/run_monte_carlo.py`, `reports/monte_carlo_report.md` | Verified |
 | VER-REQ-007 | The project shall provide Raspberry Pi deployment evidence. | Deployment package | `tools/package_pi_deployment.sh`, `reports/pi_deployment_package_report.md` | Verified |
 | VER-REQ-008 | The project shall provide a HIL test procedure and final HIL report. | HIL smoke test | `tools/run_hil_smoke_test.py`, `reports/scenario_hil_smoke_test_output.txt` | Verified |
