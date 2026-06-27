@@ -177,6 +177,15 @@ DEGRADED_PAYLOAD -> NOMINAL after recovery command
 |---|---|
 | `evidence/command_telemetry_demo.txt` | Command receive, mode transition, fault injection, fault clear, and recovery to NOMINAL |
 | `evidence/ctest_results.txt` | 9/9 local test suites passing |
+| `reports/results_summary.md` | Scenario, Monte Carlo, unit-test, and requirement-check summary |
+| `media/plots/mode_timeline.svg` | Mode timeline from command/telemetry evidence |
+| `media/plots/fault_timeline.svg` | Fault timeline from command/telemetry evidence |
+
+## Results Plots
+
+![Mode timeline](media/plots/mode_timeline.svg)
+
+![Fault timeline](media/plots/fault_timeline.svg)
 
 ## Documentation
 
