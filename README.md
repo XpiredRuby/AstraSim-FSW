@@ -182,6 +182,7 @@ DEGRADED_PAYLOAD -> NOMINAL after recovery command
 | `media/plots/fault_timeline.svg` | Fault timeline from command/telemetry evidence |
 | `evidence/pi_ctest_results.txt` | Raspberry Pi aarch64 build with 9/9 local test suites passing |
 | `evidence/pi_command_telemetry_demo.txt` | Raspberry Pi HIL command/telemetry run with fault injection and recovery |
+| `media/pi_dashboard_snapshot.txt` | Text snapshot of the verified Raspberry Pi HIL dashboard state |
 
 ## Results Plots
 

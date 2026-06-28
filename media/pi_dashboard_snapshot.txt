@@ -1,0 +1,27 @@
+AstraSim-FSW Raspberry Pi HIL Dashboard Snapshot
+================================================
+
+Target:        Raspberry Pi Ubuntu 24.04 aarch64
+Ground:        Laptop telemetry dashboard
+Telemetry:     UDP 5005
+Command Port:  UDP 6000
+
+Final Verified State
+--------------------
+Mode:          NOMINAL
+Fault:         NONE
+Ack Sequence:  4
+Ack Command:   SET_MODE
+Ack Status:    ACCEPTED
+
+Verified Sequence
+-----------------
+1. SET_MODE NOMINAL              -> ACCEPTED
+2. INJECT_FAULT CPU_OVERLOAD     -> DEGRADED_PAYLOAD
+3. CLEAR_FAULT                   -> fault cleared
+4. SET_MODE NOMINAL              -> recovered to NOMINAL
+
+Evidence
+--------
+evidence/pi_command_telemetry_demo.txt
+evidence/pi_ctest_results.txt
