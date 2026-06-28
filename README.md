@@ -180,12 +180,28 @@ DEGRADED_PAYLOAD -> NOMINAL after recovery command
 | `reports/results_summary.md` | Scenario, Monte Carlo, unit-test, and requirement-check summary |
 | `media/plots/mode_timeline.svg` | Mode timeline from command/telemetry evidence |
 | `media/plots/fault_timeline.svg` | Fault timeline from command/telemetry evidence |
+| `evidence/pi_ctest_results.txt` | Raspberry Pi aarch64 build with 9/9 local test suites passing |
+| `evidence/pi_command_telemetry_demo.txt` | Raspberry Pi HIL command/telemetry run with fault injection and recovery |
 
 ## Results Plots
 
 ![Mode timeline](media/plots/mode_timeline.svg)
 
 ![Fault timeline](media/plots/fault_timeline.svg)
+
+## Raspberry Pi HIL Demo
+
+The flight software was built and executed on a Raspberry Pi running Ubuntu 24.04 aarch64. The Pi accepted UDP commands, emitted telemetry to the laptop dashboard, injected a CPU overload fault, cleared the fault, and recovered to NOMINAL.
+
+Verified Pi evidence:
+
+```text
+SET_MODE NOMINAL -> accepted
+INJECT_FAULT CPU_OVERLOAD -> DEGRADED_PAYLOAD
+CLEAR_FAULT -> fault NONE
+SET_MODE NOMINAL -> recovered
+Pi ctest -> 9/9 passed
+```
 
 ## Documentation
 
@@ -221,10 +237,4 @@ The goal is to build a professional-grade simulation and flight-software verific
 
 ## Planned Next Steps
 
-- Add command acknowledgement telemetry
-- Add YAML scenario runner
-- Add requirement checker
-- Add Monte Carlo regression runner
-- Deploy the C++ target on Raspberry Pi
 - Connect real sensor/payload health inputs
-- Add HIL test procedure and evidence
