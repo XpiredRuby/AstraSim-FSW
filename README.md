@@ -2,7 +2,7 @@
 
 [![C++ Build and Unit Tests](https://github.com/XpiredRuby/AstraSim-FSW/actions/workflows/unit_tests.yml/badge.svg)](https://github.com/XpiredRuby/AstraSim-FSW/actions/workflows/unit_tests.yml)
 
-AstraSim-FSW is a C++/Python flight-software-in-the-loop simulation and verification framework.
+AstraSim-FSW is a C++/Python flight-software-in-the-loop simulation and verification framework for testing spacecraft-style mode management, UDP command/telemetry links, fault injection, watchdog behavior, and Raspberry Pi hardware-in-the-loop execution.
 
 The project uses C++ for the embedded flight-software core and Python for ground-side tooling, command injection, telemetry decoding, and repeatable demo capture. The intended hardware path is a Raspberry Pi acting as the embedded flight-software target and a laptop acting as the simulation, command, telemetry, and verification environment.
 
