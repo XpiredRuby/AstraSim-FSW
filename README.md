@@ -203,6 +203,12 @@ SET_MODE NOMINAL -> recovered
 Pi ctest -> 9/9 passed
 ```
 
+## Reproduce Demo
+
+Laptop demo: run the telemetry dashboard, start `astra_fsw_command_telemetry_demo`, then send `SET_MODE`, `INJECT_FAULT`, `CLEAR_FAULT`, and `SET_MODE` commands with `tools/send_command.py`.
+
+Raspberry Pi HIL demo: run the dashboard on the laptop, run `astra_fsw_command_telemetry_demo` on the Pi using the laptop LAN IP, then send commands locally on the Pi to `127.0.0.1:6000`.
+
 ## Documentation
 
 | Document | Purpose |
