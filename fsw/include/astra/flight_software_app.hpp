@@ -2,6 +2,7 @@
 
 #include "astra/command_packet.hpp"
 #include "astra/command_processor.hpp"
+#include "astra/fdir_manager.hpp"
 #include "astra/health_monitor.hpp"
 #include "astra/mode_manager.hpp"
 #include "astra/telemetry_packet.hpp"
@@ -37,6 +38,10 @@ struct FlightSoftwareStepOutput {
     bool health_fault_processed = false;
     CommandResult health_fault_result;
 
+    bool internal_fault_processed = false;
+    FaultCode primary_internal_fault = FaultCode::NONE;
+    CommandResult internal_fault_result;
+
     TelemetryPacket telemetry;
 };
 
@@ -63,6 +68,7 @@ private:
 
     ModeManager mode_manager_;
     CommandProcessor command_processor_;
+    FdirManager fdir_manager_;
     HealthMonitor health_monitor_;
     Watchdog watchdog_;
     bool watchdog_initialized_;
