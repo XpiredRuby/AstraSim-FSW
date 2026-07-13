@@ -1,0 +1,65 @@
+name: recovery_failure_failsafe
+description: Verify repeated failed exits from RECOVERY force a bounded SAFE disposition.
+requirements:
+  - FSW-REQ-210
+  - FSW-REQ-209
+  - FSW-REQ-113
+  - VER-REQ-002
+command_port: 6012
+telemetry_port: 5012
+loop_count: 42
+steps:
+  - name: enter nominal
+    command: SET_MODE
+    argument: NOMINAL
+    expect:
+      ack_seq: 1
+      ack_cmd: SET_MODE
+      ack_status: ACCEPTED
+      mode: NOMINAL
+      fault: NONE
+  - name: inject critical sensor fault
+    command: INJECT_FAULT
+    argument: SENSOR_TIMEOUT
+    expect:
+      ack_seq: 2
+      ack_cmd: INJECT_FAULT
+      ack_status: ACCEPTED
+      mode: SAFE
+      fault: SENSOR_TIMEOUT
+  - name: enter recovery
+    command: SET_MODE
+    argument: RECOVERY
+    expect:
+      ack_seq: 3
+      ack_cmd: SET_MODE
+      ack_status: ACCEPTED
+      mode: RECOVERY
+      fault: SENSOR_TIMEOUT
+  - name: first failed recovery exit
+    command: SET_MODE
+    argument: TEST
+    expect:
+      ack_seq: 4
+      ack_cmd: SET_MODE
+      ack_status: REJECTED_INVALID_TRANSITION
+      mode: RECOVERY
+      fault: SENSOR_TIMEOUT
+  - name: second failed recovery exit
+    command: SET_MODE
+    argument: TEST
+    expect:
+      ack_seq: 5
+      ack_cmd: SET_MODE
+      ack_status: REJECTED_INVALID_TRANSITION
+      mode: RECOVERY
+      fault: SENSOR_TIMEOUT
+  - name: third failed recovery exit forces safe
+    command: SET_MODE
+    argument: TEST
+    expect:
+      ack_seq: 6
+      ack_cmd: SET_MODE
+      ack_status: REJECTED_RECOVERY_LIMIT
+      mode: SAFE
+      fault: SENSOR_TIMEOUT

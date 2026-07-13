@@ -51,7 +51,9 @@ add_library(astra_fsw_core
     fsw/src/telemetry_packet.cpp
     fsw/src/udp_telemetry_sender.cpp
     fsw/src/command_packet.cpp
+    fsw/src/command_authorizer.cpp
     fsw/src/command_processor.cpp
+    fsw/src/recovery_supervisor.cpp
     fsw/src/udp_command_receiver.cpp
     fsw/src/flight_software_app.cpp
     fsw/src/health_monitor.cpp
@@ -130,11 +132,27 @@ target_link_libraries(astra_command_tests PRIVATE
     astra_fsw_core
 )
 
+add_executable(astra_command_authorizer_tests
+    fsw/tests/test_command_authorizer.cpp
+)
+
+target_link_libraries(astra_command_authorizer_tests PRIVATE
+    astra_fsw_core
+)
+
 add_executable(astra_command_processor_tests
     fsw/tests/test_command_processor.cpp
 )
 
 target_link_libraries(astra_command_processor_tests PRIVATE
+    astra_fsw_core
+)
+
+add_executable(astra_recovery_supervisor_tests
+    fsw/tests/test_recovery_supervisor.cpp
+)
+
+target_link_libraries(astra_recovery_supervisor_tests PRIVATE
     astra_fsw_core
 )
 
@@ -276,7 +294,9 @@ add_test(NAME mode_manager_tests COMMAND astra_fsw_tests)
 add_test(NAME telemetry_packet_tests COMMAND astra_telemetry_tests)
 add_test(NAME udp_telemetry_sender_tests COMMAND astra_udp_telemetry_tests)
 add_test(NAME command_packet_tests COMMAND astra_command_tests)
+add_test(NAME command_authorizer_tests COMMAND astra_command_authorizer_tests)
 add_test(NAME command_processor_tests COMMAND astra_command_processor_tests)
+add_test(NAME recovery_supervisor_tests COMMAND astra_recovery_supervisor_tests)
 add_test(NAME udp_command_receiver_tests COMMAND astra_udp_command_receiver_tests)
 add_test(NAME flight_software_app_tests COMMAND astra_flight_software_app_tests)
 add_test(NAME health_monitor_tests COMMAND astra_health_monitor_tests)

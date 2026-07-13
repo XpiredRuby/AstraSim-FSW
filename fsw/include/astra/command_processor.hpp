@@ -3,6 +3,7 @@
 #include "astra/command_packet.hpp"
 #include "astra/fdir_manager.hpp"
 #include "astra/mode_manager.hpp"
+#include "astra/recovery_supervisor.hpp"
 
 #include <cstdint>
 #include <string>
@@ -18,7 +19,9 @@ enum class CommandStatus : std::uint8_t {
     REJECTED_REPLAYED_SEQUENCE = 5,
     REJECTED_STALE_TIMESTAMP = 6,
     REJECTED_FUTURE_TIMESTAMP = 7,
-    REJECTED_GUARD_CONFIGURATION = 8
+    REJECTED_GUARD_CONFIGURATION = 8,
+    REJECTED_UNAUTHORIZED = 9,
+    REJECTED_RECOVERY_LIMIT = 10
 };
 
 struct CommandResult {
@@ -34,7 +37,13 @@ std::string command_status_to_string(CommandStatus status);
 
 class CommandProcessor {
 public:
-    CommandProcessor(ModeManager& mode_manager);
+    explicit CommandProcessor(
+        ModeManager& mode_manager,
+        RecoverySupervisorConfig recovery_configuration = RecoverySupervisorConfig{}
+    );
+
+    bool valid() const;
+    const std::string& validation_error() const;
 
     CommandResult process(const CommandPacket& packet);
 
@@ -44,7 +53,10 @@ public:
 private:
     ModeManager& mode_manager_;
     FdirManager fdir_manager_;
+    RecoverySupervisor recovery_supervisor_;
     FaultCode last_fault_;
+    bool valid_ = false;
+    std::string validation_error_;
 };
 
 }  // namespace astra

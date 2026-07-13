@@ -1,5 +1,7 @@
 #include "astra/command_processor.hpp"
 
+#include <string>
+
 namespace astra {
 
 std::string command_status_to_string(CommandStatus status) {
@@ -22,15 +24,38 @@ std::string command_status_to_string(CommandStatus status) {
             return "REJECTED_FUTURE_TIMESTAMP";
         case CommandStatus::REJECTED_GUARD_CONFIGURATION:
             return "REJECTED_GUARD_CONFIGURATION";
+        case CommandStatus::REJECTED_UNAUTHORIZED:
+            return "REJECTED_UNAUTHORIZED";
+        case CommandStatus::REJECTED_RECOVERY_LIMIT:
+            return "REJECTED_RECOVERY_LIMIT";
     }
 
     return "UNKNOWN_STATUS";
 }
 
-CommandProcessor::CommandProcessor(ModeManager& mode_manager)
+CommandProcessor::CommandProcessor(
+    ModeManager& mode_manager,
+    RecoverySupervisorConfig recovery_configuration
+)
     : mode_manager_(mode_manager),
       fdir_manager_(),
-      last_fault_(FaultCode::NONE) {}
+      recovery_supervisor_(recovery_configuration),
+      last_fault_(FaultCode::NONE) {
+    if (!recovery_supervisor_.valid()) {
+        validation_error_ = recovery_supervisor_.validation_error();
+        return;
+    }
+
+    valid_ = true;
+}
+
+bool CommandProcessor::valid() const {
+    return valid_;
+}
+
+const std::string& CommandProcessor::validation_error() const {
+    return validation_error_;
+}
 
 CommandResult CommandProcessor::process(const CommandPacket& packet) {
     CommandResult result;
@@ -66,12 +91,33 @@ CommandResult CommandProcessor::process(const CommandPacket& packet) {
                 break;
             }
 
+            const Mode mode_before = mode_manager_.current_mode();
             const bool transitioned = mode_manager_.transition_to(requested_mode, last_fault_);
 
             if (!transitioned) {
+                if (mode_before == Mode::RECOVERY && requested_mode != Mode::RECOVERY) {
+                    const auto recovery_result =
+                        recovery_supervisor_.record_failure(mode_manager_);
+                    if (recovery_result.fail_safe_forced) {
+                        result.status = CommandStatus::REJECTED_RECOVERY_LIMIT;
+                        result.message =
+                            "SET_MODE rejected: recovery failure limit reached attempts=" +
+                            std::to_string(recovery_result.failed_attempts) +
+                            " fail_safe=SAFE";
+                        break;
+                    }
+                }
+
                 result.status = CommandStatus::REJECTED_INVALID_TRANSITION;
                 result.message = "SET_MODE rejected: invalid mode transition";
                 break;
+            }
+
+            if (mode_before == Mode::SAFE && requested_mode == Mode::RECOVERY) {
+                recovery_supervisor_.begin_session();
+            } else if (mode_before == Mode::RECOVERY &&
+                       requested_mode != Mode::RECOVERY) {
+                static_cast<void>(recovery_supervisor_.record_success());
             }
 
             result.status = CommandStatus::ACCEPTED;

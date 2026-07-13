@@ -7,6 +7,8 @@ Examples:
     python3 tools/send_command.py --command INJECT_FAULT --argument CPU_OVERLOAD
 """
 
+from __future__ import annotations
+
 import argparse
 import socket
 import struct
@@ -79,10 +81,16 @@ def parse_argument(command: str, argument: str | None) -> int:
     return 0
 
 
-def build_packet(sequence: int, command: str, argument_value: int) -> bytes:
-    timestamp_ms = int(time.time() * 1000)
-    command_id = COMMANDS[command]
+def build_packet(
+    sequence: int,
+    command: str,
+    argument_value: int,
+    timestamp_ms: int | None = None,
+) -> bytes:
+    if timestamp_ms is None:
+        timestamp_ms = int(time.time() * 1000)
 
+    command_id = COMMANDS[command]
     payload = struct.pack(
         "<IHIQHI",
         COMMAND_MAGIC,
@@ -102,20 +110,30 @@ def main() -> None:
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=6000)
     parser.add_argument("--sequence", type=int, default=1)
+    parser.add_argument("--timestamp-ms", type=int)
     parser.add_argument("--command", choices=COMMANDS.keys(), required=True)
     parser.add_argument("--argument")
     args = parser.parse_args()
 
     argument_value = parse_argument(args.command, args.argument)
-    packet = build_packet(args.sequence, args.command, argument_value)
+    packet = build_packet(
+        args.sequence,
+        args.command,
+        argument_value,
+        timestamp_ms=args.timestamp_ms,
+    )
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.sendto(packet, (args.host, args.port))
+    try:
+        sock.sendto(packet, (args.host, args.port))
+    finally:
+        sock.close()
 
     print(
         f"Sent command {args.command} "
         f"argument={args.argument or argument_value} "
         f"seq={args.sequence} "
+        f"timestamp_ms={args.timestamp_ms if args.timestamp_ms is not None else 'now'} "
         f"to {args.host}:{args.port}"
     )
 

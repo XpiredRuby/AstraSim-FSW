@@ -117,15 +117,30 @@ ConfigurationValidationResult validate_configuration(
     }
     if (configuration.executive.app.event_log_capacity < 16U ||
         configuration.executive.app.event_log_capacity > 4096U) {
-        return invalid("executive.app.event_log_capacity", "event capacity must be within [16, 4096]");
+        return invalid(
+            "executive.app.event_log_capacity",
+            "event capacity must be within [16, 4096]"
+        );
     }
     if (configuration.executive.app.ground_command_guard.maximum_age_ms ==
         std::numeric_limits<std::uint64_t>::max()) {
-        return invalid("executive.app.ground_command_guard.maximum_age_ms", "maximum age must be bounded");
+        return invalid(
+            "executive.app.ground_command_guard.maximum_age_ms",
+            "maximum age must be bounded"
+        );
     }
     if (configuration.executive.app.ground_command_guard.maximum_future_skew_ms ==
         std::numeric_limits<std::uint64_t>::max()) {
-        return invalid("executive.app.ground_command_guard.maximum_future_skew_ms", "future skew must be bounded");
+        return invalid(
+            "executive.app.ground_command_guard.maximum_future_skew_ms",
+            "future skew must be bounded"
+        );
+    }
+    if (configuration.executive.app.recovery_supervisor.maximum_failed_attempts == 0U) {
+        return invalid(
+            "executive.app.recovery_supervisor.maximum_failed_attempts",
+            "maximum failed recovery attempts must be greater than zero"
+        );
     }
 
     const auto flight = validate_rate_group(
