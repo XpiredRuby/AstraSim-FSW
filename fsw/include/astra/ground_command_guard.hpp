@@ -10,7 +10,8 @@ enum class GroundCommandGuardStatus : std::uint8_t {
     REJECTED_DUPLICATE_SEQUENCE = 1,
     REJECTED_REPLAYED_SEQUENCE = 2,
     REJECTED_STALE_TIMESTAMP = 3,
-    REJECTED_FUTURE_TIMESTAMP = 4
+    REJECTED_FUTURE_TIMESTAMP = 4,
+    INVALID_CONFIGURATION = 5
 };
 
 struct GroundCommandGuardConfig {
