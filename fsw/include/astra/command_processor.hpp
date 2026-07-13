@@ -1,6 +1,7 @@
 #pragma once
 
 #include "astra/command_packet.hpp"
+#include "astra/fdir_manager.hpp"
 #include "astra/mode_manager.hpp"
 
 #include <cstdint>
@@ -39,6 +40,7 @@ public:
 
 private:
     ModeManager& mode_manager_;
+    FdirManager fdir_manager_;
     FaultCode last_fault_;
 };
 
