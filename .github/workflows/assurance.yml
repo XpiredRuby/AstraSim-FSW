@@ -101,6 +101,57 @@ jobs:
       - name: Verify command tests kill CRC acceptance defect
         run: python3 tools/run_controlled_mutation.py
 
+  command-fuzz:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install fuzzing tools
+        run: sudo apt-get update && sudo apt-get install -y clang cmake python3
+
+      - name: Generate deterministic seed corpus
+        run: python3 tools/generate_command_fuzz_corpus.py --output build-fuzz/command-corpus
+
+      - name: Configure Clang libFuzzer build
+        env:
+          CC: clang
+          CXX: clang++
+        run: >-
+          cmake -S . -B build-fuzz
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          -DASTRA_WARNINGS_AS_ERRORS=ON
+          -DASTRA_BUILD_FUZZERS=ON
+
+      - name: Build command packet fuzzer
+        run: cmake --build build-fuzz --target astra_command_packet_fuzzer --parallel
+
+      - name: Run bounded deterministic fuzz campaign
+        run: |
+          mkdir -p build-fuzz/artifacts
+          ./build-fuzz/astra_command_packet_fuzzer \
+            build-fuzz/command-corpus/corpus \
+            -runs=50000 \
+            -seed=20260713 \
+            -max_len=64 \
+            -timeout=5 \
+            -rss_limit_mb=1024 \
+            -print_final_stats=1 \
+            -artifact_prefix=build-fuzz/artifacts/ \
+            2>&1 | tee build-fuzz/fuzz-output.txt
+
+      - name: Upload fuzz evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-os-command-fuzz-${{ github.run_id }}
+          path: |
+            build-fuzz/command-corpus/manifest.json
+            build-fuzz/command-corpus/corpus/
+            build-fuzz/fuzz-output.txt
+            build-fuzz/artifacts/
+          if-no-files-found: warn
+
   python-and-shell-smoke:
     runs-on: ubuntu-22.04
     steps:
