@@ -4,6 +4,44 @@ project(AstraSimFSW VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+option(ASTRA_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" ON)
+option(ASTRA_ENABLE_SANITIZERS "Enable AddressSanitizer and UndefinedBehaviorSanitizer" OFF)
+option(ASTRA_ENABLE_COVERAGE "Enable GCC/Clang coverage instrumentation" OFF)
+option(ASTRA_ENABLE_CLANG_TIDY "Run clang-tidy as part of the build" OFF)
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    add_compile_options(-Wall -Wextra -Wpedantic)
+
+    if(ASTRA_WARNINGS_AS_ERRORS)
+        add_compile_options(-Werror)
+    endif()
+
+    if(ASTRA_ENABLE_SANITIZERS)
+        add_compile_options(-fsanitize=address,undefined -fno-omit-frame-pointer)
+        add_link_options(-fsanitize=address,undefined -fno-omit-frame-pointer)
+    endif()
+
+    if(ASTRA_ENABLE_COVERAGE)
+        add_compile_options(--coverage -O0 -g)
+        add_link_options(--coverage)
+    endif()
+elseif(MSVC)
+    add_compile_options(/W4)
+
+    if(ASTRA_WARNINGS_AS_ERRORS)
+        add_compile_options(/WX)
+    endif()
+endif()
+
+if(ASTRA_ENABLE_CLANG_TIDY)
+    find_program(ASTRA_CLANG_TIDY_EXECUTABLE NAMES clang-tidy REQUIRED)
+    set(CMAKE_CXX_CLANG_TIDY
+        "${ASTRA_CLANG_TIDY_EXECUTABLE};--warnings-as-errors=*"
+    )
+endif()
 
 add_library(astra_fsw_core
     fsw/src/mode_manager.cpp
@@ -108,7 +146,6 @@ add_executable(astra_health_monitor_tests
 target_link_libraries(astra_health_monitor_tests PRIVATE
     astra_fsw_core
 )
-
 
 add_executable(astra_watchdog_tests
     fsw/tests/test_watchdog.cpp
