@@ -31,6 +31,8 @@ MODES = {
     "DEGRADED_PAYLOAD": 3,
     "SAFE": 4,
     "RECOVERY": 5,
+    "STANDBY": 6,
+    "TEST": 7,
 }
 
 FAULTS = {
