@@ -16,6 +16,10 @@ std::string command_status_to_string(CommandStatus status) {
             return "REJECTED_DUPLICATE_SEQUENCE";
         case CommandStatus::REJECTED_REPLAYED_SEQUENCE:
             return "REJECTED_REPLAYED_SEQUENCE";
+        case CommandStatus::REJECTED_STALE_TIMESTAMP:
+            return "REJECTED_STALE_TIMESTAMP";
+        case CommandStatus::REJECTED_FUTURE_TIMESTAMP:
+            return "REJECTED_FUTURE_TIMESTAMP";
     }
 
     return "UNKNOWN_STATUS";
