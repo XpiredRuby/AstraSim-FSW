@@ -2,12 +2,68 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-BUILD_DIR="${REPO_ROOT}/build"
+BUILD_DIR_ARG="build"
 PACKAGE_ROOT="${REPO_ROOT}/dist/astrasim-fsw-pi"
 PACKAGE_ARCHIVE="${REPO_ROOT}/dist/astrasim-fsw-pi.tar.gz"
 REPORT="${REPO_ROOT}/reports/pi_deployment_package_report.md"
 PACKAGE_ARCHIVE_RELATIVE="dist/astrasim-fsw-pi.tar.gz"
 REPORT_RELATIVE="reports/pi_deployment_package_report.md"
+
+usage() {
+    cat <<EOF
+Usage: $(basename "$0") [--build-dir DIR]
+
+Build and package the Raspberry Pi deployment artifacts.
+
+Options:
+  --build-dir DIR  Build directory, relative to the repository root or absolute
+                   (default: build)
+  -h, --help       Show this help message
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --build-dir)
+            if [[ $# -lt 2 ]]; then
+                echo "ERROR: --build-dir requires a directory argument." >&2
+                usage >&2
+                exit 2
+            fi
+            if [[ -z "$2" || "$2" == --* ]]; then
+                echo "ERROR: --build-dir requires a directory argument." >&2
+                usage >&2
+                exit 2
+            fi
+            BUILD_DIR_ARG="$2"
+            shift 2
+            ;;
+        --build-dir=*)
+            BUILD_DIR_ARG="${1#*=}"
+            if [[ -z "${BUILD_DIR_ARG}" ]]; then
+                echo "ERROR: --build-dir requires a directory argument." >&2
+                usage >&2
+                exit 2
+            fi
+            shift
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "ERROR: unknown argument: $1" >&2
+            usage >&2
+            exit 2
+            ;;
+    esac
+done
+
+if [[ "${BUILD_DIR_ARG}" = /* ]]; then
+    BUILD_DIR="${BUILD_DIR_ARG}"
+else
+    BUILD_DIR="${REPO_ROOT}/${BUILD_DIR_ARG}"
+fi
 
 cd "${REPO_ROOT}"
 

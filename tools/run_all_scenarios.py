@@ -175,6 +175,8 @@ def main() -> int:
                 str(args.monte_carlo_trials),
                 "--seed",
                 str(args.monte_carlo_seed),
+                "--build-dir",
+                args.build_dir,
             ],
             "== Running Monte Carlo regression ==",
         )
@@ -183,7 +185,12 @@ def main() -> int:
 
     if not args.skip_pi_package:
         code = run_command(
-            ["bash", str(PACKAGE_PI_DEPLOYMENT)],
+            [
+                "bash",
+                str(PACKAGE_PI_DEPLOYMENT),
+                "--build-dir",
+                args.build_dir,
+            ],
             "== Building Raspberry Pi deployment package ==",
         )
         if code != 0:

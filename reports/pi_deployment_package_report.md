@@ -13,7 +13,7 @@ dist/astrasim-fsw-pi.tar.gz
 - `bin/astra_fsw`
 - `bin/astra_fsw_command_telemetry_demo`
 
-## Included verification tools
+## Included ground and verification tools
 
 - `tools/send_command.py`
 - `tools/telemetry_receiver.py`
@@ -21,11 +21,17 @@ dist/astrasim-fsw-pi.tar.gz
 - `tools/run_hil_smoke_test.py`
 - `tools/check_requirements.py`
 
+## Included controlled interfaces
+
+- `config/protocol_manifest.json`
+- `docs/REQUIREMENTS.md`
+- `docs/VERIFICATION_MATRIX.csv`
+
 ## Package metadata
 
-- Size: `36K`
-- SHA256: `cdd44d6181212e28d0fd64b55a81bc7e2570070f2d9f426fc11e5427160c2140`
+- Size: `56K`
+- SHA256: `31a7a02c294f9dd5fdd19fcbcc9d3605ea7466ad2193aa2a242b835baaf763d9`
 
 ## Notes
 
-This report verifies that a Raspberry Pi deployment package can be generated from the repository. Running the package on physical Raspberry Pi hardware should produce a separate target-run evidence report.
+This report verifies that a Raspberry Pi deployment package can be generated from the repository. It does not establish that the current ASTRA-OS branch has executed on Raspberry Pi hardware. A physical target run must produce a separate, provenance-bound evidence report.
