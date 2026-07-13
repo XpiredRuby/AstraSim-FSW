@@ -1,0 +1,355 @@
+{
+  "check_count": 24,
+  "checks": [
+    {
+      "actual": {
+        "BOOT": 0,
+        "DEGRADED_PAYLOAD": 3,
+        "DEGRADED_SENSOR": 2,
+        "NOMINAL": 1,
+        "RECOVERY": 5,
+        "SAFE": 4,
+        "STANDBY": 6,
+        "TEST": 7
+      },
+      "expected": {
+        "BOOT": 0,
+        "DEGRADED_PAYLOAD": 3,
+        "DEGRADED_SENSOR": 2,
+        "NOMINAL": 1,
+        "RECOVERY": 5,
+        "SAFE": 4,
+        "STANDBY": 6,
+        "TEST": 7
+      },
+      "label": "C++ Mode enum",
+      "passed": true
+    },
+    {
+      "actual": {
+        "COMMAND_BAD_CRC": 500,
+        "COMMAND_TIMEOUT": 502,
+        "COMMAND_UNKNOWN_ID": 501,
+        "CPU_OVERLOAD": 300,
+        "MEMORY_OVERLOAD": 301,
+        "NONE": 0,
+        "PAYLOAD_HEARTBEAT_TIMEOUT": 200,
+        "SENSOR_INVALID_DATA": 101,
+        "SENSOR_TIMEOUT": 100,
+        "TELEMETRY_SOCKET_FAILURE": 400,
+        "WATCHDOG_DEADLINE_MISS": 600
+      },
+      "expected": {
+        "COMMAND_BAD_CRC": 500,
+        "COMMAND_TIMEOUT": 502,
+        "COMMAND_UNKNOWN_ID": 501,
+        "CPU_OVERLOAD": 300,
+        "MEMORY_OVERLOAD": 301,
+        "NONE": 0,
+        "PAYLOAD_HEARTBEAT_TIMEOUT": 200,
+        "SENSOR_INVALID_DATA": 101,
+        "SENSOR_TIMEOUT": 100,
+        "TELEMETRY_SOCKET_FAILURE": 400,
+        "WATCHDOG_DEADLINE_MISS": 600
+      },
+      "label": "C++ FaultCode enum",
+      "passed": true
+    },
+    {
+      "actual": {
+        "CLEAR_FAULT": 4,
+        "INJECT_FAULT": 2,
+        "NOOP": 0,
+        "REQUEST_TELEMETRY": 3,
+        "SET_MODE": 1
+      },
+      "expected": {
+        "CLEAR_FAULT": 4,
+        "INJECT_FAULT": 2,
+        "NOOP": 0,
+        "REQUEST_TELEMETRY": 3,
+        "SET_MODE": 1
+      },
+      "label": "C++ CommandId enum",
+      "passed": true
+    },
+    {
+      "actual": {
+        "ACCEPTED": 0,
+        "REJECTED_BAD_ARGUMENT": 1,
+        "REJECTED_DUPLICATE_SEQUENCE": 4,
+        "REJECTED_FUTURE_TIMESTAMP": 7,
+        "REJECTED_GUARD_CONFIGURATION": 8,
+        "REJECTED_INVALID_TRANSITION": 2,
+        "REJECTED_REPLAYED_SEQUENCE": 5,
+        "REJECTED_STALE_TIMESTAMP": 6,
+        "REJECTED_UNKNOWN_COMMAND": 3
+      },
+      "expected": {
+        "ACCEPTED": 0,
+        "REJECTED_BAD_ARGUMENT": 1,
+        "REJECTED_DUPLICATE_SEQUENCE": 4,
+        "REJECTED_FUTURE_TIMESTAMP": 7,
+        "REJECTED_GUARD_CONFIGURATION": 8,
+        "REJECTED_INVALID_TRANSITION": 2,
+        "REJECTED_REPLAYED_SEQUENCE": 5,
+        "REJECTED_STALE_TIMESTAMP": 6,
+        "REJECTED_UNKNOWN_COMMAND": 3
+      },
+      "label": "C++ CommandStatus enum",
+      "passed": true
+    },
+    {
+      "actual": 1129137235,
+      "expected": 1129137235,
+      "label": "C++ command magic",
+      "passed": true
+    },
+    {
+      "actual": 1,
+      "expected": 1,
+      "label": "C++ command version",
+      "passed": true
+    },
+    {
+      "actual": 26,
+      "expected": 26,
+      "label": "C++ command size",
+      "passed": true
+    },
+    {
+      "actual": 1095980114,
+      "expected": 1095980114,
+      "label": "C++ telemetry magic",
+      "passed": true
+    },
+    {
+      "actual": 1,
+      "expected": 1,
+      "label": "C++ telemetry version",
+      "passed": true
+    },
+    {
+      "actual": 1,
+      "expected": 1,
+      "label": "C++ telemetry type",
+      "passed": true
+    },
+    {
+      "actual": 43,
+      "expected": 43,
+      "label": "C++ telemetry size",
+      "passed": true
+    },
+    {
+      "actual": {
+        "CLEAR_FAULT": 4,
+        "INJECT_FAULT": 2,
+        "NOOP": 0,
+        "REQUEST_TELEMETRY": 3,
+        "SET_MODE": 1
+      },
+      "expected": {
+        "CLEAR_FAULT": 4,
+        "INJECT_FAULT": 2,
+        "NOOP": 0,
+        "REQUEST_TELEMETRY": 3,
+        "SET_MODE": 1
+      },
+      "label": "Python sender commands",
+      "passed": true
+    },
+    {
+      "actual": {
+        "BOOT": 0,
+        "DEGRADED_PAYLOAD": 3,
+        "DEGRADED_SENSOR": 2,
+        "NOMINAL": 1,
+        "RECOVERY": 5,
+        "SAFE": 4,
+        "STANDBY": 6,
+        "TEST": 7
+      },
+      "expected": {
+        "BOOT": 0,
+        "DEGRADED_PAYLOAD": 3,
+        "DEGRADED_SENSOR": 2,
+        "NOMINAL": 1,
+        "RECOVERY": 5,
+        "SAFE": 4,
+        "STANDBY": 6,
+        "TEST": 7
+      },
+      "label": "Python sender modes",
+      "passed": true
+    },
+    {
+      "actual": {
+        "COMMAND_BAD_CRC": 500,
+        "COMMAND_TIMEOUT": 502,
+        "COMMAND_UNKNOWN_ID": 501,
+        "CPU_OVERLOAD": 300,
+        "MEMORY_OVERLOAD": 301,
+        "NONE": 0,
+        "PAYLOAD_HEARTBEAT_TIMEOUT": 200,
+        "SENSOR_INVALID_DATA": 101,
+        "SENSOR_TIMEOUT": 100,
+        "TELEMETRY_SOCKET_FAILURE": 400,
+        "WATCHDOG_DEADLINE_MISS": 600
+      },
+      "expected": {
+        "COMMAND_BAD_CRC": 500,
+        "COMMAND_TIMEOUT": 502,
+        "COMMAND_UNKNOWN_ID": 501,
+        "CPU_OVERLOAD": 300,
+        "MEMORY_OVERLOAD": 301,
+        "NONE": 0,
+        "PAYLOAD_HEARTBEAT_TIMEOUT": 200,
+        "SENSOR_INVALID_DATA": 101,
+        "SENSOR_TIMEOUT": 100,
+        "TELEMETRY_SOCKET_FAILURE": 400,
+        "WATCHDOG_DEADLINE_MISS": 600
+      },
+      "label": "Python sender faults",
+      "passed": true
+    },
+    {
+      "actual": 1129137235,
+      "expected": 1129137235,
+      "label": "Python sender command magic",
+      "passed": true
+    },
+    {
+      "actual": 1,
+      "expected": 1,
+      "label": "Python sender command version",
+      "passed": true
+    },
+    {
+      "actual": {
+        "CLEAR_FAULT": 4,
+        "INJECT_FAULT": 2,
+        "NOOP": 0,
+        "REQUEST_TELEMETRY": 3,
+        "SET_MODE": 1
+      },
+      "expected": {
+        "CLEAR_FAULT": 4,
+        "INJECT_FAULT": 2,
+        "NOOP": 0,
+        "REQUEST_TELEMETRY": 3,
+        "SET_MODE": 1
+      },
+      "label": "Python receiver commands",
+      "passed": true
+    },
+    {
+      "actual": {
+        "BOOT": 0,
+        "DEGRADED_PAYLOAD": 3,
+        "DEGRADED_SENSOR": 2,
+        "NOMINAL": 1,
+        "RECOVERY": 5,
+        "SAFE": 4,
+        "STANDBY": 6,
+        "TEST": 7
+      },
+      "expected": {
+        "BOOT": 0,
+        "DEGRADED_PAYLOAD": 3,
+        "DEGRADED_SENSOR": 2,
+        "NOMINAL": 1,
+        "RECOVERY": 5,
+        "SAFE": 4,
+        "STANDBY": 6,
+        "TEST": 7
+      },
+      "label": "Python receiver modes",
+      "passed": true
+    },
+    {
+      "actual": {
+        "COMMAND_BAD_CRC": 500,
+        "COMMAND_TIMEOUT": 502,
+        "COMMAND_UNKNOWN_ID": 501,
+        "CPU_OVERLOAD": 300,
+        "MEMORY_OVERLOAD": 301,
+        "NONE": 0,
+        "PAYLOAD_HEARTBEAT_TIMEOUT": 200,
+        "SENSOR_INVALID_DATA": 101,
+        "SENSOR_TIMEOUT": 100,
+        "TELEMETRY_SOCKET_FAILURE": 400,
+        "WATCHDOG_DEADLINE_MISS": 600
+      },
+      "expected": {
+        "COMMAND_BAD_CRC": 500,
+        "COMMAND_TIMEOUT": 502,
+        "COMMAND_UNKNOWN_ID": 501,
+        "CPU_OVERLOAD": 300,
+        "MEMORY_OVERLOAD": 301,
+        "NONE": 0,
+        "PAYLOAD_HEARTBEAT_TIMEOUT": 200,
+        "SENSOR_INVALID_DATA": 101,
+        "SENSOR_TIMEOUT": 100,
+        "TELEMETRY_SOCKET_FAILURE": 400,
+        "WATCHDOG_DEADLINE_MISS": 600
+      },
+      "label": "Python receiver faults",
+      "passed": true
+    },
+    {
+      "actual": {
+        "ACCEPTED": 0,
+        "REJECTED_BAD_ARGUMENT": 1,
+        "REJECTED_DUPLICATE_SEQUENCE": 4,
+        "REJECTED_FUTURE_TIMESTAMP": 7,
+        "REJECTED_GUARD_CONFIGURATION": 8,
+        "REJECTED_INVALID_TRANSITION": 2,
+        "REJECTED_REPLAYED_SEQUENCE": 5,
+        "REJECTED_STALE_TIMESTAMP": 6,
+        "REJECTED_UNKNOWN_COMMAND": 3
+      },
+      "expected": {
+        "ACCEPTED": 0,
+        "REJECTED_BAD_ARGUMENT": 1,
+        "REJECTED_DUPLICATE_SEQUENCE": 4,
+        "REJECTED_FUTURE_TIMESTAMP": 7,
+        "REJECTED_GUARD_CONFIGURATION": 8,
+        "REJECTED_INVALID_TRANSITION": 2,
+        "REJECTED_REPLAYED_SEQUENCE": 5,
+        "REJECTED_STALE_TIMESTAMP": 6,
+        "REJECTED_UNKNOWN_COMMAND": 3
+      },
+      "label": "Python receiver statuses",
+      "passed": true
+    },
+    {
+      "actual": 1095980114,
+      "expected": 1095980114,
+      "label": "Python telemetry magic",
+      "passed": true
+    },
+    {
+      "actual": 1,
+      "expected": 1,
+      "label": "Python telemetry version",
+      "passed": true
+    },
+    {
+      "actual": 1,
+      "expected": 1,
+      "label": "Python telemetry type",
+      "passed": true
+    },
+    {
+      "actual": 43,
+      "expected": 43,
+      "label": "Python telemetry size",
+      "passed": true
+    }
+  ],
+  "failed_count": 0,
+  "manifest": "config/protocol_manifest.json",
+  "passed": true,
+  "schema": "astra-os.protocol-conformance.v1"
+}

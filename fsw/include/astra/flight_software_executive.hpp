@@ -15,6 +15,7 @@ enum class ExecutiveTaskId : std::uint16_t {
 };
 
 struct FlightSoftwareExecutiveConfig {
+    FlightSoftwareAppConfig app;
     std::uint32_t flight_period_ticks = 1;
     std::uint32_t flight_phase_ticks = 0;
     std::uint32_t flight_deadline_ticks = 1;

@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import subprocess
 import sys
 from pathlib import Path
@@ -14,10 +15,20 @@ RUN_SCENARIO = REPO_ROOT / "tools" / "run_scenario.py"
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--build-dir", default="build")
+    args = parser.parse_args()
+
     print("== Running HIL smoke test ==")
 
     result = subprocess.run(
-        [sys.executable, str(RUN_SCENARIO), str(SCENARIO)],
+        [
+            sys.executable,
+            str(RUN_SCENARIO),
+            str(SCENARIO),
+            "--build-dir",
+            args.build_dir,
+        ],
         cwd=REPO_ROOT,
         text=True,
     )

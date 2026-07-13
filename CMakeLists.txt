@@ -58,6 +58,8 @@ add_library(astra_fsw_core
     fsw/src/watchdog.cpp
     fsw/src/rate_group_scheduler.cpp
     fsw/src/flight_software_executive.cpp
+    fsw/src/ground_command_guard.cpp
+    fsw/src/configuration_service.cpp
 )
 
 target_include_directories(astra_fsw_core PUBLIC
@@ -85,6 +87,14 @@ add_executable(astra_fsw_command_telemetry_demo
 )
 
 target_link_libraries(astra_fsw_command_telemetry_demo PRIVATE
+    astra_fsw_core
+)
+
+add_executable(astra_timing_campaign
+    fsw/src/timing_campaign.cpp
+)
+
+target_link_libraries(astra_timing_campaign PRIVATE
     astra_fsw_core
 )
 
@@ -216,6 +226,22 @@ target_link_libraries(astra_event_integration_tests PRIVATE
     astra_fsw_core
 )
 
+add_executable(astra_ground_command_guard_tests
+    fsw/tests/test_ground_command_guard.cpp
+)
+
+target_link_libraries(astra_ground_command_guard_tests PRIVATE
+    astra_fsw_core
+)
+
+add_executable(astra_configuration_service_tests
+    fsw/tests/test_configuration_service.cpp
+)
+
+target_link_libraries(astra_configuration_service_tests PRIVATE
+    astra_fsw_core
+)
+
 if(ASTRA_BUILD_FUZZERS)
     if(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         message(FATAL_ERROR "ASTRA_BUILD_FUZZERS requires Clang with matching libFuzzer support")
@@ -262,3 +288,5 @@ add_test(NAME simultaneous_fault_tests COMMAND astra_simultaneous_fault_tests)
 add_test(NAME flight_software_executive_tests COMMAND astra_flight_software_executive_tests)
 add_test(NAME event_logger_tests COMMAND astra_event_logger_tests)
 add_test(NAME event_integration_tests COMMAND astra_event_integration_tests)
+add_test(NAME ground_command_guard_tests COMMAND astra_ground_command_guard_tests)
+add_test(NAME configuration_service_tests COMMAND astra_configuration_service_tests)
