@@ -154,6 +154,7 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Run the full existing verification suite but skip sanitizer and mutation stages.",
     )
+    parser.add_argument("--build-dir", default="build")
     parser.add_argument(
         "--skip-monte-carlo",
         action="store_true",
@@ -177,6 +178,8 @@ def main() -> int:
     full_verification_command = [
         sys.executable,
         str(REPO_ROOT / "tools" / "run_all_scenarios.py"),
+        "--build-dir",
+        args.build_dir,
     ]
     if args.skip_monte_carlo:
         full_verification_command.append("--skip-monte-carlo")
