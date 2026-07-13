@@ -1,0 +1,80 @@
+{
+  "generated_at_utc": "2026-07-13T21:50:07.764460+00:00",
+  "overall_status": "passed",
+  "quick_mode": false,
+  "schema": "astra-os.assurance-summary.v1",
+  "stages": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "/home/xpired/ghost_ws/tools/astra-os-hil/tools/run_all_scenarios.py",
+        "--build-dir",
+        "build-pi"
+      ],
+      "finished_at_utc": "2026-07-13T21:48:40.288874+00:00",
+      "log_path": "reports/latest/full_verification.log",
+      "name": "full_verification",
+      "passed": true,
+      "return_code": 0,
+      "started_at_utc": "2026-07-13T21:43:10.533284+00:00"
+    },
+    {
+      "command": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "/home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DASTRA_WARNINGS_AS_ERRORS=ON",
+        "-DASTRA_ENABLE_SANITIZERS=ON"
+      ],
+      "finished_at_utc": "2026-07-13T21:48:41.926982+00:00",
+      "log_path": "reports/latest/configure_sanitizers.log",
+      "name": "configure_sanitizers",
+      "passed": true,
+      "return_code": 0,
+      "started_at_utc": "2026-07-13T21:48:40.289703+00:00"
+    },
+    {
+      "command": [
+        "cmake",
+        "--build",
+        "/home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers",
+        "--parallel"
+      ],
+      "finished_at_utc": "2026-07-13T21:48:45.473872+00:00",
+      "log_path": "reports/latest/build_sanitizers.log",
+      "name": "build_sanitizers",
+      "passed": true,
+      "return_code": 0,
+      "started_at_utc": "2026-07-13T21:48:41.927913+00:00"
+    },
+    {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers",
+        "--output-on-failure"
+      ],
+      "finished_at_utc": "2026-07-13T21:48:46.583194+00:00",
+      "log_path": "reports/latest/test_sanitizers.log",
+      "name": "test_sanitizers",
+      "passed": true,
+      "return_code": 0,
+      "started_at_utc": "2026-07-13T21:48:45.474655+00:00"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "/home/xpired/ghost_ws/tools/astra-os-hil/tools/run_controlled_mutation.py"
+      ],
+      "finished_at_utc": "2026-07-13T21:50:07.763762+00:00",
+      "log_path": "reports/latest/controlled_mutation.log",
+      "name": "controlled_mutation",
+      "passed": true,
+      "return_code": 0,
+      "started_at_utc": "2026-07-13T21:48:46.584059+00:00"
+    }
+  ]
+}

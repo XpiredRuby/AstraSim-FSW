@@ -30,7 +30,7 @@ dist/astrasim-fsw-pi.tar.gz
 ## Package metadata
 
 - Size: `56K`
-- SHA256: `31a7a02c294f9dd5fdd19fcbcc9d3605ea7466ad2193aa2a242b835baaf763d9`
+- SHA256: `d00ddff08083217b03982dfccfa3667f47ae6d58c8d794927282e96d39813adb`
 
 ## Notes
 
