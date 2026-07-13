@@ -2,41 +2,52 @@
 
 All notable ASTRA-OS changes are recorded here. Dates use UTC. The project does not claim semantic-version stability until the first ASTRA-OS release is tagged.
 
-## Unreleased — ASTRA-OS assurance baseline
+## Unreleased — final portable-software completion
 
 ### Added
 
-- `PROJECT_STATE.md` with verified baseline, backlog, risks, and continuation point.
-- Draft pull-request workflow for independent branch validation.
-- Configurable warnings-as-errors, AddressSanitizer, UndefinedBehaviorSanitizer, coverage, and clang-tidy build options.
-- ASTRA-OS software-assurance workflow with sanitizer, coverage, static-analysis, Python, shell, and controlled-mutation jobs.
-- Deterministic command malformed-input campaign covering every truncated packet length, oversized packets, invalid magic, invalid version, invalid command ID, failed-output preservation, and 208 single-bit corruptions.
-- Wrap-aware duplicate and replay rejection for decoded ground commands.
-- Deterministic tick-driven `RateGroupScheduler` with periods, phases, deadlines, discontinuity rejection, completion tracking, overruns, and statistics.
-- Controlled CRC-rejection defect used to measure command-test effectiveness.
-- Machine-readable provenance manifest generator with commit, dirty state, host, toolchain, build settings, commands, and SHA-256 input hashes.
-- Canonical architecture, requirements, verification matrix, decisions, and risk register.
-- CI upload of full verification reports and provenance artifacts.
+- configurable `CommandAuthorizer` separated from CRC integrity checking;
+- typed `REJECTED_UNAUTHORIZED` telemetry acknowledgement;
+- bounded `RecoverySupervisor` with SAFE fallback and `REJECTED_RECOVERY_LIMIT`;
+- deterministic timestamp-aware scenario commands;
+- end-to-end STANDBY TEST timestamp-guard and recovery-failure scenarios;
+- ten-case UDP FDIR campaign for every supported fault disposition;
+- per-module coverage CSV JSON and Markdown generation in CI;
+- reviewed requirement fingerprints and controlled-interface hashes;
+- reverse allocation check from every registered CTest to the verification matrix;
+- deterministic governed-assistant read and tool permission policy;
+- frozen 129-case governed-assistant evaluation;
+- current command-authorization recovery and FDIR documentation.
 
 ### Changed
 
-- Existing lowercase architecture and requirements paths now point to canonical uppercase living documents.
-- Requirement checking now validates the canonical requirements baseline and verification matrix.
-- Generated evidence ignore patterns are scoped so canonical CSV traceability files remain trackable.
-- C++ extensions are disabled and compile command export is enabled.
+- native CTest suite increased from 18 to 20;
+- declared deterministic scenario set increased from five to eight;
+- aggregate verification now runs the ten-case FDIR campaign and frozen permission evaluation;
+- canonical requirement set contains 67 implemented and reviewed requirements with no planned rows;
+- deployment package includes the FDIR campaign and operational-policy documents and no longer ships an unusable source-level traceability checker;
+- architecture risk assurance project-state README and verification matrix documents are reconciled with the implemented baseline;
+- protocol status map includes unauthorized and recovery-limit command dispositions.
 
-### Preserved
+### Verified locally on Raspberry Pi
 
-- Existing command, telemetry, mode, fault, health, watchdog, scenario, Monte Carlo, deployment-package, and Raspberry Pi evidence paths.
-- Existing mode and fault numeric values.
-- Existing command packet size and version.
-- Existing repository history and default branch.
+- 20/20 native CTests;
+- 8/8 deterministic YAML scenarios;
+- 10/10 FDIR cases;
+- 24/24 protocol-conformance checks;
+- 25/25 Monte Carlo trials with seed `20260626`;
+- 23/23 Python tool tests;
+- 129/129 governed-assistant evaluation cases;
+- zero requirement failures and zero traceability problems.
 
-### Evidence status
+### Claim boundary
 
-- Normal C++ CI has passed the command hardening increment.
-- Scheduler, assurance workflow, mutation, provenance, and expanded traceability remain subject to the final pull-request checks before their requirement status is promoted from Implemented to Verified.
+These results are software-engineering evidence for the documented Raspberry Pi and CI configurations. They do not establish certification flight qualification hard-real-time guarantees production security spacecraft-hardware compatibility or defect absence.
+
+## ASTRA-OS Pi assurance closure
+
+The prior merged closure repaired native Pi build integration cross-machine timestamps scenario build-directory propagation protocol status decoding packaging and evidence preservation. It produced the first complete Pi assurance report with 18 CTest suites five deterministic scenarios seeded Monte Carlo sanitizers controlled mutation timing soak and provenance evidence.
 
 ## AstraSim-FSW historical baseline
 
-The predecessor baseline at commit `b63dad495ba921e855e21672831edee444502061` documented nine passing CTest suites, deterministic scenarios, command and telemetry demonstrations, Monte Carlo regression, deployment packaging, and Raspberry Pi execution evidence. Those records are preserved as historical evidence and are not automatically treated as current ASTRA-OS results.
+The predecessor baseline at commit `b63dad495ba921e855e21672831edee444502061` documented nine passing CTest suites deterministic scenarios command and telemetry demonstrations Monte Carlo regression deployment packaging and Raspberry Pi execution evidence. Those records remain preserved as historical evidence and are not treated as current results without provenance.

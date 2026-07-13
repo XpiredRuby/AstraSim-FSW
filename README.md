@@ -2,157 +2,157 @@
 
 [![C++ Build and Unit Tests](https://github.com/XpiredRuby/AstraSim-FSW/actions/workflows/unit_tests.yml/badge.svg)](https://github.com/XpiredRuby/AstraSim-FSW/actions/workflows/unit_tests.yml)
 
-ASTRA-OS is an educational C++/Python spacecraft-style flight-software and verification platform. It demonstrates operating modes, binary UDP command and telemetry protocols, command validation, health monitoring, fault detection/isolation/recovery, watchdog behavior, deterministic rate-group scheduling, configuration locking, Raspberry Pi execution, requirements traceability, and automated assurance evidence.
+ASTRA-OS is an educational C++17 and Python spacecraft-style flight-software and assurance platform. It connects deterministic operating modes, UDP command and telemetry, command integrity and policy controls, health and watchdog monitoring, FDIR, bounded recovery, scheduling, configuration control, Raspberry Pi execution, requirements traceability, and reproducible verification evidence.
 
-The embedded core is C++17. Python provides ground-side command injection, telemetry decoding, deterministic scenario execution, protocol checks, randomized regression, evidence generation, and packaging.
+## Current completion status
 
-## Verified Raspberry Pi Status
+The final portable-software baseline has locally passed:
 
-The repair and assurance campaign was executed natively on a Raspberry Pi running Ubuntu 24.04 on `aarch64`.
+| Verification area | Current result |
+|---|---:|
+| Native CTest | 20/20 |
+| Declared deterministic scenarios | 8/8 |
+| Ten-case FDIR campaign | 10/10 |
+| Protocol conformance | 24/24 |
+| Seeded Monte Carlo | 25/25 with seed `20260626` |
+| Python tool tests | 23/23 |
+| Frozen assurance-assistant evaluation | 129/129 |
+| Canonical planned requirements | 0 |
+| Requirement failures | 0 |
+| Traceability problems | 0 |
 
-| Verification area | Result |
-|---|---|
-| Native Raspberry Pi build | PASS |
-| CTest suites | 18/18 passed |
-| Deterministic YAML scenarios | 5/5 passed |
-| Protocol conformance | 24/24 passed |
-| Requirement traceability | 0 failures; 0 broken references |
-| Seeded Monte Carlo regression | 25/25 passed; seed `20260626` |
-| ASan/UBSan build and tests | PASS |
-| Controlled mutation check | PASS |
-| Pi deployment package | PASS |
-| Nominal timing campaign | 250,000 ticks; 0 deadline misses |
-| Controlled-overrun campaign | 100,000 ticks; 99 injected misses detected |
-| Soak campaign | 1,000,000 ticks; 0 deadline misses |
-| Final assurance workflow | PASS |
+The prior Raspberry Pi release-closure campaign remains preserved in `reports/ASTRA_OS_RASPBERRY_PI_VERIFICATION_REPORT.md`. It verified the predecessor baseline with 18 CTest suites and five deterministic scenarios. The completion branch extends that baseline with command authorization, timestamp scenarios, bounded recovery, two additional CTest suites, three additional declared scenarios, the ten-fault campaign, digital-thread enforcement, and frozen permission evaluation.
 
-The software-under-test for the final Pi campaign was commit:
+## Claim boundary
 
-```text
-395f1e028a3ab6bf46438b4dbd5bad256eced0cd
-```
+ASTRA-OS is a portfolio and educational project. Its evidence does **not** establish:
 
-Full report:
-
-- [`reports/ASTRA_OS_RASPBERRY_PI_VERIFICATION_REPORT.md`](reports/ASTRA_OS_RASPBERRY_PI_VERIFICATION_REPORT.md)
-
-## Scope and Claim Boundary
-
-ASTRA-OS is a portfolio and educational project. The preserved results demonstrate native Raspberry Pi execution and repeatable software verification under the documented conditions.
-
-They do **not** establish:
-
-- certification;
-- flight qualification;
-- hard-real-time guarantees;
-- airworthiness;
-- production readiness;
+- certification or DO-178C compliance;
+- flight qualification or airworthiness;
+- hard-real-time or worst-case-execution-time guarantees;
+- production readiness or operational reliability;
+- cryptographic command authentication;
 - radiation tolerance;
 - compatibility with spacecraft hardware.
 
-The timing campaigns are host faster-than-real-time execution measurements. They are not real-time qualification or worst-case execution-time proof.
+Raspberry Pi timing campaigns are documented host execution measurements rather than real-time qualification.
 
-## Implemented Capabilities
+## Implemented capabilities
 
-- BOOT, NOMINAL, DEGRADED, SAFE, and RECOVERY operating modes
-- controlled and rejected mode transitions
-- binary command and telemetry packet formats
-- CRC-16-CCITT validation
-- UDP command receiver and telemetry sender
-- Python command sender and telemetry decoder
-- accepted, invalid, duplicate, replayed, stale, future, and guard-configuration command dispositions
-- command freshness and sequence guarding
-- health monitoring for CPU, memory, sensor, payload, and loop state
-- watchdog timeout detection
-- fault disposition and simultaneous-fault behavior
-- deterministic rate-group scheduling
-- application/executive configuration validation
-- configuration locking
-- event logging and event integration
-- YAML scenario execution
-- seeded Monte Carlo regression
-- C++/Python protocol-manifest conformance checking
-- requirement-to-evidence traceability checking
-- ASan/UBSan assurance builds
-- controlled command-packet mutation
-- Raspberry Pi deployment packaging
-- machine-readable provenance and assurance summaries
+### Flight-software core
 
-## System Flow
+- BOOT NOMINAL DEGRADED_SENSOR DEGRADED_PAYLOAD SAFE RECOVERY STANDBY and TEST;
+- deterministic transition validation;
+- health and watchdog reports;
+- ten-fault FDIR disposition and simultaneous-fault priority;
+- bounded recovery supervision;
+- rate-group scheduler and executive dispatch;
+- versioned configuration revision control and lock;
+- bounded typed event logging.
+
+### Command and telemetry
+
+- fixed binary packet layouts and CRC-16-CCITT;
+- UDP command receiver and telemetry sender;
+- Python sender and decoder;
+- duplicate replay stale and future command rejection;
+- configurable command-execution authorization policy;
+- typed telemetry acknowledgements including unauthorized and recovery-limit rejections;
+- C++ Python and manifest protocol consistency checking.
+
+CRC detects corruption under the tested model. It does not authenticate a sender. `CommandAuthorizer` is execution policy rather than cryptographic identity authentication.
+
+### Verification and assurance
+
+- 20 native CTest suites;
+- eight deterministic YAML scenarios;
+- ten-case FDIR command/telemetry campaign;
+- seeded Monte Carlo regression;
+- ASan and UBSan;
+- clang-tidy;
+- aggregate and per-module LCOV evidence;
+- controlled CRC mutation;
+- bounded libFuzzer campaign and deterministic seed corpus;
+- timing jitter CPU memory temperature and soak evidence;
+- deployment packaging;
+- provenance manifests;
+- reverse CTest-to-requirement allocation;
+- reviewed requirement fingerprints and controlled-interface hashes;
+- deterministic governed-assistant policy with 129 frozen cases.
+
+## System flow
 
 ```text
-Python command sender
+Python sender or YAML scenario
         |
         v
 UDP command packet
         |
         v
-C++ UDP command receiver
+CommandPacket decode and CRC
         |
         v
-Command packet decoder + CRC + command guard
+GroundCommandGuard
+  - timestamp age and future skew
+  - duplicate replay and wrap policy
         |
         v
-FlightSoftwareExecutive / FlightSoftwareApp
-        |
-        +--> RateGroupScheduler
-        +--> Watchdog
-        +--> HealthMonitor
-        +--> CommandProcessor
-        +--> FDIRManager
-        +--> ModeManager
-        +--> EventLogger
+CommandAuthorizer
+  - configurable command and TEST policy
         |
         v
-Telemetry packet encoder + CRC
+CommandProcessor
+  - semantic command validation
+  - RecoverySupervisor
+  - FDIRManager
         |
         v
-C++ UDP telemetry sender
+ModeManager and active fault
+
+HealthMonitor -----+
+Watchdog ----------+--> internal fault selection
+
+FlightSoftwareExecutive
+  - RateGroupScheduler
+  - FlightSoftwareApp
+  - housekeeping
         |
         v
-Python telemetry receiver / scenario verifier
+TelemetryPacket and EventLogger
+        |
+        v
+UDP telemetry receiver and evidence reports
 ```
 
-## Main Native Targets
-
-| Target | Purpose |
-|---|---|
-| `astra_fsw` | Basic mode/fault flight-software demonstration |
-| `astra_fsw_telemetry_demo` | UDP telemetry demonstration |
-| `astra_fsw_command_telemetry_demo` | Integrated UDP command, mode/fault, acknowledgement, and telemetry demonstration |
-| `astra_timing_campaign` | Faster-than-real-time host execution and scheduler-miss evidence generator |
-
-## Native Raspberry Pi Build
+## Native Raspberry Pi build
 
 ```bash
-cmake -S . -B build-pi -DCMAKE_BUILD_TYPE=Release
+cmake -S . -B build-pi \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DASTRA_WARNINGS_AS_ERRORS=ON
 cmake --build build-pi --parallel
 ctest --test-dir build-pi --output-on-failure
 ```
 
-Expected test count for this branch:
+Expected current suite:
 
 ```text
-18/18 suites passing
+20/20 tests passing
 ```
 
-## Complete Assurance Workflow
-
-Run the full deterministic, randomized, sanitizer, mutation, packaging, traceability, protocol, and provenance workflow against the Pi build:
+## Complete assurance workflow
 
 ```bash
 python3 tools/run_astra_os_assurance.py --build-dir build-pi
 ```
 
-The machine-readable summary is written to:
+This runs full verification, sanitizers, controlled mutation, and provenance generation. The final machine-readable status is written to:
 
 ```text
 reports/latest/assurance_summary.json
 ```
 
-## Deterministic Scenarios
-
-Run all declared scenarios and verification checks without rebuilding or repeating Monte Carlo/package generation:
+## Deterministic scenarios
 
 ```bash
 python3 tools/run_all_scenarios.py \
@@ -165,12 +165,23 @@ python3 tools/run_all_scenarios.py \
 Declared scenarios:
 
 - `basic_command_fault.yaml`
+- `command_timestamp_guard.yaml`
+- `extended_modes.yaml`
 - `hil_smoke_test.yaml`
 - `invalid_transition_rejected.yaml`
+- `recovery_failure_failsafe.yaml`
 - `sensor_timeout_safe_mode.yaml`
 - `watchdog_timeout_safe_mode.yaml`
 
-## Seeded Monte Carlo Regression
+## Ten-case FDIR campaign
+
+```bash
+python3 tools/run_fdir_campaign.py --build-dir build-pi
+```
+
+The campaign verifies the software disposition for every supported fault through the UDP command/telemetry boundary. It does not prove every physical detector.
+
+## Seeded Monte Carlo
 
 ```bash
 python3 tools/run_monte_carlo.py \
@@ -179,69 +190,97 @@ python3 tools/run_monte_carlo.py \
   --seed 20260626
 ```
 
-## Raspberry Pi Deployment Package
+## Digital-thread gate
+
+```bash
+python3 tools/check_requirements.py
+```
+
+The gate checks requirement and matrix consistency, scenario references, reverse allocation of all CTests, reviewed requirement fingerprints, and controlled-interface hashes.
+
+Intentional reviewed changes are frozen with:
+
+```bash
+python3 tools/update_traceability_baseline.py
+```
+
+## Governed assurance assistant
+
+Dry-run an authorization request:
+
+```bash
+python3 tools/assurance_assistant.py \
+  --request '{"action":"run","target":"check_protocol_conformance"}'
+```
+
+Execute an approved request:
+
+```bash
+python3 tools/assurance_assistant.py \
+  --request '{"action":"run","target":"check_protocol_conformance"}' \
+  --execute
+```
+
+Run the frozen evaluation:
+
+```bash
+python3 tools/run_assurance_assistant_eval.py
+```
+
+The assistant interface cannot merge push run arbitrary shell commands issue hardware commands write project files delete data or mark requirements verified.
+
+## Raspberry Pi deployment package
 
 ```bash
 bash tools/package_pi_deployment.sh --build-dir build-pi
 ```
 
-Generated archive:
+The archive contains the two target binaries ground command and telemetry tools eight scenarios the ten-case FDIR campaign protocol manifest and operational-policy documentation. Package generation is separate from hardware execution.
 
-```text
-dist/astrasim-fsw-pi.tar.gz
-```
-
-Package generation and native-hardware execution are separate claims. See the deployment report and the final Pi verification report for their respective evidence boundaries.
-
-## Verification Evidence
+## Primary evidence
 
 | Evidence | Purpose |
 |---|---|
-| [`reports/ASTRA_OS_RASPBERRY_PI_VERIFICATION_REPORT.md`](reports/ASTRA_OS_RASPBERRY_PI_VERIFICATION_REPORT.md) | Final Pi verification, defects, repairs, metrics, limitations, and reproduction commands |
-| [`reports/latest/assurance_summary.json`](reports/latest/assurance_summary.json) | Machine-readable final assurance-stage results |
-| [`reports/latest/baseline_manifest.json`](reports/latest/baseline_manifest.json) | Commit, platform, toolchain, commands, and hashed input provenance |
-| [`reports/requirement_check_report.md`](reports/requirement_check_report.md) | Requirement disposition and traceability integrity |
-| [`reports/monte_carlo_report.md`](reports/monte_carlo_report.md) | Seeded 25-trial randomized regression |
-| [`reports/pi_deployment_package_report.md`](reports/pi_deployment_package_report.md) | Deployment-package contents and archive checksum |
-| [`reports/latest/protocol_conformance.json`](reports/latest/protocol_conformance.json) | C++/Python protocol consistency checks |
-| [`reports/pi-hil/`](reports/pi-hil/) | Nominal, controlled-overrun, soak, resource, and final CTest evidence |
-| `reports/scenario_*_output.txt` | Deterministic command/fault scenario transcripts |
+| `reports/ASTRA_OS_RASPBERRY_PI_VERIFICATION_REPORT.md` | Previous Pi campaign provenance results defects and limitations |
+| `reports/requirement_check_report.md` | Canonical requirement and digital-thread result |
+| `reports/fdir_campaign_report.md` | Ten independently injected fault dispositions |
+| `reports/assurance_assistant_eval.md` | 129-case permission evaluation |
+| `reports/monte_carlo_report.md` | Seeded randomized regression |
+| `reports/pi_deployment_package_report.md` | Target bundle contents and checksum |
+| `reports/pi-hil/` | Pi timing resource and CTest evidence |
+| `reports/latest/` | Selected assurance protocol sanitizer mutation and provenance artifacts |
 
-## Key Python Tools
+## Key tools
 
 | Tool | Purpose |
 |---|---|
-| `tools/send_command.py` | Encode and send UDP commands |
-| `tools/telemetry_receiver.py` | Receive and decode telemetry |
 | `tools/run_scenario.py` | Execute one deterministic YAML scenario |
-| `tools/run_all_scenarios.py` | Run deterministic scenarios and repository checks |
-| `tools/run_monte_carlo.py` | Run reproducible randomized scenarios |
-| `tools/check_protocol_conformance.py` | Compare protocol definitions across C++/Python/manifest sources |
-| `tools/check_requirements.py` | Validate requirement and evidence traceability |
-| `tools/run_controlled_mutation.py` | Confirm detection of a controlled packet mutation |
-| `tools/run_astra_os_assurance.py` | Orchestrate the complete assurance workflow |
-| `tools/validate_timing_evidence.py` | Validate timing-evidence structure and expected miss behavior |
-| `tools/package_pi_deployment.sh` | Build and package the target bundle from an explicit build directory |
+| `tools/run_all_scenarios.py` | Run aggregate verification gates |
+| `tools/run_fdir_campaign.py` | Verify all ten fault dispositions |
+| `tools/run_monte_carlo.py` | Reproducible randomized regression |
+| `tools/check_protocol_conformance.py` | Cross-language protocol comparison |
+| `tools/check_requirements.py` | Digital-thread and reverse-test validation |
+| `tools/run_assurance_assistant_eval.py` | Frozen permission evaluation |
+| `tools/run_astra_os_assurance.py` | Full assurance orchestration |
+| `tools/package_pi_deployment.sh` | Explicit-build target packaging |
 
 ## Documentation
 
-| Document | Purpose |
-|---|---|
-| `docs/ARCHITECTURE.md` | System architecture and component boundaries |
-| `docs/REQUIREMENTS.md` | Governed requirements set |
-| `docs/VERIFICATION_MATRIX.csv` | Requirement-to-component-to-evidence mapping |
-| `docs/ASSURANCE.md` | Assurance workflow and evidence policy |
-| `docs/FDIR_MATRIX.md` | Fault disposition model |
-| `docs/RISKS_AND_BLOCKERS.md` | Known limitations and unresolved work |
-| `docs/pi_deployment.md` | Raspberry Pi packaging and deployment guidance |
-| `docs/monte_carlo.md` | Randomized regression guidance |
+- `docs/ARCHITECTURE.md`
+- `docs/REQUIREMENTS.md`
+- `docs/VERIFICATION_MATRIX.csv`
+- `docs/ASSURANCE.md`
+- `docs/FDIR_MATRIX.md`
+- `docs/command_authorization.md`
+- `docs/recovery_supervisor.md`
+- `docs/RISKS_AND_BLOCKERS.md`
 
-## Repository Safety Note
+## Repository safety
 
-The Pi verification work was performed only in:
+All completion work is confined to:
 
 ```text
 /home/xpired/ghost_ws/tools/astra-os-hil
 ```
 
-The older preservation worktree containing historical uncommitted files was intentionally left untouched.
+The historical dirty preservation worktree remains untouched.

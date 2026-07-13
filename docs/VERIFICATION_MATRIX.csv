@@ -1,63 +1,68 @@
 requirement_id,component,verification_case,evidence,status,notes
 FSW-REQ-001,ModeManager,mode_manager_tests;flight_software_app_tests,CTest,Verified,Initial BOOT behavior
 FSW-REQ-002,FlightSoftwareApp,flight_software_app_tests;basic_command_fault,CTest;scenario report,Verified,BOOT to NOMINAL command path
-FSW-REQ-003,ModeManager,mode_manager_tests;invalid_transition_rejected,CTest;scenario report,Verified,Prohibited transition guard
+FSW-REQ-003,ModeManager,mode_manager_tests;invalid_transition_rejected;extended_modes,CTest;scenario report,Verified,Prohibited transition guard
 FSW-REQ-004,ModeManager;CommandProcessor,command_processor_tests;basic_command_fault,CTest;scenario report,Verified,CPU overload degradation
 FSW-REQ-005,CommandProcessor,command_processor_tests;basic_command_fault,CTest;scenario report,Verified,Fault clear behavior
 FSW-REQ-006,HealthMonitor;FlightSoftwareApp,health_monitor_tests;sensor_timeout_safe_mode,CTest;scenario report,Verified,Sensor timeout response
 FSW-REQ-007,Watchdog;FlightSoftwareApp,watchdog_tests;watchdog_timeout_safe_mode,CTest;scenario report,Verified,Watchdog SAFE response
-FSW-REQ-008,RateGroupScheduler,rate_group_scheduler_tests,CTest,Implemented,Awaiting final CI disposition
-FSW-REQ-009,RateGroupScheduler,rate_group_scheduler_tests,CTest,Implemented,Configuration validation
-FSW-REQ-010,RateGroupScheduler,rate_group_scheduler_tests,CTest,Implemented,Tick discontinuity rejection
-FSW-REQ-011,RateGroupScheduler,rate_group_scheduler_tests,CTest,Implemented,Release completion overrun and miss accounting
-FSW-REQ-012,ModeManager,planned_mode_tests,None,Planned,Append STANDBY and TEST without renumbering
-FSW-REQ-013,FlightSoftwareApp;RateGroupScheduler,planned_scheduler_integration,None,Planned,Production rate-group dispatch
-FSW-REQ-101,CommandPacket,command_packet_tests,CTest,Verified,Fixed versioned packet layout
-FSW-REQ-102,CommandPacket,command_packet_tests,CTest,Verified,All truncation lengths and oversize
-FSW-REQ-103,CommandPacket,command_packet_tests;controlled_crc_mutation,CTest;assurance job,Implemented,CRC rejection and mutation effectiveness
-FSW-REQ-104,CommandPacket,command_packet_tests,CTest,Verified,Invalid magic with recomputed CRC
-FSW-REQ-105,CommandPacket,command_packet_tests,CTest,Verified,Unsupported version with recomputed CRC
-FSW-REQ-106,CommandPacket,command_packet_tests,CTest,Verified,Unknown ID with recomputed CRC
+FSW-REQ-008,RateGroupScheduler,rate_group_scheduler_tests;flight_software_executive_tests,CTest,Verified,Deterministic task release
+FSW-REQ-009,RateGroupScheduler,rate_group_scheduler_tests;flight_software_executive_tests,CTest,Verified,Configuration validation
+FSW-REQ-010,RateGroupScheduler,rate_group_scheduler_tests,CTest,Verified,Tick discontinuity rejection
+FSW-REQ-011,RateGroupScheduler,rate_group_scheduler_tests;host_timing_campaign,CTest;timing evidence,Verified,Release completion overrun and miss accounting
+FSW-REQ-012,ModeManager;Protocol,extended_mode_tests;extended_modes;check_protocol_conformance,CTest;scenario;protocol report,Verified,STANDBY and TEST appended without renumbering
+FSW-REQ-013,FlightSoftwareExecutive,flight_software_executive_tests;host_timing_campaign,CTest;timing evidence,Verified,Scheduled flight and housekeeping services
+FSW-REQ-101,CommandPacket,command_packet_tests;udp_command_receiver_tests,CTest,Verified,Fixed versioned packet layout
+FSW-REQ-102,CommandPacket,command_packet_tests,CTest,Verified,Truncation and oversize rejection
+FSW-REQ-103,CommandPacket,command_packet_tests;controlled_crc_mutation,CTest;assurance report,Verified,CRC rejection and mutation effectiveness
+FSW-REQ-104,CommandPacket,command_packet_tests,CTest,Verified,Invalid magic rejection
+FSW-REQ-105,CommandPacket,command_packet_tests,CTest,Verified,Unsupported version rejection
+FSW-REQ-106,CommandPacket;UDPCommandReceiver,command_packet_tests;udp_command_receiver_tests,CTest,Verified,Unknown command rejection
 FSW-REQ-107,CommandPacket,command_packet_tests,CTest,Verified,Output preservation on failed decode
 FSW-REQ-108,CommandPacket,command_packet_tests,CTest,Verified,208 deterministic single-bit mutations
-FSW-REQ-109,FlightSoftwareApp,flight_software_app_tests,CTest,Implemented,Duplicate sequence rejection
-FSW-REQ-110,FlightSoftwareApp,flight_software_app_tests,CTest,Implemented,Replay sequence rejection
-FSW-REQ-111,FlightSoftwareApp,flight_software_app_tests,CTest,Implemented,UINT32 wrap acceptance
-FSW-REQ-112,FlightSoftwareApp,flight_software_app_tests,CTest,Implemented,Rejected command consumes sequence
-FSW-REQ-113,TelemetryPacket;FlightSoftwareApp,telemetry_packet_tests;flight_software_app_tests,CTest,Verified,Last attempted command acknowledgement
+FSW-REQ-109,GroundCommandGuard;FlightSoftwareApp,ground_command_guard_tests;flight_software_app_tests,CTest,Verified,Duplicate sequence rejection
+FSW-REQ-110,GroundCommandGuard;FlightSoftwareApp,ground_command_guard_tests;flight_software_app_tests,CTest,Verified,Replay sequence rejection
+FSW-REQ-111,GroundCommandGuard;FlightSoftwareApp,ground_command_guard_tests;flight_software_app_tests,CTest,Verified,Unsigned sequence wrap
+FSW-REQ-112,GroundCommandGuard;CommandAuthorizer;FlightSoftwareApp,ground_command_guard_tests;command_authorizer_tests;flight_software_app_tests;command_timestamp_guard,CTest;scenario report,Verified,Accepted sequence consumption
+FSW-REQ-113,TelemetryPacket;UDPTelemetrySender;FlightSoftwareApp,telemetry_packet_tests;udp_telemetry_sender_tests;flight_software_app_tests;scenario_report_generation,CTest;scenario reports,Verified,Last attempted command acknowledgement
 FSW-REQ-114,TelemetryPacket,telemetry_packet_tests,CTest,Verified,Telemetry CRC and field validation
-FSW-REQ-115,TimeService;FlightSoftwareApp,planned_command_freshness,None,Planned,Mission-time tolerance not defined
-FSW-REQ-116,CommandAuthorization,planned_command_authorization,None,Planned,CRC is not authentication
+FSW-REQ-115,GroundCommandGuard;FlightSoftwareApp,ground_command_guard_tests;command_timestamp_guard,CTest;scenario report,Verified,Age and future skew bounds
+FSW-REQ-116,CommandAuthorizer;FlightSoftwareApp,command_authorizer_tests;flight_software_app_tests,CTest;design review,Verified,Policy separated from CRC integrity
 FSW-REQ-201,HealthMonitor,health_monitor_tests;flight_software_app_tests,CTest,Verified,CPU status classification
 FSW-REQ-202,HealthMonitor,health_monitor_tests,CTest,Verified,Memory status classification
 FSW-REQ-203,HealthMonitor,health_monitor_tests;sensor_timeout_safe_mode,CTest;scenario report,Verified,Stale sensor detection
 FSW-REQ-204,HealthMonitor,health_monitor_tests,CTest,Verified,Stale payload heartbeat
-FSW-REQ-205,Watchdog,watchdog_tests,CTest,Verified,OK WARNING EXPIRED classes
-FSW-REQ-206,FlightSoftwareApp,flight_software_app_tests,CTest,Implemented,Internal fault path bypasses ground guard
-FSW-REQ-207,FDIRManager,planned_fault_disposition_matrix,None,Planned,Full detection persistence isolation response recovery mapping
-FSW-REQ-208,FDIRManager,planned_ten_fault_campaign,None,Planned,Enum count is not accepted as evidence
-FSW-REQ-209,FDIRManager,planned_simultaneous_fault_tests,None,Planned,Deterministic priority policy
-FSW-REQ-210,FDIRManager,planned_recovery_failure_scenario,None,Planned,Bounded fail-safe recovery
+FSW-REQ-205,Watchdog,watchdog_tests,CTest,Verified,OK WARNING and EXPIRED classes
+FSW-REQ-206,FlightSoftwareApp;FDIRManager,flight_software_app_tests;simultaneous_fault_tests,CTest,Verified,Internal faults bypass ground policy
+FSW-REQ-207,FDIRManager,fdir_manager_tests;run_fdir_campaign,CTest;campaign report,Verified,Explicit ten-fault policy matrix
+FSW-REQ-208,FDIRManager,run_fdir_campaign;fdir_manager_tests,Campaign report;CTest,Verified,Ten independently injected policy cases
+FSW-REQ-209,FDIRManager,fdir_manager_tests;simultaneous_fault_tests;recovery_failure_failsafe,CTest;scenario report,Verified,Priority and tie-break policy
+FSW-REQ-210,RecoverySupervisor;CommandProcessor,recovery_supervisor_tests;recovery_failure_failsafe,CTest;scenario report,Verified,Bounded failed recovery exits
+FSW-REQ-211,EventLogger;FlightSoftwareApp,event_logger_tests;event_integration_tests,CTest,Verified,Typed command mode and fault events
+FSW-REQ-212,EventLogger,event_logger_tests,CTest,Verified,Bounded capacity and dropped count
+FSW-REQ-301,ConfigurationService,configuration_service_tests,CTest,Verified,Schema and value validation
+FSW-REQ-302,ConfigurationService,configuration_service_tests,CTest,Verified,Revision conflict and monotonicity
+FSW-REQ-303,ConfigurationService,configuration_service_tests,CTest,Verified,Runtime configuration lock
 VER-REQ-001,BuildSystem,ci_run_local_tests,Script execution,Verified,Clean local build and CTest
-VER-REQ-002,ScenarioRunner,run_scenario,Tool execution,Verified,Deterministic YAML execution
-VER-REQ-003,VerificationOrchestrator,run_all_scenarios,Tool execution,Verified,Existing full suite command
-VER-REQ-004,ScenarioRunner,scenario_report_generation,Report inspection,Verified,Human-readable reports
-VER-REQ-005,TraceabilityChecker,check_requirements,Tool execution,Verified,Unknown references and scenario evidence
+VER-REQ-002,ScenarioRunner,run_scenario;extended_modes;command_timestamp_guard;recovery_failure_failsafe,Tool execution;scenario reports,Verified,Deterministic YAML execution
+VER-REQ-003,VerificationOrchestrator,run_all_scenarios,Tool execution,Verified,Full suite command
+VER-REQ-004,ScenarioRunner,scenario_report_generation;run_fdir_campaign,Report inspection,Verified,Human-readable evidence
+VER-REQ-005,TraceabilityChecker,check_requirements;test_traceability,Tool execution;Python tests,Verified,Unknown and missing evidence detection
 VER-REQ-006,MonteCarloRunner,run_monte_carlo,Tool execution,Verified,Explicit seed 20260626
 VER-REQ-007,PiPackager,package_pi_deployment,Package generation,Verified,Reproducible target package
-VER-REQ-008,HistoricalHIL,pi_ctest;pi_command_telemetry,Preserved evidence,Historical,Not rerun on ASTRA-OS branch
-VER-REQ-009,CMake;UnitTests,normal_ci_build,GitHub Actions,Implemented,Warnings as errors default
-VER-REQ-010,CMake;UnitTests,sanitizer_ci,GitHub Actions,Implemented,ASan and UBSan
-VER-REQ-011,CMake;UnitTests,coverage_ci,LCOV artifact,Implemented,Core aggregate coverage capture
-VER-REQ-012,CMake;Core,clang_tidy_ci,GitHub Actions,Implemented,Static analysis findings as errors
-VER-REQ-013,PythonTools;ShellTools,python_shell_smoke,GitHub Actions,Implemented,Compileall and shellcheck
-VER-REQ-014,CommandPacket;Tests,controlled_crc_mutation,GitHub Actions,Implemented,Controlled defect must be killed
-VER-REQ-015,Provenance,generate_baseline_manifest,JSON CI artifact,Implemented,Commit toolchain command and input hashes
-VER-REQ-016,Coverage,planned_module_coverage_report,None,Planned,Per-module claims and exclusions
-VER-REQ-017,CommandPacketFuzzer,planned_coverage_guided_fuzzer,None,Planned,Frozen corpus and bounded execution
-VER-REQ-018,PerformanceEvidence,planned_timing_jitter_soak,None,Planned,Exact workload host duration and provenance
-VER-REQ-101,DigitalThread,verification_matrix;check_requirements,CSV;tool execution,Implemented,Requirement component and case mapping
-VER-REQ-102,DigitalThread,planned_impact_checker,None,Planned,Orphans reverse links revisions and review impact
-VER-REQ-103,AssuranceAssistant,planned_agent_retrieval_and_tools,None,Planned,Approved sources and allow-listed tools only
-VER-REQ-104,AssuranceAssistant,planned_agent_permission_tests,None,Planned,No merge unrestricted shell hardware command or auto-verification
-VER-REQ-105,AssuranceAssistant,planned_agent_frozen_evaluation,None,Planned,At least 100 quantitative cases
+VER-REQ-008,Provenance;RaspberryPiEvidence,pi_ctest;pi_command_telemetry;pi_verification_report,Preserved evidence,Verified,Current and historical claims separated
+VER-REQ-009,CMake;UnitTests,normal_ci_build,GitHub Actions,Verified,Warnings as errors
+VER-REQ-010,CMake;UnitTests,sanitizer_ci,GitHub Actions;assurance report,Verified,ASan and UBSan
+VER-REQ-011,Coverage,coverage_ci,LCOV artifacts,Verified,Production coverage capture
+VER-REQ-012,CMake;Core,clang_tidy_ci,GitHub Actions,Verified,Static analysis findings as errors
+VER-REQ-013,PythonTools;ShellTools,python_shell_smoke;python_tool_tests,GitHub Actions;Python tests,Verified,Compile tests and shellcheck
+VER-REQ-014,CommandPacket;Tests,controlled_crc_mutation,GitHub Actions;assurance report,Verified,Controlled defect killed
+VER-REQ-015,Provenance,generate_baseline_manifest,JSON evidence,Verified,Commit toolchain commands and hashes
+VER-REQ-016,Coverage,summarize_lcov;coverage_ci,CSV;JSON;Markdown artifacts,Verified,Per-module report and exclusions
+VER-REQ-017,CommandPacketFuzzer,command_fuzz;generate_command_fuzz_corpus,GitHub Actions artifact,Verified,Bounded fuzzing and deterministic corpus
+VER-REQ-018,PerformanceEvidence,host_timing_campaign;validate_timing_evidence,Timing and resource reports,Verified,Exact workload and provenance
+VER-REQ-101,DigitalThread,verification_matrix;check_requirements,CSV;tool execution,Verified,Requirement component and case mapping
+VER-REQ-102,DigitalThread,check_requirements;test_traceability;update_traceability_baseline,Tool execution;Python tests;JSON baseline,Verified,Orphans reverse links and review hashes
+VER-REQ-103,AssuranceAssistant,assurance_assistant;assurance_assistant_eval,Policy;evaluation report,Verified,Approved reads and fixed tools
+VER-REQ-104,AssuranceAssistant,test_assurance_assistant;assurance_assistant_eval,Python tests;evaluation report,Verified,Denied mutation and privileged actions
+VER-REQ-105,AssuranceAssistant,generate_assurance_assistant_eval;assurance_assistant_eval,Frozen JSON;evaluation report,Verified,At least 100 quantitative cases
