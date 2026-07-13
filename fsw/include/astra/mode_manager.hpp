@@ -11,7 +11,9 @@ enum class Mode : std::uint8_t {
     DEGRADED_SENSOR = 2,
     DEGRADED_PAYLOAD = 3,
     SAFE = 4,
-    RECOVERY = 5
+    RECOVERY = 5,
+    STANDBY = 6,
+    TEST = 7
 };
 
 enum class FaultCode : std::uint16_t {
