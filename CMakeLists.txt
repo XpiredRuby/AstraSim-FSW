@@ -53,6 +53,7 @@ add_library(astra_fsw_core
     fsw/src/flight_software_app.cpp
     fsw/src/health_monitor.cpp
     fsw/src/watchdog.cpp
+    fsw/src/rate_group_scheduler.cpp
 )
 
 target_include_directories(astra_fsw_core PUBLIC
@@ -155,6 +156,14 @@ target_link_libraries(astra_watchdog_tests PRIVATE
     astra_fsw_core
 )
 
+add_executable(astra_rate_group_scheduler_tests
+    fsw/tests/test_rate_group_scheduler.cpp
+)
+
+target_link_libraries(astra_rate_group_scheduler_tests PRIVATE
+    astra_fsw_core
+)
+
 enable_testing()
 add_test(NAME mode_manager_tests COMMAND astra_fsw_tests)
 add_test(NAME telemetry_packet_tests COMMAND astra_telemetry_tests)
@@ -165,3 +174,4 @@ add_test(NAME udp_command_receiver_tests COMMAND astra_udp_command_receiver_test
 add_test(NAME flight_software_app_tests COMMAND astra_flight_software_app_tests)
 add_test(NAME health_monitor_tests COMMAND astra_health_monitor_tests)
 add_test(NAME watchdog_tests COMMAND astra_watchdog_tests)
+add_test(NAME rate_group_scheduler_tests COMMAND astra_rate_group_scheduler_tests)
