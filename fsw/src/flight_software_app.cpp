@@ -6,14 +6,6 @@
 namespace astra {
 namespace {
 
-constexpr std::uint32_t SERIAL_HALF_RANGE = 0x80000000U;
-constexpr std::size_t EVENT_LOG_CAPACITY = 256U;
-
-bool sequence_is_newer(std::uint32_t candidate, std::uint32_t reference) {
-    const std::uint32_t forward_distance = candidate - reference;
-    return forward_distance != 0U && forward_distance < SERIAL_HALF_RANGE;
-}
-
 EventSeverity event_severity_for_fault(const FaultDisposition& disposition) {
     switch (disposition.severity) {
         case FaultSeverity::NONE:
@@ -31,20 +23,39 @@ EventSeverity event_severity_for_fault(const FaultDisposition& disposition) {
 
 }  // namespace
 
-FlightSoftwareApp::FlightSoftwareApp()
+FlightSoftwareApp::FlightSoftwareApp(FlightSoftwareAppConfig configuration)
     : mode_manager_(),
       command_processor_(mode_manager_),
       fdir_manager_(),
+      ground_command_guard_(configuration.ground_command_guard),
       health_monitor_(),
       watchdog_(),
-      event_logger_(EVENT_LOG_CAPACITY),
+      event_logger_(configuration.event_log_capacity),
       watchdog_initialized_(false),
       telemetry_sequence_(0),
-      ground_command_sequence_initialized_(false),
-      highest_ground_command_sequence_number_(0),
       last_ground_command_sequence_number_(0),
       last_ground_command_id_(0),
-      last_ground_command_status_(0) {}
+      last_ground_command_status_(0) {
+    if (!ground_command_guard_.valid()) {
+        validation_error_ = ground_command_guard_.validation_error();
+        return;
+    }
+
+    if (!event_logger_.valid()) {
+        validation_error_ = "event log capacity must be greater than zero";
+        return;
+    }
+
+    valid_ = true;
+}
+
+bool FlightSoftwareApp::valid() const {
+    return valid_;
+}
+
+const std::string& FlightSoftwareApp::validation_error() const {
+    return validation_error_;
+}
 
 FlightSoftwareStepOutput FlightSoftwareApp::step(const FlightSoftwareStepInput& input) {
     FlightSoftwareStepOutput output;
@@ -68,29 +79,58 @@ FlightSoftwareStepOutput FlightSoftwareApp::step(const FlightSoftwareStepInput& 
 
     if (input.has_command) {
         output.command_processed = true;
+        output.command_guard_result = ground_command_guard_.evaluate(
+            input.command.sequence_number,
+            input.command.timestamp_ms,
+            input.timestamp_ms
+        );
 
-        if (!ground_command_sequence_initialized_) {
-            ground_command_sequence_initialized_ = true;
-            highest_ground_command_sequence_number_ = input.command.sequence_number;
-            output.command_result = command_processor_.process(input.command);
-        } else if (input.command.sequence_number == highest_ground_command_sequence_number_) {
-            output.command_result = reject_ground_command(
-                input.command,
-                CommandStatus::REJECTED_DUPLICATE_SEQUENCE,
-                "Command rejected: duplicate ground sequence"
-            );
-        } else if (!sequence_is_newer(
-                       input.command.sequence_number,
-                       highest_ground_command_sequence_number_
-                   )) {
-            output.command_result = reject_ground_command(
-                input.command,
-                CommandStatus::REJECTED_REPLAYED_SEQUENCE,
-                "Command rejected: replayed or stale ground sequence"
-            );
-        } else {
-            highest_ground_command_sequence_number_ = input.command.sequence_number;
-            output.command_result = command_processor_.process(input.command);
+        switch (output.command_guard_result.status) {
+            case GroundCommandGuardStatus::ACCEPTED:
+                output.command_result = command_processor_.process(input.command);
+                break;
+
+            case GroundCommandGuardStatus::REJECTED_DUPLICATE_SEQUENCE:
+                output.command_result = reject_ground_command(
+                    input.command,
+                    CommandStatus::REJECTED_DUPLICATE_SEQUENCE,
+                    "Command rejected: duplicate ground sequence"
+                );
+                break;
+
+            case GroundCommandGuardStatus::REJECTED_REPLAYED_SEQUENCE:
+                output.command_result = reject_ground_command(
+                    input.command,
+                    CommandStatus::REJECTED_REPLAYED_SEQUENCE,
+                    "Command rejected: replayed or ambiguous ground sequence"
+                );
+                break;
+
+            case GroundCommandGuardStatus::REJECTED_STALE_TIMESTAMP:
+                output.command_result = reject_ground_command(
+                    input.command,
+                    CommandStatus::REJECTED_STALE_TIMESTAMP,
+                    "Command rejected: stale timestamp age_ms=" +
+                        std::to_string(output.command_guard_result.age_ms)
+                );
+                break;
+
+            case GroundCommandGuardStatus::REJECTED_FUTURE_TIMESTAMP:
+                output.command_result = reject_ground_command(
+                    input.command,
+                    CommandStatus::REJECTED_FUTURE_TIMESTAMP,
+                    "Command rejected: future timestamp skew_ms=" +
+                        std::to_string(output.command_guard_result.future_skew_ms)
+                );
+                break;
+
+            case GroundCommandGuardStatus::INVALID_CONFIGURATION:
+                output.command_result = reject_ground_command(
+                    input.command,
+                    CommandStatus::REJECTED_GUARD_CONFIGURATION,
+                    "Command rejected: invalid ground command guard configuration"
+                );
+                break;
         }
 
         last_ground_command_sequence_number_ = output.command_result.sequence_number;
@@ -183,7 +223,7 @@ CommandPacket FlightSoftwareApp::make_internal_fault_command(
 CommandResult FlightSoftwareApp::reject_ground_command(
     const CommandPacket& packet,
     CommandStatus status,
-    const char* message
+    const std::string& message
 ) const {
     CommandResult result;
     result.status = status;
