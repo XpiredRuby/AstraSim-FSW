@@ -4,15 +4,22 @@
 #include "astra/command_processor.hpp"
 #include "astra/event_logger.hpp"
 #include "astra/fdir_manager.hpp"
+#include "astra/ground_command_guard.hpp"
 #include "astra/health_monitor.hpp"
 #include "astra/mode_manager.hpp"
 #include "astra/telemetry_packet.hpp"
 #include "astra/watchdog.hpp"
 
+#include <cstddef>
 #include <cstdint>
 #include <vector>
 
 namespace astra {
+
+struct FlightSoftwareAppConfig {
+    GroundCommandGuardConfig ground_command_guard;
+    std::size_t event_log_capacity = 256U;
+};
 
 struct FlightSoftwareStepInput {
     bool has_command = false;
@@ -30,6 +37,7 @@ struct FlightSoftwareStepInput {
 
 struct FlightSoftwareStepOutput {
     bool command_processed = false;
+    GroundCommandGuardResult command_guard_result;
     CommandResult command_result;
 
     WatchdogReport watchdog_report;
@@ -49,7 +57,12 @@ struct FlightSoftwareStepOutput {
 
 class FlightSoftwareApp {
 public:
-    FlightSoftwareApp();
+    explicit FlightSoftwareApp(
+        FlightSoftwareAppConfig configuration = FlightSoftwareAppConfig{}
+    );
+
+    bool valid() const;
+    const std::string& validation_error() const;
 
     FlightSoftwareStepOutput step(const FlightSoftwareStepInput& input);
 
@@ -67,7 +80,7 @@ private:
     CommandResult reject_ground_command(
         const CommandPacket& packet,
         CommandStatus status,
-        const char* message
+        const std::string& message
     ) const;
 
     void record_step_events(
@@ -80,16 +93,17 @@ private:
     ModeManager mode_manager_;
     CommandProcessor command_processor_;
     FdirManager fdir_manager_;
+    GroundCommandGuard ground_command_guard_;
     HealthMonitor health_monitor_;
     Watchdog watchdog_;
     EventLogger event_logger_;
     bool watchdog_initialized_;
     std::uint32_t telemetry_sequence_;
-    bool ground_command_sequence_initialized_;
-    std::uint32_t highest_ground_command_sequence_number_;
     std::uint32_t last_ground_command_sequence_number_;
     std::uint8_t last_ground_command_id_;
     std::uint8_t last_ground_command_status_;
+    bool valid_ = false;
+    std::string validation_error_;
 };
 
 }  // namespace astra
