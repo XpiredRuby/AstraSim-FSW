@@ -20,6 +20,8 @@ std::string command_status_to_string(CommandStatus status) {
             return "REJECTED_STALE_TIMESTAMP";
         case CommandStatus::REJECTED_FUTURE_TIMESTAMP:
             return "REJECTED_FUTURE_TIMESTAMP";
+        case CommandStatus::REJECTED_GUARD_CONFIGURATION:
+            return "REJECTED_GUARD_CONFIGURATION";
     }
 
     return "UNKNOWN_STATUS";
