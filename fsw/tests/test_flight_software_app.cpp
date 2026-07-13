@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <limits>
 #include <string>
 
 namespace {
@@ -117,7 +118,6 @@ void test_cpu_fault_command_changes_mode_to_degraded_payload() {
     astra::FlightSoftwareApp app;
 
     command_app_to_nominal(app);
-
     const auto output = app.step(
         make_input_with_command(
             make_command(
@@ -164,6 +164,122 @@ void test_bad_command_does_not_change_mode() {
     );
     expect_true(app.current_mode() == astra::Mode::BOOT, "bad command keeps app in BOOT");
     expect_true(output.telemetry.mode == astra::Mode::BOOT, "telemetry still reports BOOT");
+}
+
+void test_duplicate_sequence_is_rejected_without_state_change() {
+    astra::FlightSoftwareApp app;
+    command_app_to_nominal(app);
+
+    const auto output = app.step(
+        make_input_with_command(
+            make_command(
+                astra::CommandId::SET_MODE,
+                static_cast<std::uint32_t>(astra::Mode::SAFE),
+                1
+            ),
+            2
+        )
+    );
+
+    expect_true(
+        output.command_result.status == astra::CommandStatus::REJECTED_DUPLICATE_SEQUENCE,
+        "duplicate ground sequence rejected"
+    );
+    expect_true(app.current_mode() == astra::Mode::NOMINAL, "duplicate command cannot change mode");
+    expect_true(
+        output.telemetry.last_command_status ==
+            static_cast<std::uint8_t>(astra::CommandStatus::REJECTED_DUPLICATE_SEQUENCE),
+        "telemetry records duplicate rejection"
+    );
+}
+
+void test_replayed_sequence_is_rejected_without_state_change() {
+    astra::FlightSoftwareApp app;
+
+    app.step(
+        make_input_with_command(
+            make_command(
+                astra::CommandId::SET_MODE,
+                static_cast<std::uint32_t>(astra::Mode::NOMINAL),
+                10
+            ),
+            1
+        )
+    );
+
+    const auto output = app.step(
+        make_input_with_command(
+            make_command(
+                astra::CommandId::SET_MODE,
+                static_cast<std::uint32_t>(astra::Mode::SAFE),
+                9
+            ),
+            2
+        )
+    );
+
+    expect_true(
+        output.command_result.status == astra::CommandStatus::REJECTED_REPLAYED_SEQUENCE,
+        "older ground sequence rejected as replay"
+    );
+    expect_true(app.current_mode() == astra::Mode::NOMINAL, "replayed command cannot change mode");
+}
+
+void test_rejected_semantic_command_consumes_sequence() {
+    astra::FlightSoftwareApp app;
+
+    const auto first = app.step(
+        make_input_with_command(
+            make_command(astra::CommandId::SET_MODE, 99, 5),
+            1
+        )
+    );
+    const auto retry = app.step(
+        make_input_with_command(
+            make_command(
+                astra::CommandId::SET_MODE,
+                static_cast<std::uint32_t>(astra::Mode::NOMINAL),
+                5
+            ),
+            2
+        )
+    );
+
+    expect_true(
+        first.command_result.status == astra::CommandStatus::REJECTED_BAD_ARGUMENT,
+        "invalid semantic command rejected"
+    );
+    expect_true(
+        retry.command_result.status == astra::CommandStatus::REJECTED_DUPLICATE_SEQUENCE,
+        "same sequence cannot be reused after semantic rejection"
+    );
+    expect_true(app.current_mode() == astra::Mode::BOOT, "reused rejected sequence cannot change mode");
+}
+
+void test_sequence_wrap_accepts_zero_after_maximum() {
+    astra::FlightSoftwareApp app;
+    const auto maximum = std::numeric_limits<std::uint32_t>::max();
+
+    const auto first = app.step(
+        make_input_with_command(
+            make_command(
+                astra::CommandId::SET_MODE,
+                static_cast<std::uint32_t>(astra::Mode::NOMINAL),
+                maximum
+            ),
+            1
+        )
+    );
+    const auto wrapped = app.step(
+        make_input_with_command(
+            make_command(astra::CommandId::NOOP, 0, 0),
+            2
+        )
+    );
+
+    expect_true(first.command_result.status == astra::CommandStatus::ACCEPTED, "maximum sequence accepted");
+    expect_true(wrapped.command_result.status == astra::CommandStatus::ACCEPTED, "wrapped zero sequence accepted");
+    expect_true(app.current_mode() == astra::Mode::NOMINAL, "sequence wrap preserves mode");
 }
 
 void test_telemetry_sequence_increments_each_step() {
@@ -309,6 +425,10 @@ int main() {
     test_set_mode_command_changes_mode_to_nominal();
     test_cpu_fault_command_changes_mode_to_degraded_payload();
     test_bad_command_does_not_change_mode();
+    test_duplicate_sequence_is_rejected_without_state_change();
+    test_replayed_sequence_is_rejected_without_state_change();
+    test_rejected_semantic_command_consumes_sequence();
+    test_sequence_wrap_accepts_zero_after_maximum();
     test_telemetry_sequence_increments_each_step();
     test_critical_health_fault_is_injected_automatically();
     test_warning_health_does_not_inject_fault();
