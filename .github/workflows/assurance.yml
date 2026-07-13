@@ -89,6 +89,18 @@ jobs:
       - name: Build with clang-tidy
         run: cmake --build build-clang-tidy --parallel
 
+  controlled-mutation:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ python3
+
+      - name: Verify command tests kill CRC acceptance defect
+        run: python3 tools/run_controlled_mutation.py
+
   python-and-shell-smoke:
     runs-on: ubuntu-22.04
     steps:
