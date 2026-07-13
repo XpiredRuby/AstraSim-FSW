@@ -23,6 +23,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 REPORT_DIR = REPO_ROOT / "reports" / "latest"
 SUMMARY_PATH = REPORT_DIR / "assurance_summary.json"
 MANIFEST_PATH = REPORT_DIR / "baseline_manifest.json"
+CHECK_SOURCE_CLEANLINESS = REPO_ROOT / "tools" / "check_source_cleanliness.py"
 
 
 @dataclass
@@ -187,6 +188,11 @@ def main() -> int:
         full_verification_command.append("--skip-pi-package")
 
     planned_stages: list[tuple[str, list[str], dict[str, str] | None]] = [
+        (
+            "source_cleanliness",
+            [sys.executable, str(CHECK_SOURCE_CLEANLINESS)],
+            None,
+        ),
         ("full_verification", full_verification_command, None),
     ]
 

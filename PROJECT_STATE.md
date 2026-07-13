@@ -40,7 +40,7 @@ Declared YAML scenarios:         8/8
 Ten-case FDIR campaign:          10/10
 Protocol conformance:            24/24
 Seeded Monte Carlo:              25/25
-Python tool tests:               23/23
+Python tool tests:               27/27
 Assurance-assistant evaluation:  129/129
 Traceability failures:           0
 Traceability problems:           0

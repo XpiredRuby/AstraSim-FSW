@@ -14,17 +14,18 @@ python3 tools/run_astra_os_assurance.py --build-dir build-pi
 
 The default workflow performs:
 
-1. native build and all registered CTests;
-2. all declared deterministic YAML scenarios;
-3. the ten-case FDIR command/telemetry campaign;
-4. seeded Monte Carlo regression;
-5. Raspberry Pi deployment-package generation;
-6. C++ Python and manifest protocol conformance;
-7. requirement matrix reverse-test and reviewed-hash traceability checks;
-8. the frozen assurance-assistant permission evaluation;
-9. warnings-as-errors ASan and UBSan build and tests;
-10. a controlled CRC mutation that the command tests must kill;
-11. machine-readable assurance and source/toolchain provenance output.
+1. a source-cleanliness gate that permits generated evidence changes but rejects uncommitted source configuration workflow or documentation changes;
+2. native build and all registered CTests;
+3. all declared deterministic YAML scenarios;
+4. the ten-case FDIR command/telemetry campaign;
+5. seeded Monte Carlo regression;
+6. Raspberry Pi deployment-package generation;
+7. C++ Python and manifest protocol conformance;
+8. requirement matrix reverse-test and reviewed-hash traceability checks;
+9. the frozen assurance-assistant permission evaluation;
+10. warnings-as-errors ASan and UBSan build and tests;
+11. a controlled CRC mutation that the command tests must kill;
+12. machine-readable assurance and source/toolchain provenance output.
 
 For a faster regression that skips sanitizer and mutation stages:
 
@@ -166,7 +167,7 @@ These are host measurements not hard-real-time WCET or schedulability proofs.
 
 `tools/generate_baseline_manifest.py` records:
 
-- commit branch remote describe and dirty state;
+- commit branch remote describe full dirty state and source-versus-generated-evidence dirty paths;
 - OS architecture and Python;
 - compiler CMake CTest and Git probes;
 - build and instrumentation options;

@@ -36,7 +36,7 @@ All notable ASTRA-OS changes are recorded here. Dates use UTC. The project does 
 - 10/10 FDIR cases;
 - 24/24 protocol-conformance checks;
 - 25/25 Monte Carlo trials with seed `20260626`;
-- 23/23 Python tool tests;
+- 27/27 Python tool tests;
 - 129/129 governed-assistant evaluation cases;
 - zero requirement failures and zero traceability problems.
 

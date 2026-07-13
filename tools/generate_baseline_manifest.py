@@ -15,6 +15,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from repository_state import collect_repository_state
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = REPO_ROOT / "reports" / "latest" / "baseline_manifest.json"
 
@@ -112,8 +114,7 @@ def file_manifest() -> list[dict[str, Any]]:
 
 
 def build_manifest(args: argparse.Namespace) -> dict[str, Any]:
-    git_status_probe = run_probe(["git", "status", "--porcelain"])
-    git_status_output = git_status_probe.get("output") or ""
+    repository_state = collect_repository_state(REPO_ROOT)
     cxx = os.environ.get("CXX", "c++")
 
     return {
@@ -129,7 +130,13 @@ def build_manifest(args: argparse.Namespace) -> dict[str, Any]:
             "commit": git_text("rev-parse", "HEAD"),
             "branch": git_text("rev-parse", "--abbrev-ref", "HEAD"),
             "describe": git_text("describe", "--always", "--dirty", "--tags"),
-            "dirty": bool(str(git_status_output).strip()),
+            "dirty": repository_state.dirty,
+            "source_dirty": repository_state.source_dirty,
+            "dirty_paths": list(repository_state.dirty_paths),
+            "source_dirty_paths": list(repository_state.source_dirty_paths),
+            "generated_evidence_dirty_paths": list(
+                repository_state.generated_dirty_paths
+            ),
             "remote": git_text("remote", "get-url", "origin"),
         },
         "host": {
