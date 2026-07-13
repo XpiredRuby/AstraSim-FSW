@@ -12,6 +12,10 @@ std::string command_status_to_string(CommandStatus status) {
             return "REJECTED_INVALID_TRANSITION";
         case CommandStatus::REJECTED_UNKNOWN_COMMAND:
             return "REJECTED_UNKNOWN_COMMAND";
+        case CommandStatus::REJECTED_DUPLICATE_SEQUENCE:
+            return "REJECTED_DUPLICATE_SEQUENCE";
+        case CommandStatus::REJECTED_REPLAYED_SEQUENCE:
+            return "REJECTED_REPLAYED_SEQUENCE";
     }
 
     return "UNKNOWN_STATUS";
