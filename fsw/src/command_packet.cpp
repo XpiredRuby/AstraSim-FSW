@@ -176,6 +176,8 @@ bool command_argument_to_mode(std::uint32_t argument, Mode& mode_out) {
         case Mode::DEGRADED_PAYLOAD:
         case Mode::SAFE:
         case Mode::RECOVERY:
+        case Mode::STANDBY:
+        case Mode::TEST:
             mode_out = static_cast<Mode>(argument);
             return true;
     }
