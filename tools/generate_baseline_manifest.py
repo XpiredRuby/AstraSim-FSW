@@ -78,14 +78,18 @@ def evidence_inputs() -> list[Path]:
     ]
 
     glob_patterns = (
+        "*.md",
         "fsw/include/astra/*.hpp",
         "fsw/src/*.cpp",
         "fsw/tests/*.cpp",
+        "fsw/fuzz/*.cpp",
+        "config/*.json",
         "scenarios/*.yaml",
         "ci/*.sh",
         "tools/*.py",
         ".github/workflows/*.yml",
         "docs/*.md",
+        "docs/*.csv",
     )
 
     for pattern in glob_patterns:
