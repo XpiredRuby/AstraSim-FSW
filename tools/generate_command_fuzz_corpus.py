@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import shutil
 import struct
 from pathlib import Path
 from typing import Any
@@ -92,22 +93,22 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     output = args.output if args.output.is_absolute() else REPO_ROOT / args.output
-    output.mkdir(parents=True, exist_ok=True)
+    corpus = output / "corpus"
+
+    if corpus.exists():
+        shutil.rmtree(corpus)
+    corpus.mkdir(parents=True, exist_ok=True)
 
     manifest: dict[str, Any] = {
         "schema": "astra-os.command-fuzz-corpus.v1",
         "command_magic": f"0x{COMMAND_MAGIC:08X}",
         "command_version": COMMAND_VERSION,
+        "corpus_directory": "corpus",
         "seeds": [],
     }
 
-    expected_names = {name for name, _, _ in seed_cases()}
-    for existing in output.iterdir():
-        if existing.is_file() and existing.name != "manifest.json" and existing.name not in expected_names:
-            existing.unlink()
-
     for name, data, description in seed_cases():
-        path = output / name
+        path = corpus / name
         path.write_bytes(data)
         manifest["seeds"].append(
             {
@@ -123,7 +124,7 @@ def main() -> int:
         json.dumps(manifest, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
-    print(f"Generated {len(manifest['seeds'])} command fuzz seeds in {output}")
+    print(f"Generated {len(manifest['seeds'])} command fuzz seeds in {corpus}")
     print(f"Manifest: {manifest_path}")
     return 0
 
