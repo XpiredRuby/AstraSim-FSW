@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run AstraSim-FSW deterministic scenarios and verification checks."""
+"""Run ASTRA-OS deterministic scenarios and verification checks."""
 
 from __future__ import annotations
 
@@ -14,6 +14,7 @@ CI_TESTS = REPO_ROOT / "ci" / "run_local_tests.sh"
 SCENARIOS_DIR = REPO_ROOT / "scenarios"
 RUN_SCENARIO = REPO_ROOT / "tools" / "run_scenario.py"
 CHECK_REQUIREMENTS = REPO_ROOT / "tools" / "check_requirements.py"
+CHECK_PROTOCOL = REPO_ROOT / "tools" / "check_protocol_conformance.py"
 RUN_MONTE_CARLO = REPO_ROOT / "tools" / "run_monte_carlo.py"
 PACKAGE_PI_DEPLOYMENT = REPO_ROOT / "tools" / "package_pi_deployment.sh"
 
@@ -113,6 +114,11 @@ def main() -> int:
         help="Skip requirement traceability check after verification.",
     )
     parser.add_argument(
+        "--skip-protocol-check",
+        action="store_true",
+        help="Skip C++/Python protocol manifest conformance checking.",
+    )
+    parser.add_argument(
         "--skip-monte-carlo",
         action="store_true",
         help="Skip Monte Carlo regression after deterministic scenarios.",
@@ -168,6 +174,14 @@ def main() -> int:
         code = run_command(
             ["bash", str(PACKAGE_PI_DEPLOYMENT)],
             "== Building Raspberry Pi deployment package ==",
+        )
+        if code != 0:
+            return code
+
+    if not args.skip_protocol_check:
+        code = run_command(
+            [sys.executable, str(CHECK_PROTOCOL)],
+            "== Checking protocol conformance ==",
         )
         if code != 0:
             return code
