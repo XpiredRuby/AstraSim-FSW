@@ -1,0 +1,82 @@
+name: ASTRA-OS Host Timing and Soak
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  host-timing-and-soak:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install build and resource tools
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ python3 time
+
+      - name: Configure release build
+        run: >-
+          cmake -S . -B build-performance
+          -DCMAKE_BUILD_TYPE=Release
+          -DASTRA_WARNINGS_AS_ERRORS=ON
+
+      - name: Build timing campaign
+        run: cmake --build build-performance --target astra_timing_campaign --parallel
+
+      - name: Run nominal host timing campaign
+        run: |
+          mkdir -p reports/latest
+          /usr/bin/time -v -o reports/latest/nominal-resource.txt \
+            ./build-performance/astra_timing_campaign \
+            --ticks 250000 \
+            --mission-step-ms 10 \
+            --output reports/latest/nominal-timing.json
+          python3 tools/validate_timing_evidence.py \
+            reports/latest/nominal-timing.json \
+            --expect-no-misses
+
+      - name: Run controlled-overrun campaign
+        run: |
+          /usr/bin/time -v -o reports/latest/controlled-overrun-resource.txt \
+            ./build-performance/astra_timing_campaign \
+            --ticks 100000 \
+            --mission-step-ms 10 \
+            --overload-every 1000 \
+            --output reports/latest/controlled-overrun-timing.json
+          python3 tools/validate_timing_evidence.py \
+            reports/latest/controlled-overrun-timing.json \
+            --expect-misses
+
+      - name: Run one-million-tick soak campaign
+        run: |
+          /usr/bin/time -v -o reports/latest/soak-resource.txt \
+            ./build-performance/astra_timing_campaign \
+            --ticks 1000000 \
+            --mission-step-ms 10 \
+            --output reports/latest/soak-timing.json
+          python3 tools/validate_timing_evidence.py \
+            reports/latest/soak-timing.json \
+            --expect-no-misses
+
+      - name: Generate timing provenance manifest
+        run: |
+          python3 tools/generate_baseline_manifest.py \
+            --output reports/latest/timing-provenance.json \
+            --verification-status passed \
+            --build-type Release \
+            --warnings-as-errors \
+            --test-command './build-performance/astra_timing_campaign --ticks 250000 --mission-step-ms 10 --output reports/latest/nominal-timing.json' \
+            --test-command './build-performance/astra_timing_campaign --ticks 100000 --mission-step-ms 10 --overload-every 1000 --output reports/latest/controlled-overrun-timing.json' \
+            --test-command './build-performance/astra_timing_campaign --ticks 1000000 --mission-step-ms 10 --output reports/latest/soak-timing.json' \
+            --note 'GitHub-hosted x86_64 faster-than-real-time timing evidence; not target real-time or HIL evidence.'
+
+      - name: Upload timing and soak evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-os-host-timing-${{ github.run_id }}
+          path: reports/latest/
+          if-no-files-found: error
