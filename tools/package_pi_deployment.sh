@@ -6,6 +6,8 @@ BUILD_DIR="${REPO_ROOT}/build"
 PACKAGE_ROOT="${REPO_ROOT}/dist/astrasim-fsw-pi"
 PACKAGE_ARCHIVE="${REPO_ROOT}/dist/astrasim-fsw-pi.tar.gz"
 REPORT="${REPO_ROOT}/reports/pi_deployment_package_report.md"
+PACKAGE_ARCHIVE_RELATIVE="dist/astrasim-fsw-pi.tar.gz"
+REPORT_RELATIVE="reports/pi_deployment_package_report.md"
 
 cd "${REPO_ROOT}"
 
@@ -71,7 +73,7 @@ Result: PASS
 ## Package
 
 \`\`\`text
-${PACKAGE_ARCHIVE#${REPO_ROOT}/}
+${PACKAGE_ARCHIVE_RELATIVE}
 \`\`\`
 
 ## Included target binaries
@@ -97,5 +99,5 @@ ${PACKAGE_ARCHIVE#${REPO_ROOT}/}
 This report verifies that a Raspberry Pi deployment package can be generated from the repository. Running the package on physical Raspberry Pi hardware should produce a separate target-run evidence report.
 MD
 
-echo "Package written to ${PACKAGE_ARCHIVE#${REPO_ROOT}/}"
-echo "Report written to ${REPORT#${REPO_ROOT}/}"
+echo "Package written to ${PACKAGE_ARCHIVE_RELATIVE}"
+echo "Report written to ${REPORT_RELATIVE}"
