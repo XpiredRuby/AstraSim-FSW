@@ -45,30 +45,45 @@ bool ModeManager::is_valid_transition(Mode from, Mode to) const {
 
     switch (from) {
         case Mode::BOOT:
-            return to == Mode::NOMINAL || to == Mode::SAFE;
+            return to == Mode::STANDBY ||
+                   to == Mode::NOMINAL ||
+                   to == Mode::SAFE;
+
+        case Mode::STANDBY:
+            return to == Mode::NOMINAL ||
+                   to == Mode::TEST ||
+                   to == Mode::SAFE;
 
         case Mode::NOMINAL:
-            return to == Mode::DEGRADED_SENSOR ||
+            return to == Mode::STANDBY ||
+                   to == Mode::DEGRADED_SENSOR ||
                    to == Mode::DEGRADED_PAYLOAD ||
                    to == Mode::SAFE;
 
         case Mode::DEGRADED_SENSOR:
-            return to == Mode::RECOVERY || to == Mode::SAFE;
-
-        case Mode::DEGRADED_PAYLOAD:
-            return to == Mode::NOMINAL ||
+            return to == Mode::STANDBY ||
                    to == Mode::RECOVERY ||
                    to == Mode::SAFE;
+
+        case Mode::DEGRADED_PAYLOAD:
+            return to == Mode::STANDBY ||
+                   to == Mode::NOMINAL ||
+                   to == Mode::RECOVERY ||
+                   to == Mode::SAFE;
+
+        case Mode::TEST:
+            return to == Mode::STANDBY || to == Mode::SAFE;
 
         case Mode::SAFE:
             return to == Mode::RECOVERY;
 
         case Mode::RECOVERY:
-            return to == Mode::NOMINAL || to == Mode::SAFE;
-
-        default:
-            return false;
+            return to == Mode::STANDBY ||
+                   to == Mode::NOMINAL ||
+                   to == Mode::SAFE;
     }
+
+    return false;
 }
 
 std::string mode_to_string(Mode mode) {
@@ -79,8 +94,11 @@ std::string mode_to_string(Mode mode) {
         case Mode::DEGRADED_PAYLOAD: return "DEGRADED_PAYLOAD";
         case Mode::SAFE: return "SAFE";
         case Mode::RECOVERY: return "RECOVERY";
-        default: return "UNKNOWN";
+        case Mode::STANDBY: return "STANDBY";
+        case Mode::TEST: return "TEST";
     }
+
+    return "UNKNOWN";
 }
 
 std::string fault_to_string(FaultCode fault) {
@@ -96,8 +114,9 @@ std::string fault_to_string(FaultCode fault) {
         case FaultCode::COMMAND_UNKNOWN_ID: return "COMMAND_UNKNOWN_ID";
         case FaultCode::COMMAND_TIMEOUT: return "COMMAND_TIMEOUT";
         case FaultCode::WATCHDOG_DEADLINE_MISS: return "WATCHDOG_DEADLINE_MISS";
-        default: return "UNKNOWN_FAULT";
     }
+
+    return "UNKNOWN_FAULT";
 }
 
 }  // namespace astra
