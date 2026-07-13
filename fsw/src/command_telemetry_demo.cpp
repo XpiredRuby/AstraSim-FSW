@@ -15,8 +15,8 @@
 
 namespace {
 
-std::uint64_t monotonic_time_ms() {
-    const auto now = std::chrono::steady_clock::now().time_since_epoch();
+std::uint64_t unix_time_ms() {
+    const auto now = std::chrono::system_clock::now().time_since_epoch();
     return static_cast<std::uint64_t>(
         std::chrono::duration_cast<std::chrono::milliseconds>(now).count()
     );
@@ -104,7 +104,7 @@ int main(int argc, char* argv[]) {
         }
 
         astra::FlightSoftwareStepInput input;
-        input.timestamp_ms = monotonic_time_ms();
+        input.timestamp_ms = unix_time_ms();
         input.cpu_load_percent = cpu_load_for_state(app.last_fault());
         input.memory_load_percent = 42.0F + static_cast<float>(loop) * 0.25F;
         input.heartbeat_count = loop;

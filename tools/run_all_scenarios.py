@@ -59,7 +59,7 @@ def scenario_files(pattern: str | None) -> list[Path]:
     return sorted(SCENARIOS_DIR.glob("*.yaml"))
 
 
-def run_scenarios(pattern: str | None) -> int:
+def run_scenarios(pattern: str | None, build_dir: str) -> int:
     print()
     print("== Running YAML scenarios ==")
 
@@ -76,7 +76,13 @@ def run_scenarios(pattern: str | None) -> int:
         print(f"--- {scenario.relative_to(REPO_ROOT)} ---")
 
         result = subprocess.run(
-            [sys.executable, str(RUN_SCENARIO), str(scenario)],
+            [
+                sys.executable,
+                str(RUN_SCENARIO),
+                str(scenario),
+                "--build-dir",
+                build_dir,
+            ],
             cwd=REPO_ROOT,
             text=True,
         )
@@ -103,6 +109,11 @@ def run_scenarios(pattern: str | None) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--build-dir",
+        default="build",
+        help="Directory containing the built ASTRA-OS executables.",
+    )
     parser.add_argument(
         "--skip-build",
         action="store_true",
@@ -151,7 +162,7 @@ def main() -> int:
         if code != 0:
             return code
 
-    code = run_scenarios(args.pattern)
+    code = run_scenarios(args.pattern, args.build_dir)
     if code != 0:
         return code
 

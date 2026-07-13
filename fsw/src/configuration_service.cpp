@@ -1,6 +1,7 @@
 #include "astra/configuration_service.hpp"
 
 #include <limits>
+#include <utility>
 
 namespace astra {
 namespace {

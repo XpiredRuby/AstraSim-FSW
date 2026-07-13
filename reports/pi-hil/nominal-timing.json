@@ -1,0 +1,17 @@
+{
+  "schema": "astra-os.host-timing.v1",
+  "claim_boundary": "Host faster-than-real-time execution evidence only; not a real-time, HIL, or flight qualification claim.",
+  "ticks": 250000,
+  "mission_step_ms": 10,
+  "overload_every": 0,
+  "total_elapsed_ns": 229419375,
+  "mean_step_ns": 708.514,
+  "min_step_ns": 666,
+  "p50_step_ns": 685,
+  "p95_step_ns": 815,
+  "p99_step_ns": 889,
+  "max_step_ns": 115220,
+  "scheduler_deadline_misses": 0,
+  "final_mode": "NOMINAL",
+  "final_fault": "NONE"
+}

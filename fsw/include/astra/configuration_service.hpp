@@ -54,6 +54,12 @@ public:
     );
 
     bool lock();
+
+private:
+    ConfigurationValidationResult initial_validation_;
+    SystemConfiguration active_configuration_;
+    bool valid_ = false;
+    bool locked_ = false;
 };
 
 ConfigurationValidationResult validate_configuration(

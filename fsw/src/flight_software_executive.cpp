@@ -8,14 +8,17 @@ FlightSoftwareExecutive::FlightSoftwareExecutive(
     FlightSoftwareExecutiveConfig configuration
 )
     : scheduler_(make_scheduler_configuration(configuration)),
-      app_() {}
+      app_(configuration.app) {}
 
 bool FlightSoftwareExecutive::valid() const {
-    return scheduler_.valid();
+    return scheduler_.valid() && app_.valid();
 }
 
 const std::string& FlightSoftwareExecutive::validation_error() const {
-    return scheduler_.validation_error();
+    if (!scheduler_.valid()) {
+        return scheduler_.validation_error();
+    }
+    return app_.validation_error();
 }
 
 FlightSoftwareExecutiveOutput FlightSoftwareExecutive::step(

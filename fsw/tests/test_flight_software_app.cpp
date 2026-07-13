@@ -51,6 +51,7 @@ astra::FlightSoftwareStepInput make_input_with_command(
     astra::FlightSoftwareStepInput input = make_input_without_command(heartbeat);
     input.has_command = true;
     input.command = command;
+    input.command.timestamp_ms = input.timestamp_ms;
     return input;
 }
 
