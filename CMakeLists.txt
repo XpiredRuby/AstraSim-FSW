@@ -47,6 +47,7 @@ endif()
 add_library(astra_fsw_core
     fsw/src/mode_manager.cpp
     fsw/src/fdir_manager.cpp
+    fsw/src/event_logger.cpp
     fsw/src/telemetry_packet.cpp
     fsw/src/udp_telemetry_sender.cpp
     fsw/src/command_packet.cpp
@@ -199,6 +200,14 @@ target_link_libraries(astra_flight_software_executive_tests PRIVATE
     astra_fsw_core
 )
 
+add_executable(astra_event_logger_tests
+    fsw/tests/test_event_logger.cpp
+)
+
+target_link_libraries(astra_event_logger_tests PRIVATE
+    astra_fsw_core
+)
+
 if(ASTRA_BUILD_FUZZERS)
     if(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         message(FATAL_ERROR "ASTRA_BUILD_FUZZERS requires Clang with matching libFuzzer support")
@@ -243,3 +252,4 @@ add_test(NAME extended_mode_tests COMMAND astra_extended_mode_tests)
 add_test(NAME fdir_manager_tests COMMAND astra_fdir_manager_tests)
 add_test(NAME simultaneous_fault_tests COMMAND astra_simultaneous_fault_tests)
 add_test(NAME flight_software_executive_tests COMMAND astra_flight_software_executive_tests)
+add_test(NAME event_logger_tests COMMAND astra_event_logger_tests)
