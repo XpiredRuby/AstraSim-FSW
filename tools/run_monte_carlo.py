@@ -195,14 +195,20 @@ def scenario_report_path(name: str) -> Path:
     return REPORTS_DIR / f"scenario_{name}_output.txt"
 
 
-def run_trial(scenario: dict) -> tuple[bool, str]:
+def run_trial(scenario: dict, build_dir: str = "build") -> tuple[bool, str]:
     with tempfile.NamedTemporaryFile("w", suffix=".yaml", delete=False) as f:
         yaml.safe_dump(scenario, f, sort_keys=False)
         scenario_path = Path(f.name)
 
     try:
         result = subprocess.run(
-            [sys.executable, str(RUN_SCENARIO), str(scenario_path)],
+            [
+                sys.executable,
+                str(RUN_SCENARIO),
+                str(scenario_path),
+                "--build-dir",
+                build_dir,
+            ],
             cwd=REPO_ROOT,
             text=True,
             stdout=subprocess.PIPE,
@@ -260,6 +266,11 @@ def main() -> int:
     parser.add_argument("--trials", type=int, default=25)
     parser.add_argument("--seed", type=int, default=int(time.time()))
     parser.add_argument("--output", default="reports/monte_carlo_report.md")
+    parser.add_argument(
+        "--build-dir",
+        default="build",
+        help="Directory containing the built ASTRA-OS executables.",
+    )
     args = parser.parse_args()
 
     if args.trials <= 0:
@@ -273,7 +284,7 @@ def main() -> int:
 
     for trial_id in range(1, args.trials + 1):
         scenario = make_case(rng, trial_id)
-        ok, output = run_trial(scenario)
+        ok, output = run_trial(scenario, args.build_dir)
         trials.append((scenario, ok, output))
 
         result = "PASS" if ok else "FAIL"

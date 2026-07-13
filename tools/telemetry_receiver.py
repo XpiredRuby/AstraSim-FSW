@@ -22,6 +22,8 @@ MODES = {
     3: "DEGRADED_PAYLOAD",
     4: "SAFE",
     5: "RECOVERY",
+    6: "STANDBY",
+    7: "TEST",
 }
 
 FAULTS = {
@@ -44,6 +46,18 @@ COMMANDS = {
     2: "INJECT_FAULT",
     3: "REQUEST_TELEMETRY",
     4: "CLEAR_FAULT",
+}
+
+COMMAND_STATUSES = {
+    0: "ACCEPTED",
+    1: "REJECTED_BAD_ARGUMENT",
+    2: "REJECTED_INVALID_TRANSITION",
+    3: "REJECTED_UNKNOWN_COMMAND",
+    4: "REJECTED_DUPLICATE_SEQUENCE",
+    5: "REJECTED_REPLAYED_SEQUENCE",
+    6: "REJECTED_STALE_TIMESTAMP",
+    7: "REJECTED_FUTURE_TIMESTAMP",
+    8: "REJECTED_GUARD_CONFIGURATION",
 }
 
 
@@ -114,7 +128,10 @@ def decode_packet(data: bytes) -> dict:
         "heartbeat_count": heartbeat_count,
         "last_command_sequence_number": last_command_sequence_number,
         "last_command_id": command_name(last_command_id),
-        "last_command_status": last_command_status,
+        "last_command_status": COMMAND_STATUSES.get(
+            last_command_status,
+            f"UNKNOWN({last_command_status})",
+        ),
     }
 
 

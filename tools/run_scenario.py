@@ -19,7 +19,7 @@ TOOLS_DIR = REPO_ROOT / "tools"
 
 sys.path.insert(0, str(TOOLS_DIR))
 
-from telemetry_receiver import decode_packet  # noqa: E402
+from telemetry_receiver import COMMAND_STATUSES, decode_packet  # noqa: E402
 
 
 def send_command(host: str, port: int, sequence: int, command: str, argument: str | None) -> None:
@@ -70,7 +70,14 @@ def packet_matches(packet: dict[str, Any], expected: dict[str, Any]) -> bool:
         if scenario_key not in expected:
             continue
 
-        if packet.get(packet_key) != expected[scenario_key]:
+        expected_value = expected[scenario_key]
+        if scenario_key == "ack_status" and isinstance(expected_value, int):
+            expected_value = COMMAND_STATUSES.get(
+                expected_value,
+                f"UNKNOWN({expected_value})",
+            )
+
+        if packet.get(packet_key) != expected_value:
             return False
 
     return True
@@ -152,6 +159,7 @@ def main() -> int:
     parser.add_argument("scenario", help="Path to YAML scenario file")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--expect-timeout", type=float, default=2.5)
+    parser.add_argument("--build-dir", default="build")
     args = parser.parse_args()
 
     scenario_path = Path(args.scenario)
@@ -165,10 +173,13 @@ def main() -> int:
     watchdog_timeout_loop = scenario.get("watchdog_timeout_loop")
     steps = scenario.get("steps", [])
 
-    server_exe = REPO_ROOT / "build" / "astra_fsw_command_telemetry_demo"
+    build_dir = Path(args.build_dir)
+    if not build_dir.is_absolute():
+        build_dir = REPO_ROOT / build_dir
+
+    server_exe = build_dir / "astra_fsw_command_telemetry_demo"
     if not server_exe.exists():
-        print("ERROR: build/astra_fsw_command_telemetry_demo does not exist.")
-        print("Run: bash ci/run_local_tests.sh")
+        print(f"ERROR: {server_exe} does not exist.")
         return 1
 
     packets: list[dict[str, Any]] = []

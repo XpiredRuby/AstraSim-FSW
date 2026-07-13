@@ -1,0 +1,171 @@
+name: ASTRA-OS Software Assurance
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  sanitizers:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: sudo apt-get update && sudo apt-get install -y cmake g++
+
+      - name: Configure sanitizer build
+        run: >-
+          cmake -S . -B build-sanitizers
+          -DCMAKE_BUILD_TYPE=Debug
+          -DASTRA_WARNINGS_AS_ERRORS=ON
+          -DASTRA_ENABLE_SANITIZERS=ON
+
+      - name: Build sanitizer configuration
+        run: cmake --build build-sanitizers --parallel
+
+      - name: Run tests under ASan and UBSan
+        env:
+          ASAN_OPTIONS: detect_leaks=1:halt_on_error=1:strict_string_checks=1
+          UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+        run: ctest --test-dir build-sanitizers --output-on-failure
+
+  coverage:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install coverage tools
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ lcov
+
+      - name: Configure coverage build
+        run: >-
+          cmake -S . -B build-coverage
+          -DCMAKE_BUILD_TYPE=Debug
+          -DASTRA_WARNINGS_AS_ERRORS=ON
+          -DASTRA_ENABLE_COVERAGE=ON
+
+      - name: Build coverage configuration
+        run: cmake --build build-coverage --parallel
+
+      - name: Run coverage tests
+        run: ctest --test-dir build-coverage --output-on-failure
+
+      - name: Capture core coverage
+        run: |
+          lcov --capture --directory build-coverage --output-file coverage.raw.info
+          lcov --remove coverage.raw.info '/usr/*' '*/fsw/tests/*' --output-file coverage.info
+          lcov --summary coverage.info | tee coverage-summary.txt
+
+      - name: Upload coverage evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-os-coverage
+          path: |
+            coverage.info
+            coverage-summary.txt
+          if-no-files-found: error
+
+  clang-tidy:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install static-analysis tools
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ clang-tidy
+
+      - name: Configure clang-tidy build
+        run: >-
+          cmake -S . -B build-clang-tidy
+          -DCMAKE_BUILD_TYPE=Debug
+          -DASTRA_WARNINGS_AS_ERRORS=ON
+          -DASTRA_ENABLE_CLANG_TIDY=ON
+
+      - name: Build with clang-tidy
+        run: cmake --build build-clang-tidy --parallel
+
+  controlled-mutation:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ python3
+
+      - name: Verify command tests kill CRC acceptance defect
+        run: python3 tools/run_controlled_mutation.py
+
+  command-fuzz:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install fuzzing tools
+        run: sudo apt-get update && sudo apt-get install -y clang cmake python3
+
+      - name: Generate deterministic seed corpus
+        run: python3 tools/generate_command_fuzz_corpus.py --output build-fuzz/command-corpus
+
+      - name: Configure Clang libFuzzer build
+        env:
+          CC: clang
+          CXX: clang++
+        run: >-
+          cmake -S . -B build-fuzz
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          -DASTRA_WARNINGS_AS_ERRORS=ON
+          -DASTRA_BUILD_FUZZERS=ON
+
+      - name: Build command packet fuzzer
+        run: cmake --build build-fuzz --target astra_command_packet_fuzzer --parallel
+
+      - name: Run bounded deterministic fuzz campaign
+        run: |
+          mkdir -p build-fuzz/artifacts
+          ./build-fuzz/astra_command_packet_fuzzer \
+            build-fuzz/command-corpus/corpus \
+            -runs=50000 \
+            -seed=20260713 \
+            -max_len=64 \
+            -timeout=5 \
+            -rss_limit_mb=1024 \
+            -print_final_stats=1 \
+            -artifact_prefix=build-fuzz/artifacts/ \
+            2>&1 | tee build-fuzz/fuzz-output.txt
+
+      - name: Upload fuzz evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-os-command-fuzz-${{ github.run_id }}
+          path: |
+            build-fuzz/command-corpus/manifest.json
+            build-fuzz/command-corpus/corpus/
+            build-fuzz/fuzz-output.txt
+            build-fuzz/artifacts/
+          if-no-files-found: warn
+
+  python-and-shell-smoke:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install analysis tools
+        run: sudo apt-get update && sudo apt-get install -y python3 shellcheck
+
+      - name: Compile Python tooling
+        run: python3 -m compileall -q tools
+
+      - name: Verify cross-language protocol conformance
+        run: python3 tools/check_protocol_conformance.py
+
+      - name: Check shell scripts
+        run: find ci tools -type f -name '*.sh' -print0 | xargs -0 shellcheck

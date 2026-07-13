@@ -1,0 +1,78 @@
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (1.2s)
+-- Generating done (0.2s)
+-- Build files have been written to: /tmp/astra-os-mutation-lvwglo1b/build
+[  5%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/mode_manager.cpp.o
+[ 11%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/event_logger.cpp.o
+[ 16%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_processor.cpp.o
+[ 22%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/udp_telemetry_sender.cpp.o
+[ 38%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_packet.cpp.o
+[ 33%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_app.cpp.o
+[ 38%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/udp_command_receiver.cpp.o
+[ 50%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/rate_group_scheduler.cpp.o
+[ 44%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/telemetry_packet.cpp.o
+[ 55%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/ground_command_guard.cpp.o
+[ 61%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/watchdog.cpp.o
+[ 66%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/health_monitor.cpp.o
+[ 72%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/fdir_manager.cpp.o
+[ 77%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/configuration_service.cpp.o
+[ 83%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_executive.cpp.o
+[ 88%] Linking CXX static library libastra_fsw_core.a
+[ 88%] Built target astra_fsw_core
+[ 94%] Building CXX object CMakeFiles/astra_command_tests.dir/fsw/tests/test_command_packet.cpp.o
+[100%] Linking CXX executable astra_command_tests
+[100%] Built target astra_command_tests
+Internal ctest changing into directory: /tmp/astra-os-mutation-lvwglo1b/build
+Test project /tmp/astra-os-mutation-lvwglo1b/build
+    Start 4: command_packet_tests
+1/1 Test #4: command_packet_tests .............***Failed    0.01 sec
+Running CommandPacket tests...
+[PASS] serialized command packet has fixed expected size
+[PASS] valid SET_MODE command deserializes
+[PASS] sequence number round trip
+[PASS] timestamp round trip
+[PASS] command id round trip
+[PASS] argument round trip
+[PASS] valid INJECT_FAULT command deserializes
+[PASS] inject fault command id round trip
+[PASS] inject fault argument round trip
+[FAIL] corrupted command rejected by CRC
+[PASS] wrong-size command rejected
+[PASS] every truncated command length is rejected
+[PASS] oversized command rejected
+[PASS] invalid command id rejected even with valid CRC
+[PASS] invalid magic rejected even with valid CRC
+[PASS] unsupported command version rejected even with valid CRC
+[PASS] single-bit campaign executes 208 mutations
+[FAIL] all single-bit command corruptions are rejected
+[PASS] invalid empty packet is rejected
+[PASS] failed decode preserves sequence output
+[PASS] failed decode preserves timestamp output
+[PASS] failed decode preserves command output
+[PASS] failed decode preserves argument output
+[PASS] valid mode argument accepted
+[PASS] mode argument decoded
+[PASS] invalid mode argument rejected
+[PASS] valid fault argument accepted
+[PASS] fault argument decoded
+[PASS] invalid fault argument rejected
+[PASS] command id string conversion works
+2 CommandPacket test(s) failed.
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.02 sec
+
+The following tests FAILED:
+	  4 - command_packet_tests (Failed)
+Errors while running CTest
++ cmake -S /tmp/astra-os-mutation-lvwglo1b/source -B /tmp/astra-os-mutation-lvwglo1b/build -DCMAKE_BUILD_TYPE=Debug -DASTRA_WARNINGS_AS_ERRORS=ON
++ cmake --build /tmp/astra-os-mutation-lvwglo1b/build --target astra_command_tests --parallel
++ ctest --test-dir /tmp/astra-os-mutation-lvwglo1b/build --tests-regex ^command_packet_tests$ --output-on-failure
+MUTATION KILLED: command-packet tests detected the disabled CRC rejection path.

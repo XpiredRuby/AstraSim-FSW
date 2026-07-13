@@ -2,10 +2,68 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-BUILD_DIR="${REPO_ROOT}/build"
+BUILD_DIR_ARG="build"
 PACKAGE_ROOT="${REPO_ROOT}/dist/astrasim-fsw-pi"
 PACKAGE_ARCHIVE="${REPO_ROOT}/dist/astrasim-fsw-pi.tar.gz"
 REPORT="${REPO_ROOT}/reports/pi_deployment_package_report.md"
+PACKAGE_ARCHIVE_RELATIVE="dist/astrasim-fsw-pi.tar.gz"
+REPORT_RELATIVE="reports/pi_deployment_package_report.md"
+
+usage() {
+    cat <<EOF
+Usage: $(basename "$0") [--build-dir DIR]
+
+Build and package the Raspberry Pi deployment artifacts.
+
+Options:
+  --build-dir DIR  Build directory, relative to the repository root or absolute
+                   (default: build)
+  -h, --help       Show this help message
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --build-dir)
+            if [[ $# -lt 2 ]]; then
+                echo "ERROR: --build-dir requires a directory argument." >&2
+                usage >&2
+                exit 2
+            fi
+            if [[ -z "$2" || "$2" == --* ]]; then
+                echo "ERROR: --build-dir requires a directory argument." >&2
+                usage >&2
+                exit 2
+            fi
+            BUILD_DIR_ARG="$2"
+            shift 2
+            ;;
+        --build-dir=*)
+            BUILD_DIR_ARG="${1#*=}"
+            if [[ -z "${BUILD_DIR_ARG}" ]]; then
+                echo "ERROR: --build-dir requires a directory argument." >&2
+                usage >&2
+                exit 2
+            fi
+            shift
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "ERROR: unknown argument: $1" >&2
+            usage >&2
+            exit 2
+            ;;
+    esac
+done
+
+if [[ "${BUILD_DIR_ARG}" = /* ]]; then
+    BUILD_DIR="${BUILD_DIR_ARG}"
+else
+    BUILD_DIR="${REPO_ROOT}/${BUILD_DIR_ARG}"
+fi
 
 cd "${REPO_ROOT}"
 
@@ -18,6 +76,7 @@ mkdir -p "${PACKAGE_ROOT}/bin" \
          "${PACKAGE_ROOT}/tools" \
          "${PACKAGE_ROOT}/scenarios" \
          "${PACKAGE_ROOT}/docs" \
+         "${PACKAGE_ROOT}/config" \
          "${PACKAGE_ROOT}/reports"
 
 cp "${BUILD_DIR}/astra_fsw" "${PACKAGE_ROOT}/bin/"
@@ -30,13 +89,16 @@ cp tools/run_hil_smoke_test.py "${PACKAGE_ROOT}/tools/"
 cp tools/check_requirements.py "${PACKAGE_ROOT}/tools/"
 
 cp scenarios/*.yaml "${PACKAGE_ROOT}/scenarios/"
+cp config/protocol_manifest.json "${PACKAGE_ROOT}/config/"
+cp docs/REQUIREMENTS.md "${PACKAGE_ROOT}/docs/"
+cp docs/VERIFICATION_MATRIX.csv "${PACKAGE_ROOT}/docs/"
 cp docs/pi_deployment.md "${PACKAGE_ROOT}/docs/" 2>/dev/null || true
 cp docs/hil_smoke_test.md "${PACKAGE_ROOT}/docs/" 2>/dev/null || true
 
 cat > "${PACKAGE_ROOT}/README_PI.md" <<'MD'
-# AstraSim-FSW Raspberry Pi Deployment Package
+# ASTRA-OS Raspberry Pi Deployment Package
 
-This package contains the flight software binaries and Python tools needed to run command/telemetry verification on a Raspberry Pi target.
+This package contains the flight-software binaries and Python tools needed to run command/telemetry verification on a Raspberry Pi target. The included protocol manifest records the expected packet constants and enum values.
 
 ## Target smoke command
 
@@ -55,6 +117,8 @@ Telemetry can be observed with:
 ```bash
 python3 tools/telemetry_receiver.py --port 5005
 ```
+
+A generated package proves only that the target bundle can be assembled. A new hardware-executed claim requires a separate Raspberry Pi run, exact target provenance, and preserved output.
 MD
 
 tar -czf "${PACKAGE_ARCHIVE}" -C "${REPO_ROOT}/dist" astrasim-fsw-pi
@@ -71,7 +135,7 @@ Result: PASS
 ## Package
 
 \`\`\`text
-${PACKAGE_ARCHIVE#${REPO_ROOT}/}
+${PACKAGE_ARCHIVE_RELATIVE}
 \`\`\`
 
 ## Included target binaries
@@ -79,13 +143,19 @@ ${PACKAGE_ARCHIVE#${REPO_ROOT}/}
 - \`bin/astra_fsw\`
 - \`bin/astra_fsw_command_telemetry_demo\`
 
-## Included verification tools
+## Included ground and verification tools
 
 - \`tools/send_command.py\`
 - \`tools/telemetry_receiver.py\`
 - \`tools/run_scenario.py\`
 - \`tools/run_hil_smoke_test.py\`
 - \`tools/check_requirements.py\`
+
+## Included controlled interfaces
+
+- \`config/protocol_manifest.json\`
+- \`docs/REQUIREMENTS.md\`
+- \`docs/VERIFICATION_MATRIX.csv\`
 
 ## Package metadata
 
@@ -94,8 +164,8 @@ ${PACKAGE_ARCHIVE#${REPO_ROOT}/}
 
 ## Notes
 
-This report verifies that a Raspberry Pi deployment package can be generated from the repository. Running the package on physical Raspberry Pi hardware should produce a separate target-run evidence report.
+This report verifies that a Raspberry Pi deployment package can be generated from the repository. It does not establish that the current ASTRA-OS branch has executed on Raspberry Pi hardware. A physical target run must produce a separate, provenance-bound evidence report.
 MD
 
-echo "Package written to ${PACKAGE_ARCHIVE#${REPO_ROOT}/}"
-echo "Report written to ${REPORT#${REPO_ROOT}/}"
+echo "Package written to ${PACKAGE_ARCHIVE_RELATIVE}"
+echo "Report written to ${REPORT_RELATIVE}"

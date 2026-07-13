@@ -1,56 +1,82 @@
-# AstraSim-FSW
+# ASTRA-OS / AstraSim-FSW
 
 [![C++ Build and Unit Tests](https://github.com/XpiredRuby/AstraSim-FSW/actions/workflows/unit_tests.yml/badge.svg)](https://github.com/XpiredRuby/AstraSim-FSW/actions/workflows/unit_tests.yml)
 
-AstraSim-FSW is a C++/Python flight-software-in-the-loop simulation and verification framework for testing spacecraft-style mode management, UDP command/telemetry links, fault injection, watchdog behavior, and Raspberry Pi hardware-in-the-loop execution.
+ASTRA-OS is an educational C++/Python spacecraft-style flight-software and verification platform. It demonstrates operating modes, binary UDP command and telemetry protocols, command validation, health monitoring, fault detection/isolation/recovery, watchdog behavior, deterministic rate-group scheduling, configuration locking, Raspberry Pi execution, requirements traceability, and automated assurance evidence.
 
-The project uses C++ for the embedded flight-software core and Python for ground-side tooling, command injection, telemetry decoding, and repeatable demo capture. The intended hardware path is a Raspberry Pi acting as the embedded flight-software target and a laptop acting as the simulation, command, telemetry, and verification environment.
+The embedded core is C++17. Python provides ground-side command injection, telemetry decoding, deterministic scenario execution, protocol checks, randomized regression, evidence generation, and packaging.
 
-## Current Status
+## Verified Raspberry Pi Status
 
-Implemented:
+The repair and assurance campaign was executed natively on a Raspberry Pi running Ubuntu 24.04 on `aarch64`.
 
-- C++17 flight software core
-- CMake build system
-- GitHub Actions CI
-- BOOT / NOMINAL / DEGRADED / SAFE / RECOVERY mode manager
-- Fault-driven mode transitions
-- Binary telemetry packet serialization
-- CRC-16-CCITT telemetry validation
-- UDP telemetry sender
-- Python telemetry receiver
-- Binary command packet serialization
-- CRC-16-CCITT command validation
-- UDP command receiver
-- Python command sender
-- Command processor connected to the mode manager
-- `FlightSoftwareApp` central app loop
-- `HealthMonitor` for CPU, memory, sensor, payload, and loop health checks
-- Automatic critical health-fault injection
-- `Watchdog` for loop timing and stale execution detection
-- Automatic watchdog fault injection
-- Live UDP telemetry demo
-- Integrated command/telemetry demo
-- Verified command/telemetry evidence capture
-- Automated demo capture reports
+| Verification area | Result |
+|---|---|
+| Native Raspberry Pi build | PASS |
+| CTest suites | 18/18 passed |
+| Deterministic YAML scenarios | 5/5 passed |
+| Protocol conformance | 24/24 passed |
+| Requirement traceability | 0 failures; 0 broken references |
+| Seeded Monte Carlo regression | 25/25 passed; seed `20260626` |
+| ASan/UBSan build and tests | PASS |
+| Controlled mutation check | PASS |
+| Pi deployment package | PASS |
+| Nominal timing campaign | 250,000 ticks; 0 deadline misses |
+| Controlled-overrun campaign | 100,000 ticks; 99 injected misses detected |
+| Soak campaign | 1,000,000 ticks; 0 deadline misses |
+| Final assurance workflow | PASS |
 
-Current test coverage:
-
-- Mode manager tests
-- Telemetry packet tests
-- UDP telemetry sender tests
-- Command packet tests
-- Command processor tests
-- UDP command receiver tests
-- Flight software app tests
-- Health monitor tests
-- Watchdog tests
-
-Current local test status:
+The software-under-test for the final Pi campaign was commit:
 
 ```text
-9/9 test suites passing
+395f1e028a3ab6bf46438b4dbd5bad256eced0cd
 ```
+
+Full report:
+
+- [`reports/ASTRA_OS_RASPBERRY_PI_VERIFICATION_REPORT.md`](reports/ASTRA_OS_RASPBERRY_PI_VERIFICATION_REPORT.md)
+
+## Scope and Claim Boundary
+
+ASTRA-OS is a portfolio and educational project. The preserved results demonstrate native Raspberry Pi execution and repeatable software verification under the documented conditions.
+
+They do **not** establish:
+
+- certification;
+- flight qualification;
+- hard-real-time guarantees;
+- airworthiness;
+- production readiness;
+- radiation tolerance;
+- compatibility with spacecraft hardware.
+
+The timing campaigns are host faster-than-real-time execution measurements. They are not real-time qualification or worst-case execution-time proof.
+
+## Implemented Capabilities
+
+- BOOT, NOMINAL, DEGRADED, SAFE, and RECOVERY operating modes
+- controlled and rejected mode transitions
+- binary command and telemetry packet formats
+- CRC-16-CCITT validation
+- UDP command receiver and telemetry sender
+- Python command sender and telemetry decoder
+- accepted, invalid, duplicate, replayed, stale, future, and guard-configuration command dispositions
+- command freshness and sequence guarding
+- health monitoring for CPU, memory, sensor, payload, and loop state
+- watchdog timeout detection
+- fault disposition and simultaneous-fault behavior
+- deterministic rate-group scheduling
+- application/executive configuration validation
+- configuration locking
+- event logging and event integration
+- YAML scenario execution
+- seeded Monte Carlo regression
+- C++/Python protocol-manifest conformance checking
+- requirement-to-evidence traceability checking
+- ASan/UBSan assurance builds
+- controlled command-packet mutation
+- Raspberry Pi deployment packaging
+- machine-readable provenance and assurance summaries
 
 ## System Flow
 
@@ -64,184 +90,158 @@ UDP command packet
 C++ UDP command receiver
         |
         v
-CommandPacket decoder + CRC validation
+Command packet decoder + CRC + command guard
         |
         v
-FlightSoftwareApp
+FlightSoftwareExecutive / FlightSoftwareApp
         |
+        +--> RateGroupScheduler
         +--> Watchdog
-        |
         +--> HealthMonitor
-        |
         +--> CommandProcessor
-        |
+        +--> FDIRManager
         +--> ModeManager
+        +--> EventLogger
         |
         v
-TelemetryPacket encoder + CRC
+Telemetry packet encoder + CRC
         |
         v
 C++ UDP telemetry sender
         |
         v
-Python telemetry receiver
+Python telemetry receiver / scenario verifier
 ```
 
-## Build and Test
+## Main Native Targets
 
-From the project root:
-
-```bash
-bash ci/run_local_tests.sh
-```
-
-Manual build:
-
-```bash
-rm -rf build
-mkdir -p build
-cd build
-cmake ..
-make -j4
-ctest --output-on-failure
-```
-
-## Main Executables
-
-| Executable | Purpose |
+| Target | Purpose |
 |---|---|
-| `astra_fsw` | Basic flight software mode/fault demo |
-| `astra_fsw_telemetry_demo` | Sends live UDP telemetry to the Python receiver |
-| `astra_fsw_command_telemetry_demo` | Receives UDP commands, updates mode/fault state through `FlightSoftwareApp`, and sends UDP telemetry |
+| `astra_fsw` | Basic mode/fault flight-software demonstration |
+| `astra_fsw_telemetry_demo` | UDP telemetry demonstration |
+| `astra_fsw_command_telemetry_demo` | Integrated UDP command, mode/fault, acknowledgement, and telemetry demonstration |
+| `astra_timing_campaign` | Faster-than-real-time host execution and scheduler-miss evidence generator |
 
-## Python Tools
+## Native Raspberry Pi Build
+
+```bash
+cmake -S . -B build-pi -DCMAKE_BUILD_TYPE=Release
+cmake --build build-pi --parallel
+ctest --test-dir build-pi --output-on-failure
+```
+
+Expected test count for this branch:
+
+```text
+18/18 suites passing
+```
+
+## Complete Assurance Workflow
+
+Run the full deterministic, randomized, sanitizer, mutation, packaging, traceability, protocol, and provenance workflow against the Pi build:
+
+```bash
+python3 tools/run_astra_os_assurance.py --build-dir build-pi
+```
+
+The machine-readable summary is written to:
+
+```text
+reports/latest/assurance_summary.json
+```
+
+## Deterministic Scenarios
+
+Run all declared scenarios and verification checks without rebuilding or repeating Monte Carlo/package generation:
+
+```bash
+python3 tools/run_all_scenarios.py \
+  --build-dir build-pi \
+  --skip-build \
+  --skip-monte-carlo \
+  --skip-pi-package
+```
+
+Declared scenarios:
+
+- `basic_command_fault.yaml`
+- `hil_smoke_test.yaml`
+- `invalid_transition_rejected.yaml`
+- `sensor_timeout_safe_mode.yaml`
+- `watchdog_timeout_safe_mode.yaml`
+
+## Seeded Monte Carlo Regression
+
+```bash
+python3 tools/run_monte_carlo.py \
+  --build-dir build-pi \
+  --trials 25 \
+  --seed 20260626
+```
+
+## Raspberry Pi Deployment Package
+
+```bash
+bash tools/package_pi_deployment.sh --build-dir build-pi
+```
+
+Generated archive:
+
+```text
+dist/astrasim-fsw-pi.tar.gz
+```
+
+Package generation and native-hardware execution are separate claims. See the deployment report and the final Pi verification report for their respective evidence boundaries.
+
+## Verification Evidence
+
+| Evidence | Purpose |
+|---|---|
+| [`reports/ASTRA_OS_RASPBERRY_PI_VERIFICATION_REPORT.md`](reports/ASTRA_OS_RASPBERRY_PI_VERIFICATION_REPORT.md) | Final Pi verification, defects, repairs, metrics, limitations, and reproduction commands |
+| [`reports/latest/assurance_summary.json`](reports/latest/assurance_summary.json) | Machine-readable final assurance-stage results |
+| [`reports/latest/baseline_manifest.json`](reports/latest/baseline_manifest.json) | Commit, platform, toolchain, commands, and hashed input provenance |
+| [`reports/requirement_check_report.md`](reports/requirement_check_report.md) | Requirement disposition and traceability integrity |
+| [`reports/monte_carlo_report.md`](reports/monte_carlo_report.md) | Seeded 25-trial randomized regression |
+| [`reports/pi_deployment_package_report.md`](reports/pi_deployment_package_report.md) | Deployment-package contents and archive checksum |
+| [`reports/latest/protocol_conformance.json`](reports/latest/protocol_conformance.json) | C++/Python protocol consistency checks |
+| [`reports/pi-hil/`](reports/pi-hil/) | Nominal, controlled-overrun, soak, resource, and final CTest evidence |
+| `reports/scenario_*_output.txt` | Deterministic command/fault scenario transcripts |
+
+## Key Python Tools
 
 | Tool | Purpose |
 |---|---|
-| `tools/telemetry_receiver.py` | Receives and decodes AstraSim-FSW telemetry packets |
-| `tools/send_command.py` | Sends binary UDP command packets |
-| `tools/run_live_telemetry_demo.sh` | Automates telemetry sender/receiver demo capture |
-| `tools/run_command_telemetry_demo.sh` | Automates full command/telemetry demo capture |
-
-## Live Telemetry Demo
-
-Run:
-
-```bash
-bash ci/run_local_tests.sh
-tools/run_live_telemetry_demo.sh
-```
-
-This writes:
-
-```text
-reports/live_telemetry_demo_output.txt
-```
-
-## Command / Telemetry Demo
-
-Run:
-
-```bash
-bash ci/run_local_tests.sh
-tools/run_command_telemetry_demo.sh
-```
-
-This writes:
-
-```text
-reports/command_telemetry_demo_output.txt
-```
-
-Expected command sequence:
-
-```text
-SET_MODE NOMINAL
-INJECT_FAULT CPU_OVERLOAD
-CLEAR_FAULT
-SET_MODE NOMINAL
-```
-
-Expected system behavior:
-
-```text
-BOOT -> NOMINAL
-NOMINAL -> DEGRADED_PAYLOAD after CPU_OVERLOAD
-Fault state clears after CLEAR_FAULT
-DEGRADED_PAYLOAD -> NOMINAL after recovery command
-```
-
-## Evidence
-
-| Evidence File | Shows |
-|---|---|
-| `evidence/command_telemetry_demo.txt` | Command receive, mode transition, fault injection, fault clear, and recovery to NOMINAL |
-| `evidence/ctest_results.txt` | 9/9 local test suites passing |
-| `reports/results_summary.md` | Scenario, Monte Carlo, unit-test, and requirement-check summary |
-| `media/plots/mode_timeline.svg` | Mode timeline from command/telemetry evidence |
-| `media/plots/fault_timeline.svg` | Fault timeline from command/telemetry evidence |
-| `evidence/pi_ctest_results.txt` | Raspberry Pi aarch64 build with 9/9 local test suites passing |
-| `evidence/pi_command_telemetry_demo.txt` | Raspberry Pi HIL command/telemetry run with fault injection and recovery |
-| `media/pi_dashboard_snapshot.txt` | Text snapshot of the verified Raspberry Pi HIL dashboard state |
-
-## Results Plots
-
-![Mode timeline](media/plots/mode_timeline.svg)
-
-![Fault timeline](media/plots/fault_timeline.svg)
-
-## Raspberry Pi HIL Demo
-
-The flight software was built and executed on a Raspberry Pi running Ubuntu 24.04 aarch64. The Pi accepted UDP commands, emitted telemetry to the laptop dashboard, injected a CPU overload fault, cleared the fault, and recovered to NOMINAL.
-
-Verified Pi evidence:
-
-```text
-SET_MODE NOMINAL -> accepted
-INJECT_FAULT CPU_OVERLOAD -> DEGRADED_PAYLOAD
-CLEAR_FAULT -> fault NONE
-SET_MODE NOMINAL -> recovered
-Pi ctest -> 9/9 passed
-```
-
-## Reproduce Demo
-
-Laptop demo: run the telemetry dashboard, start `astra_fsw_command_telemetry_demo`, then send `SET_MODE`, `INJECT_FAULT`, `CLEAR_FAULT`, and `SET_MODE` commands with `tools/send_command.py`.
-
-Raspberry Pi HIL demo: run the dashboard on the laptop, run `astra_fsw_command_telemetry_demo` on the Pi using the laptop LAN IP, then send commands locally on the Pi to `127.0.0.1:6000`.
+| `tools/send_command.py` | Encode and send UDP commands |
+| `tools/telemetry_receiver.py` | Receive and decode telemetry |
+| `tools/run_scenario.py` | Execute one deterministic YAML scenario |
+| `tools/run_all_scenarios.py` | Run deterministic scenarios and repository checks |
+| `tools/run_monte_carlo.py` | Run reproducible randomized scenarios |
+| `tools/check_protocol_conformance.py` | Compare protocol definitions across C++/Python/manifest sources |
+| `tools/check_requirements.py` | Validate requirement and evidence traceability |
+| `tools/run_controlled_mutation.py` | Confirm detection of a controlled packet mutation |
+| `tools/run_astra_os_assurance.py` | Orchestrate the complete assurance workflow |
+| `tools/validate_timing_evidence.py` | Validate timing-evidence structure and expected miss behavior |
+| `tools/package_pi_deployment.sh` | Build and package the target bundle from an explicit build directory |
 
 ## Documentation
 
 | Document | Purpose |
 |---|---|
-| `docs/architecture.md` | System architecture overview |
-| `docs/requirements.md` | Initial requirements table |
-| `docs/test_plan.md` | Test plan |
-| `docs/live_telemetry_demo.md` | Live telemetry demo instructions |
-| `docs/command_packet.md` | Command packet format |
-| `docs/command_processor.md` | Command processor behavior |
-| `docs/udp_command_receiver.md` | UDP command receiver design |
-| `docs/command_telemetry_demo.md` | Integrated command/telemetry demo |
-| `docs/flight_software_app.md` | Central app-loop behavior |
-| `docs/health_monitor.md` | Health monitoring behavior |
-| `docs/watchdog.md` | Watchdog behavior |
+| `docs/ARCHITECTURE.md` | System architecture and component boundaries |
+| `docs/REQUIREMENTS.md` | Governed requirements set |
+| `docs/VERIFICATION_MATRIX.csv` | Requirement-to-component-to-evidence mapping |
+| `docs/ASSURANCE.md` | Assurance workflow and evidence policy |
+| `docs/FDIR_MATRIX.md` | Fault disposition model |
+| `docs/RISKS_AND_BLOCKERS.md` | Known limitations and unresolved work |
+| `docs/pi_deployment.md` | Raspberry Pi packaging and deployment guidance |
+| `docs/monte_carlo.md` | Randomized regression guidance |
 
-## Project Goal
+## Repository Safety Note
 
-The goal is to build a professional-grade simulation and flight-software verification framework that demonstrates:
+The Pi verification work was performed only in:
 
-- Embedded C++
-- State-machine design
-- Fault handling
-- Watchdog logic
-- Health monitoring
-- Binary packet design
-- UDP command and telemetry links
-- Python ground tooling
-- Automated verification
-- Repeatable demo evidence
-- GitHub Actions CI
+```text
+/home/xpired/ghost_ws/tools/astra-os-hil
+```
 
-## Planned Next Steps
-
-- Connect real sensor/payload health inputs
+The older preservation worktree containing historical uncommitted files was intentionally left untouched.

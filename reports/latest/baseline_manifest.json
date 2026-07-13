@@ -1,0 +1,621 @@
+{
+  "environment": {
+    "build_type": "Debug",
+    "coverage_enabled": false,
+    "cxx": "c++",
+    "github_run_attempt": null,
+    "github_run_id": null,
+    "github_workflow": null,
+    "sanitizers_enabled": true,
+    "source_date_epoch": null,
+    "warnings_as_errors": true
+  },
+  "generated_at_utc": "2026-07-13T21:50:08.423939+00:00",
+  "host": {
+    "machine": "aarch64",
+    "platform": "Linux-6.8.0-1060-raspi-aarch64-with-glibc2.39",
+    "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+    "release": "6.8.0-1060-raspi",
+    "system": "Linux"
+  },
+  "inputs": [
+    {
+      "path": ".github/workflows/assurance.yml",
+      "sha256": "ea604324abc4e505bdea69fe7ef82c3612b5a3a1f3888db531fe98039fa897ed",
+      "size_bytes": 5214
+    },
+    {
+      "path": ".github/workflows/full_verification.yml",
+      "sha256": "590145474e07542c136e39e636857140449a0659c4c14c785e53077080635d85",
+      "size_bytes": 1441
+    },
+    {
+      "path": ".github/workflows/performance.yml",
+      "sha256": "ae862e019cafe1ea861ab6cf79d78dfc512efc03cbed7c1a46de1740ceaf077d",
+      "size_bytes": 3231
+    },
+    {
+      "path": ".github/workflows/unit_tests.yml",
+      "sha256": "41ac4257a9b1a495b69be760283fbcbc2edae657ddbc369ca98f80dd53fe4b85",
+      "size_bytes": 619
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "faf7484b87501a3c6390a158fd7ef09535e44a41efb3fbe8d4fcc3b022d0fd5d",
+      "size_bytes": 379
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "124fa3303f054a0b59d6003687f963c51c403a1b1dd5c39073adefd72f7787ac",
+      "size_bytes": 2838
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "b20e0da8547ddb77b20d0f1f954fd2baea2c4f39c27c39c0085c323a7d04cd42",
+      "size_bytes": 7801
+    },
+    {
+      "path": "PROJECT_STATE.md",
+      "sha256": "56695e55575d44a4cf3d0191ce9a9a5d5cebe6934659b9dcf1a968ce06b00734",
+      "size_bytes": 6388
+    },
+    {
+      "path": "README.md",
+      "sha256": "0eead545588047e3d4a1bf11707004388e3745f8045c2fab4baf1e7a9cf719b3",
+      "size_bytes": 7030
+    },
+    {
+      "path": "ci/run_local_tests.sh",
+      "sha256": "51f70fef6c762d8019c13e463c645b266446cdb5dfc4451d23290c614862012c",
+      "size_bytes": 141
+    },
+    {
+      "path": "config/protocol_manifest.json",
+      "sha256": "85908791615a58ab4d04a701a9a1eb45af9fb47f69ce236c199d296d71a5055b",
+      "size_bytes": 1457
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "sha256": "37922a6f29ea4f23e78a92838a5b4bb9dfb85d1102d21a94174aa9bcc4dc4594",
+      "size_bytes": 9876
+    },
+    {
+      "path": "docs/ASSURANCE.md",
+      "sha256": "c07d3c413f2ad5fecfa7df9b95a19a7753e2e314b63e42f3eff1c26246a88d08",
+      "size_bytes": 4552
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "sha256": "321210e9978e02c85371d315f5e852d14125cf64b8959135dc6077510a9e199b",
+      "size_bytes": 5190
+    },
+    {
+      "path": "docs/FDIR_MATRIX.md",
+      "sha256": "88bf20e4f119d5a0fed2f68d5eaae8dca7028d5974ebcfc192bbda51932ed92c",
+      "size_bytes": 3997
+    },
+    {
+      "path": "docs/REQUIREMENTS.md",
+      "sha256": "4afe9492be7c712679d9ab3ce5368bb5bf8663786302dffbcaa314308de2ef78",
+      "size_bytes": 12841
+    },
+    {
+      "path": "docs/RISKS_AND_BLOCKERS.md",
+      "sha256": "b593d322947a2571d9fc3cef08cb924ea885b1cab4bd36141d2e030f89132ab2",
+      "size_bytes": 5429
+    },
+    {
+      "path": "docs/VERIFICATION_MATRIX.csv",
+      "sha256": "3539e35d2401d9fb49c546a123c722a45f69ba5b132e0ad548a664bea94f33cc",
+      "size_bytes": 6880
+    },
+    {
+      "path": "docs/architecture.md",
+      "sha256": "a8ca02a62bced042e281a3e0d927cebbee4c46eb783c85802be652028a72eed7",
+      "size_bytes": 384
+    },
+    {
+      "path": "docs/command_packet.md",
+      "sha256": "d597562bb077dc87b8a5ee0a3279cd7f49e8dd0376eef7fb8b11f53cf8091962",
+      "size_bytes": 915
+    },
+    {
+      "path": "docs/command_processor.md",
+      "sha256": "11b784403d60bb4925853d03742455ab70dd578f38f910dd857f3b39eb2b1748",
+      "size_bytes": 1027
+    },
+    {
+      "path": "docs/command_telemetry_demo.md",
+      "sha256": "190a70607bb15adfbc4398a304bc6b678209ac4716c2c89245d070b104333bca",
+      "size_bytes": 2452
+    },
+    {
+      "path": "docs/flight_software_app.md",
+      "sha256": "00258db1a0eb086b156b4748509385318ed4dcd72de04751fa5723846c7642c2",
+      "size_bytes": 2230
+    },
+    {
+      "path": "docs/health_monitor.md",
+      "sha256": "483774f3f88fdb07b47c7bcbdb5751c6aa40aa63250a25917adf25da88c0f4f4",
+      "size_bytes": 1583
+    },
+    {
+      "path": "docs/hil_smoke_test.md",
+      "sha256": "a7ac071cc0c29cb9d71400311895a27298b5a8734e8b2460d99844d43ddf1747",
+      "size_bytes": 839
+    },
+    {
+      "path": "docs/live_telemetry_demo.md",
+      "sha256": "60490c9a0397ea1c02f14d160f11528e429cabf27c580542a77f92b598e72dce",
+      "size_bytes": 1232
+    },
+    {
+      "path": "docs/monte_carlo.md",
+      "sha256": "63de96802f9ae174fe0578456640aaf9cba85e25249d7070534de644f38fcee9",
+      "size_bytes": 862
+    },
+    {
+      "path": "docs/pi_deployment.md",
+      "sha256": "812408701d9800fc223acbbe93e68daf208471fce4e537cc91e023dd5d73cb99",
+      "size_bytes": 1381
+    },
+    {
+      "path": "docs/requirements.md",
+      "sha256": "75382ebe34d5def8db1d451d279680d7d0fcde9b4fa131ec4ba33fe111330459",
+      "size_bytes": 366
+    },
+    {
+      "path": "docs/scenario_runner.md",
+      "sha256": "6cc1ae99fa7367bf16c321c26488eb4d3c9c31388fad5fd5342ccb0478f2c78e",
+      "size_bytes": 1041
+    },
+    {
+      "path": "docs/test_plan.md",
+      "sha256": "314e8468fb25cde04136b33f0158823459a889ad65355391499f4b531b9d0859",
+      "size_bytes": 840
+    },
+    {
+      "path": "docs/udp_command_receiver.md",
+      "sha256": "03971c64ab93b3c3ffd428889bacf2a762973e0fcdb5c3c203be331a25225f87",
+      "size_bytes": 1271
+    },
+    {
+      "path": "docs/watchdog.md",
+      "sha256": "8a82345e7ecf8639b9f4e4bb22027c8fdefc9bbcc0b666d9d32d97dcb8d17935",
+      "size_bytes": 1252
+    },
+    {
+      "path": "fsw/fuzz/fuzz_command_packet.cpp",
+      "sha256": "2abc734582cb9776dea37846b7cd6be7a0798046dec49d34bed520a6b2930126",
+      "size_bytes": 2272
+    },
+    {
+      "path": "fsw/include/astra/command_packet.hpp",
+      "sha256": "c06ec8db4fde54421ee91490fbaece4ae048d30033cca7fec67d1487a2a4be42",
+      "size_bytes": 1298
+    },
+    {
+      "path": "fsw/include/astra/command_processor.hpp",
+      "sha256": "854d856a2a61beac324fa892737112007690928854c83cdc2c434760b329ee3d",
+      "size_bytes": 1180
+    },
+    {
+      "path": "fsw/include/astra/configuration_service.hpp",
+      "sha256": "8a3e6928ce30dc04edc69d46e321e4daf24a278ae362129cb484894fbc7bf102",
+      "size_bytes": 1833
+    },
+    {
+      "path": "fsw/include/astra/event_logger.hpp",
+      "sha256": "d1396a8f9fa9b00363fa1d9a8c14030c330cfe7aefecbf7895eeb9b1ae915b19",
+      "size_bytes": 1469
+    },
+    {
+      "path": "fsw/include/astra/fdir_manager.hpp",
+      "sha256": "0c3b2b9ee3a0121bbbdf9f03f9e9290000cef2db6353426b1c980f4639f40b8c",
+      "size_bytes": 1454
+    },
+    {
+      "path": "fsw/include/astra/flight_software_app.hpp",
+      "sha256": "600699bf8a4fb22bfb6666ae3eaa1e8a57d809afbe1cd90b9809081cd226a0e2",
+      "size_bytes": 2937
+    },
+    {
+      "path": "fsw/include/astra/flight_software_executive.hpp",
+      "sha256": "9002b4a9dd39155bd84e70faf97856102a7a896a755bee00d9710ba4345836b8",
+      "size_bytes": 1920
+    },
+    {
+      "path": "fsw/include/astra/ground_command_guard.hpp",
+      "sha256": "0957fa1b4664586c80565ad437534cef002f70226460e966d0445ef24b76caac",
+      "size_bytes": 1533
+    },
+    {
+      "path": "fsw/include/astra/health_monitor.hpp",
+      "sha256": "d6215695e244cfe41405402360680adaa418bf6d818f66d179c6a59f2789d7b0",
+      "size_bytes": 1362
+    },
+    {
+      "path": "fsw/include/astra/mode_manager.hpp",
+      "sha256": "9073c0618921891999a02f640e91fb71cdef47541b9d37e42c566069f871b2ea",
+      "size_bytes": 979
+    },
+    {
+      "path": "fsw/include/astra/rate_group_scheduler.hpp",
+      "sha256": "447f4c1dc51af439582747f53fe754d7a2949b864fd3ffad69c2df2e688d6f15",
+      "size_bytes": 2749
+    },
+    {
+      "path": "fsw/include/astra/telemetry_packet.hpp",
+      "sha256": "28f4abe6a6f455afcab9c53e96964da26117337bce295512e990097934bb25ab",
+      "size_bytes": 1063
+    },
+    {
+      "path": "fsw/include/astra/udp_command_receiver.hpp",
+      "sha256": "b791298ce15a18c081f2bdbdd2c5064f09b5a375431b26b67524854be957ee72",
+      "size_bytes": 807
+    },
+    {
+      "path": "fsw/include/astra/udp_telemetry_sender.hpp",
+      "sha256": "cca81df75013b150af0aa811e02603915949c8a8f72dbff8449b48f87b841fe0",
+      "size_bytes": 737
+    },
+    {
+      "path": "fsw/include/astra/watchdog.hpp",
+      "sha256": "961b955c53c1356e3e0460f1f10f5c14bd86a730723617cfd9cd99c9803e2086",
+      "size_bytes": 1291
+    },
+    {
+      "path": "fsw/src/command_packet.cpp",
+      "sha256": "cc83812bf7e5cc4a348c5b58aaae04ec43edae16c71283c7c25dc1611a28216e",
+      "size_bytes": 6105
+    },
+    {
+      "path": "fsw/src/command_processor.cpp",
+      "sha256": "f49478810c659a5d5eadf2d05242500737894c72c6411bca8cbf8518b679d57d",
+      "size_bytes": 4389
+    },
+    {
+      "path": "fsw/src/command_telemetry_demo.cpp",
+      "sha256": "21d35096d61edc7e0470e1f5db8fe6314b9cbd673ff572d0c57ed97f4746c82a",
+      "size_bytes": 6303
+    },
+    {
+      "path": "fsw/src/configuration_service.cpp",
+      "sha256": "9f61b4966f83974004b9232d1a0bc95b97b206e2f5a17866ec50f45e296476e9",
+      "size_bytes": 5636
+    },
+    {
+      "path": "fsw/src/event_logger.cpp",
+      "sha256": "c1b52967e8ab5b21ca0e888449c515cb0c4452a7cc1cd7db294a69904b0ea30c",
+      "size_bytes": 2927
+    },
+    {
+      "path": "fsw/src/fdir_manager.cpp",
+      "sha256": "5698d76fa769d217eeb068c5417383b6a718a02258040c7b8491e37c676ed29d",
+      "size_bytes": 5896
+    },
+    {
+      "path": "fsw/src/flight_software_app.cpp",
+      "sha256": "deb3218c69520dd86f714c5476d27d094c22fbf43af676bf62431f4839d108fe",
+      "size_bytes": 10723
+    },
+    {
+      "path": "fsw/src/flight_software_executive.cpp",
+      "sha256": "871a4375356880c2d382fe59aca202b64af1fc88e3e94e403dd4df2e953c2b47",
+      "size_bytes": 3764
+    },
+    {
+      "path": "fsw/src/ground_command_guard.cpp",
+      "sha256": "ab1c24c2df0ff30e45267c61fdca150be16eb9518c67c7591ed477b423c2b90c",
+      "size_bytes": 4049
+    },
+    {
+      "path": "fsw/src/health_monitor.cpp",
+      "sha256": "99cead797f7a4f57bd4725d1c0d40f32007784b6da6d6d1c7e0dbf37c07f2782",
+      "size_bytes": 2909
+    },
+    {
+      "path": "fsw/src/main.cpp",
+      "sha256": "d5aec16a1e838dae852f4fcb72a9bc109a6b9455521b494ec85df94820fba959",
+      "size_bytes": 1777
+    },
+    {
+      "path": "fsw/src/mode_manager.cpp",
+      "sha256": "af9cd114897abb6ac0abfc4d022e6eaf8ea69b753c35733647b34496084e013d",
+      "size_bytes": 3637
+    },
+    {
+      "path": "fsw/src/rate_group_scheduler.cpp",
+      "sha256": "7fefca3831859189c6faf595e17fbbe7cf22e930cc103ecd96e305503739f9af",
+      "size_bytes": 7863
+    },
+    {
+      "path": "fsw/src/telemetry_demo.cpp",
+      "sha256": "a8b4c6ef1b393495b2e609ed1197726f65cde267f0001b122205134f0e4908f3",
+      "size_bytes": 3153
+    },
+    {
+      "path": "fsw/src/telemetry_packet.cpp",
+      "sha256": "c2b39b0b7c931c422aca0b4572e2d2397383317ad683253e632bf53729d274f6",
+      "size_bytes": 6933
+    },
+    {
+      "path": "fsw/src/timing_campaign.cpp",
+      "sha256": "a3498aeca2fb189549cae5d47c153dafd2e131216a5bedfa2f1a60d6e008faec",
+      "size_bytes": 8910
+    },
+    {
+      "path": "fsw/src/udp_command_receiver.cpp",
+      "sha256": "2aae836ea94a3322b44eda788f6d3b1e20cfbe5cc5cc440d1fc36e46f9e9f17b",
+      "size_bytes": 2878
+    },
+    {
+      "path": "fsw/src/udp_telemetry_sender.cpp",
+      "sha256": "e1c09027194224ac5c6b15ff8eba6bfce898bb22e14712a95301382e5db3712b",
+      "size_bytes": 1851
+    },
+    {
+      "path": "fsw/src/watchdog.cpp",
+      "sha256": "267ece76816a12e14fb427d3683940a6405e8d4c7e0a55f10943a118e873ec4f",
+      "size_bytes": 2470
+    },
+    {
+      "path": "fsw/tests/test_command_packet.cpp",
+      "sha256": "efad8fda1fed65aae6836be9017ce055c7dd901707dc8a63f769a9886aa9de3d",
+      "size_bytes": 9670
+    },
+    {
+      "path": "fsw/tests/test_command_processor.cpp",
+      "sha256": "0b8f613e65ce89de258a0e5615ee93c413e9945369cb4ffe3f65a532fded1e24",
+      "size_bytes": 5601
+    },
+    {
+      "path": "fsw/tests/test_configuration_service.cpp",
+      "sha256": "7e0f4d54d7d966c226f5f1c22e880866ee257a8930601ba7034a20ae768ae16f",
+      "size_bytes": 6951
+    },
+    {
+      "path": "fsw/tests/test_event_integration.cpp",
+      "sha256": "ccdf0cade197cd266697d64c236f6ee0934ef39cce021e10cdbb28e5567f0ca0",
+      "size_bytes": 5461
+    },
+    {
+      "path": "fsw/tests/test_event_logger.cpp",
+      "sha256": "3741d4b37c470652c338caac7c33843fc86b6be2562a7c7f0545c81c521794da",
+      "size_bytes": 4736
+    },
+    {
+      "path": "fsw/tests/test_extended_modes.cpp",
+      "sha256": "d13a3b92cd91b3091c50ff21cf91d3b555da2b6be2fdf919290059a5df9c36d1",
+      "size_bytes": 4897
+    },
+    {
+      "path": "fsw/tests/test_fdir_manager.cpp",
+      "sha256": "f98784d4b083e03c2547582674d6df15e4b9709f2c18da1a4d136ba84f480da4",
+      "size_bytes": 6698
+    },
+    {
+      "path": "fsw/tests/test_flight_software_app.cpp",
+      "sha256": "b10af4ec94fcd9d457fe4d49319043977e9cf4d8cbb8f06bea7ecbc9ad444b1a",
+      "size_bytes": 14904
+    },
+    {
+      "path": "fsw/tests/test_flight_software_executive.cpp",
+      "sha256": "34786317c2404046cfc12316e0e219df1915b163a462a9051f44b718fab2aa79",
+      "size_bytes": 5906
+    },
+    {
+      "path": "fsw/tests/test_ground_command_guard.cpp",
+      "sha256": "56c62417c85016e109d73d65023b15efaf4855027e3a6861d16f6f1c4c5b4d04",
+      "size_bytes": 6229
+    },
+    {
+      "path": "fsw/tests/test_health_monitor.cpp",
+      "sha256": "e94b4772b7cd094734e6105aee7ec4409c17d2cdbb4a523a18fdfbed189746df",
+      "size_bytes": 6587
+    },
+    {
+      "path": "fsw/tests/test_mode_manager.cpp",
+      "sha256": "ecd2816dbb699f40566d63379ac20845a45a39cd9663f7c7ae7e0abeb8eec360",
+      "size_bytes": 7239
+    },
+    {
+      "path": "fsw/tests/test_rate_group_scheduler.cpp",
+      "sha256": "dd4f6608ca96fddaad44c0771c46104c3992847fd2e56da0194fa58bd48b06a0",
+      "size_bytes": 8505
+    },
+    {
+      "path": "fsw/tests/test_simultaneous_faults.cpp",
+      "sha256": "6017e5c1b7c9947019c2b6ee9aa36393774bf1cc7b8c0980972389148e68599a",
+      "size_bytes": 4179
+    },
+    {
+      "path": "fsw/tests/test_telemetry_packet.cpp",
+      "sha256": "7707aa8adc56d575deae5d20eb45b4174cbefe6b4e7a7e016abec3b5c3bbb77a",
+      "size_bytes": 4501
+    },
+    {
+      "path": "fsw/tests/test_udp_command_receiver.cpp",
+      "sha256": "5ab00257813b40d8e478f710aee03c146c6999b15993336d78cbe0aaa9f0cf64",
+      "size_bytes": 4363
+    },
+    {
+      "path": "fsw/tests/test_udp_telemetry_sender.cpp",
+      "sha256": "cda57b6932ff8370ee3675d152be5bc6c61d7f2dcfafacba3bbb3fb91d4ed1e7",
+      "size_bytes": 5301
+    },
+    {
+      "path": "fsw/tests/test_watchdog.cpp",
+      "sha256": "113fd12f023978531c2aee2efcc309fdabbcf6b11d343eb2ac29d40c8e048031",
+      "size_bytes": 4631
+    },
+    {
+      "path": "resume_bullets.md",
+      "sha256": "4f759fbe7dbe543a3f3313510d8f4b3f30874c3900812c4291170609169da7a2",
+      "size_bytes": 864
+    },
+    {
+      "path": "scenarios/basic_command_fault.yaml",
+      "sha256": "56b9ee2059ddddaf2dae7ec0d9b03a109a586051e8c084613dd4f99675cbddfd",
+      "size_bytes": 752
+    },
+    {
+      "path": "scenarios/hil_smoke_test.yaml",
+      "sha256": "ecb43f5925ddf4aa1e015dc9b3d011e634ae3ad056f1e724242138b13ba847cf",
+      "size_bytes": 874
+    },
+    {
+      "path": "scenarios/invalid_transition_rejected.yaml",
+      "sha256": "92c516e26c1a7b77d0552567c48007ce29037aa303c719c4582921cb270ca8f9",
+      "size_bytes": 417
+    },
+    {
+      "path": "scenarios/sensor_timeout_safe_mode.yaml",
+      "sha256": "82f2c3932d63ccbe78ba7fc076d709193f4ac55b746e5be482b94e202d681958",
+      "size_bytes": 617
+    },
+    {
+      "path": "scenarios/watchdog_timeout_safe_mode.yaml",
+      "sha256": "86226b76846c61bdc386cfc9c26022580d98335b8cb1a45658f30f34321cadc4",
+      "size_bytes": 627
+    },
+    {
+      "path": "tools/check_protocol_conformance.py",
+      "sha256": "2611f8ca16f2e3a159c6ccdec921b622e27e6a9bdf3769902dfcf5221857164d",
+      "size_bytes": 7851
+    },
+    {
+      "path": "tools/check_requirements.py",
+      "sha256": "0341e2ce8664ef618ce2e29038796004c8bfee543fb69cf4ab06946b59f0cd47",
+      "size_bytes": 12295
+    },
+    {
+      "path": "tools/generate_baseline_manifest.py",
+      "sha256": "c6069c908d07b861db5fdbe4c8e2e7db237eaf5a6c924a7a0aa2322ea6edc24f",
+      "size_bytes": 6085
+    },
+    {
+      "path": "tools/generate_command_fuzz_corpus.py",
+      "sha256": "f4830b00784b0c9447fe0a9ee19f6732cee54772079ea20784c1ae630da05e0b",
+      "size_bytes": 4581
+    },
+    {
+      "path": "tools/generate_results_plots.py",
+      "sha256": "18ba8eae8b3940af211cd8e08b6e1c2a9cc0a98490cfc41f1a58f0e3b5e5100d",
+      "size_bytes": 2458
+    },
+    {
+      "path": "tools/run_all_scenarios.py",
+      "sha256": "2a9b9d748e1fb168cd71db75bab1a6e889f32557560297f13504293de3031fd4",
+      "size_bytes": 5712
+    },
+    {
+      "path": "tools/run_astra_os_assurance.py",
+      "sha256": "0726d03275dbc270810094c10d0a2f01d0d8090003fd1eb01ec80e370ce3f8f8",
+      "size_bytes": 8307
+    },
+    {
+      "path": "tools/run_controlled_mutation.py",
+      "sha256": "4d2358a26c08b8334401d9252ba670c4950c07f45c6615379f038c24c46aefeb",
+      "size_bytes": 3691
+    },
+    {
+      "path": "tools/run_hil_smoke_test.py",
+      "sha256": "0c21aa23ff6e3e1f11bbbcbdb5db9036aa46e2de4223ac3a5568e9b799280f08",
+      "size_bytes": 1011
+    },
+    {
+      "path": "tools/run_monte_carlo.py",
+      "sha256": "cfe62f3fe1e25a87a301d6b5100cb5ebe14bf6e4dac14008f77ced61c30676cf",
+      "size_bytes": 10318
+    },
+    {
+      "path": "tools/run_scenario.py",
+      "sha256": "a4fb5f01686d0eaec3bc672a62ddfc68a4fb94959854cee1d33e7b2a94670d24",
+      "size_bytes": 8306
+    },
+    {
+      "path": "tools/send_command.py",
+      "sha256": "7a82b0502271f2e3c7f750ae1634862d6a779fd0e6325ce984f78076163078a9",
+      "size_bytes": 2976
+    },
+    {
+      "path": "tools/summarize_lcov.py",
+      "sha256": "275a3bf6192f5b256d6741d725b327d281b18154595e8b41a7964b9f2e096686",
+      "size_bytes": 8181
+    },
+    {
+      "path": "tools/telemetry_dashboard.py",
+      "sha256": "b992c3cf2ee8ca3d97afcb23b64e5b96910e90e350f5d326f2ee160ff60c864d",
+      "size_bytes": 4335
+    },
+    {
+      "path": "tools/telemetry_receiver.py",
+      "sha256": "26f0d223e628756e6320bb792c920293e098c18c42147e700288b69b080f7758",
+      "size_bytes": 4657
+    },
+    {
+      "path": "tools/validate_timing_evidence.py",
+      "sha256": "eefd61d7c4717034bcc6552f87e8ecc559be298a81e1cda231fbfd911b524cae",
+      "size_bytes": 3491
+    }
+  ],
+  "repository": {
+    "branch": "astra-os/pi-hil-build-fix",
+    "commit": "395f1e028a3ab6bf46438b4dbd5bad256eced0cd",
+    "describe": "astrasim-fsw-baseline-2026-07-12-98-g395f1e0-dirty",
+    "dirty": true,
+    "remote": "https://github.com/XpiredRuby/AstraSim-FSW.git",
+    "root": "/home/xpired/ghost_ws/tools/astra-os-hil"
+  },
+  "schema": "astra-os.provenance-manifest.v1",
+  "toolchain": {
+    "cmake": {
+      "available": true,
+      "command": [
+        "cmake",
+        "--version"
+      ],
+      "output": "cmake version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).",
+      "return_code": 0
+    },
+    "compiler": {
+      "available": true,
+      "command": [
+        "c++",
+        "--version"
+      ],
+      "output": "c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+      "return_code": 0
+    },
+    "ctest": {
+      "available": true,
+      "command": [
+        "ctest",
+        "--version"
+      ],
+      "output": "ctest version 3.28.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).",
+      "return_code": 0
+    },
+    "git": {
+      "available": true,
+      "command": [
+        "git",
+        "--version"
+      ],
+      "output": "git version 2.43.0",
+      "return_code": 0
+    }
+  },
+  "verification": {
+    "commands": [
+      "/usr/bin/python3 /home/xpired/ghost_ws/tools/astra-os-hil/tools/run_all_scenarios.py --build-dir build-pi",
+      "cmake -S . -B /home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers -DCMAKE_BUILD_TYPE=Debug -DASTRA_WARNINGS_AS_ERRORS=ON -DASTRA_ENABLE_SANITIZERS=ON",
+      "cmake --build /home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers --parallel",
+      "ctest --test-dir /home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers --output-on-failure",
+      "/usr/bin/python3 /home/xpired/ghost_ws/tools/astra-os-hil/tools/run_controlled_mutation.py"
+    ],
+    "note": "Generated by tools/run_astra_os_assurance.py.",
+    "status": "passed"
+  }
+}

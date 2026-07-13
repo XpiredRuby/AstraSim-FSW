@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Check AstraSim-FSW requirement traceability against test evidence."""
+"""Check ASTRA-OS requirement traceability against scenarios and the verification matrix."""
 
 from __future__ import annotations
 
 import argparse
+import csv
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -11,14 +12,15 @@ from typing import Any
 
 import yaml
 
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
-REQUIREMENTS_DOC = REPO_ROOT / "docs" / "requirements.md"
-SCENARIOS_DIR = REPO_ROOT / "scenarios"
+DEFAULT_REQUIREMENTS_DOC = REPO_ROOT / "docs" / "REQUIREMENTS.md"
+DEFAULT_MATRIX_DOC = REPO_ROOT / "docs" / "VERIFICATION_MATRIX.csv"
+DEFAULT_SCENARIOS_DIR = REPO_ROOT / "scenarios"
 REPORTS_DIR = REPO_ROOT / "reports"
+REQUIREMENT_ID_PATTERN = re.compile(r"^(FSW|VER)-REQ-\d{3}$")
 
 
-@dataclass
+@dataclass(frozen=True)
 class Requirement:
     req_id: str
     text: str
@@ -27,7 +29,17 @@ class Requirement:
     status: str
 
 
-@dataclass
+@dataclass(frozen=True)
+class MatrixEntry:
+    req_id: str
+    component: str
+    verification_case: str
+    evidence: str
+    status: str
+    notes: str
+
+
+@dataclass(frozen=True)
 class ScenarioEvidence:
     name: str
     path: Path
@@ -37,22 +49,28 @@ class ScenarioEvidence:
 
 
 def parse_requirements_doc(path: Path) -> dict[str, Requirement]:
-    requirements: dict[str, Requirement] = {}
-    req_pattern = re.compile(r"^(FSW|VER)-REQ-\d{3}$")
+    if not path.exists():
+        raise ValueError(f"requirements document does not exist: {path}")
 
-    for line in path.read_text(encoding="utf-8").splitlines():
+    requirements: dict[str, Requirement] = {}
+
+    for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
         if not line.startswith("|"):
             continue
 
         columns = [column.strip() for column in line.strip().strip("|").split("|")]
-
         if len(columns) != 5:
             continue
 
         req_id, text, method, evidence, status = columns
-
-        if not req_pattern.match(req_id):
+        if not REQUIREMENT_ID_PATTERN.match(req_id):
             continue
+
+        if req_id in requirements:
+            raise ValueError(f"{path}:{line_number}: duplicate requirement ID {req_id}")
+
+        if not text or not method or not status:
+            raise ValueError(f"{path}:{line_number}: incomplete requirement row {req_id}")
 
         requirements[req_id] = Requirement(
             req_id=req_id,
@@ -62,7 +80,61 @@ def parse_requirements_doc(path: Path) -> dict[str, Requirement]:
             status=status,
         )
 
+    if not requirements:
+        raise ValueError(f"no requirements were parsed from {path}")
+
     return requirements
+
+
+def parse_verification_matrix(path: Path) -> dict[str, MatrixEntry]:
+    if not path.exists():
+        raise ValueError(f"verification matrix does not exist: {path}")
+
+    required_columns = {
+        "requirement_id",
+        "component",
+        "verification_case",
+        "evidence",
+        "status",
+        "notes",
+    }
+    entries: dict[str, MatrixEntry] = {}
+
+    with path.open("r", encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle)
+        fieldnames = set(reader.fieldnames or [])
+        missing_columns = sorted(required_columns - fieldnames)
+        if missing_columns:
+            raise ValueError(
+                f"{path}: missing required columns: {', '.join(missing_columns)}"
+            )
+
+        for line_number, row in enumerate(reader, start=2):
+            req_id = (row.get("requirement_id") or "").strip()
+            if not REQUIREMENT_ID_PATTERN.match(req_id):
+                raise ValueError(f"{path}:{line_number}: invalid requirement ID {req_id!r}")
+            if req_id in entries:
+                raise ValueError(f"{path}:{line_number}: duplicate matrix entry {req_id}")
+
+            entry = MatrixEntry(
+                req_id=req_id,
+                component=(row.get("component") or "").strip(),
+                verification_case=(row.get("verification_case") or "").strip(),
+                evidence=(row.get("evidence") or "").strip(),
+                status=(row.get("status") or "").strip(),
+                notes=(row.get("notes") or "").strip(),
+            )
+
+            if not entry.component:
+                raise ValueError(f"{path}:{line_number}: {req_id} has no component allocation")
+            if entry.status != "Planned" and not entry.verification_case:
+                raise ValueError(
+                    f"{path}:{line_number}: non-planned {req_id} has no verification case"
+                )
+
+            entries[req_id] = entry
+
+    return entries
 
 
 def scenario_report_path(scenario_name: str) -> Path:
@@ -84,32 +156,35 @@ def evidence_report_passed(evidence: str) -> bool:
         report_path = REPO_ROOT / report_path_text
         if not report_path.exists():
             continue
-
         text = report_path.read_text(encoding="utf-8", errors="replace")
-        if "Result: PASS" in text:
+        if "Result: PASS" in text or "100% tests passed" in text:
             return True
 
     return False
 
 
 def load_scenarios(path: Path) -> list[ScenarioEvidence]:
+    if not path.exists():
+        raise ValueError(f"scenario directory does not exist: {path}")
+
     scenarios: list[ScenarioEvidence] = []
 
     for scenario_path in sorted(path.glob("*.yaml")):
         data: dict[str, Any] = yaml.safe_load(scenario_path.read_text(encoding="utf-8"))
-        name = data.get("name", scenario_path.stem)
-        requirements = data.get("requirements", [])
+        if not isinstance(data, dict):
+            raise ValueError(f"{scenario_path}: scenario root must be a mapping")
 
+        name = str(data.get("name", scenario_path.stem))
+        requirements = data.get("requirements", [])
         if not isinstance(requirements, list):
             raise ValueError(f"{scenario_path}: requirements must be a list")
 
         report_path = scenario_report_path(name)
-
         scenarios.append(
             ScenarioEvidence(
                 name=name,
                 path=scenario_path,
-                requirements=[str(req) for req in requirements],
+                requirements=[str(requirement) for requirement in requirements],
                 report_path=report_path,
                 passed=report_passed(report_path),
             )
@@ -118,81 +193,124 @@ def load_scenarios(path: Path) -> list[ScenarioEvidence]:
     return scenarios
 
 
+def matrix_consistency_problems(
+    requirements: dict[str, Requirement],
+    matrix: dict[str, MatrixEntry],
+) -> list[str]:
+    problems: list[str] = []
+
+    for req_id in sorted(set(requirements) - set(matrix)):
+        problems.append(f"Requirement missing from matrix: {req_id}")
+
+    for req_id in sorted(set(matrix) - set(requirements)):
+        problems.append(f"Matrix references unknown requirement: {req_id}")
+
+    for req_id in sorted(set(requirements) & set(matrix)):
+        requirement = requirements[req_id]
+        entry = matrix[req_id]
+        if requirement.status != entry.status:
+            problems.append(
+                f"Status mismatch for {req_id}: requirements={requirement.status}, matrix={entry.status}"
+            )
+
+    return problems
+
+
 def write_report(
     requirements: dict[str, Requirement],
+    matrix: dict[str, MatrixEntry],
     scenarios: list[ScenarioEvidence],
     output_path: Path,
-) -> tuple[int, int, int, int]:
+) -> tuple[dict[str, int], list[str]]:
     req_to_scenarios: dict[str, list[ScenarioEvidence]] = {
         req_id: [] for req_id in requirements
     }
-    unknown_refs: set[str] = set()
+    problems = matrix_consistency_problems(requirements, matrix)
 
     for scenario in scenarios:
         for req_id in scenario.requirements:
             if req_id in req_to_scenarios:
                 req_to_scenarios[req_id].append(scenario)
             else:
-                unknown_refs.add(req_id)
+                problems.append(
+                    f"Scenario {scenario.path.relative_to(REPO_ROOT)} references unknown requirement {req_id}"
+                )
 
-    lines: list[str] = []
-    lines.append("# Requirement Check Report")
-    lines.append("")
-    lines.append("## Summary")
-    lines.append("")
-
-    passed = 0
-    manual = 0
-    planned = 0
-    failed = 0
-
-    status_rows: list[tuple[str, str, str, str]] = []
+    counts = {
+        "PASS": 0,
+        "MANUAL": 0,
+        "PLANNED": 0,
+        "HISTORICAL": 0,
+        "FAIL": 0,
+    }
+    status_rows: list[tuple[str, str, str, str, str]] = []
 
     for req_id in sorted(requirements):
-        req = requirements[req_id]
+        requirement = requirements[req_id]
+        entry = matrix.get(req_id)
         linked = req_to_scenarios.get(req_id, [])
         linked_passed = [scenario for scenario in linked if scenario.passed]
         linked_failed = [scenario for scenario in linked if not scenario.passed]
 
-        if req.status == "Planned":
+        if requirement.status == "Planned":
             result = "PLANNED"
-            planned += 1
+        elif requirement.status == "Historical":
+            result = "HISTORICAL"
         elif linked_failed:
             result = "FAIL"
-            failed += 1
-        elif linked_passed:
+        elif linked_passed or evidence_report_passed(requirement.evidence):
             result = "PASS"
-            passed += 1
-        elif evidence_report_passed(req.evidence):
-            result = "PASS"
-            passed += 1
         else:
             result = "MANUAL"
-            manual += 1
 
-        evidence_names = ", ".join(s.name for s in linked) if linked else req.evidence
-        status_rows.append((req_id, result, req.status, evidence_names))
+        counts[result] += 1
+        evidence_names = ", ".join(scenario.name for scenario in linked)
+        if not evidence_names and entry is not None:
+            evidence_names = entry.verification_case
+        if not evidence_names:
+            evidence_names = requirement.evidence
 
-    lines.append(f"- PASS: {passed}")
-    lines.append(f"- MANUAL: {manual}")
-    lines.append(f"- PLANNED: {planned}")
-    lines.append(f"- FAIL: {failed}")
-    lines.append(f"- UNKNOWN_REFERENCES: {len(unknown_refs)}")
+        component = entry.component if entry is not None else "MISSING"
+        status_rows.append(
+            (req_id, result, requirement.status, component, evidence_names)
+        )
+
+    lines: list[str] = [
+        "# Requirement Check Report",
+        "",
+        "## Summary",
+        "",
+    ]
+
+    for name in ("PASS", "MANUAL", "PLANNED", "HISTORICAL", "FAIL"):
+        lines.append(f"- {name}: {counts[name]}")
+    lines.append(f"- TRACEABILITY_PROBLEMS: {len(problems)}")
     lines.append("")
-
-    lines.append("## Requirement Results")
+    lines.append("A MANUAL result means the requirement has a matrix allocation but was not automatically dispositioned by the current scenario-report logic. It is not equivalent to PASS.")
     lines.append("")
-    lines.append("| Requirement | Result | Doc Status | Evidence |")
-    lines.append("|---|---|---|---|")
+    lines.extend(
+        [
+            "## Requirement Results",
+            "",
+            "| Requirement | Result | Doc Status | Component | Verification Case or Evidence |",
+            "|---|---|---|---|---|",
+        ]
+    )
 
-    for req_id, result, doc_status, evidence in status_rows:
-        lines.append(f"| {req_id} | {result} | {doc_status} | {evidence} |")
+    for req_id, result, doc_status, component, evidence in status_rows:
+        lines.append(
+            f"| {req_id} | {result} | {doc_status} | {component} | {evidence} |"
+        )
 
-    lines.append("")
-    lines.append("## Scenario Evidence")
-    lines.append("")
-    lines.append("| Scenario | Result | Requirements | Report |")
-    lines.append("|---|---|---|---|")
+    lines.extend(
+        [
+            "",
+            "## Scenario Evidence",
+            "",
+            "| Scenario | Result | Requirements | Report |",
+            "|---|---|---|---|",
+        ]
+    )
 
     for scenario in scenarios:
         result = "PASS" if scenario.passed else "FAIL"
@@ -200,42 +318,54 @@ def write_report(
         report = scenario.report_path.relative_to(REPO_ROOT)
         lines.append(f"| {scenario.name} | {result} | {reqs} | `{report}` |")
 
-    if unknown_refs:
-        lines.append("")
-        lines.append("## Unknown Requirement References")
-        lines.append("")
-        for req_id in sorted(unknown_refs):
-            lines.append(f"- {req_id}")
+    if problems:
+        lines.extend(["", "## Traceability Problems", ""])
+        for problem in problems:
+            lines.append(f"- {problem}")
 
-    output_path.parent.mkdir(exist_ok=True)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return counts, problems
 
-    return passed, manual, planned, failed + len(unknown_refs)
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--requirements", type=Path, default=DEFAULT_REQUIREMENTS_DOC)
+    parser.add_argument("--matrix", type=Path, default=DEFAULT_MATRIX_DOC)
+    parser.add_argument("--scenarios", type=Path, default=DEFAULT_SCENARIOS_DIR)
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("reports/requirement_check_report.md"),
+        help="Output Markdown report path.",
+    )
+    return parser.parse_args()
+
+
+def resolve_repo_path(path: Path) -> Path:
+    return path if path.is_absolute() else REPO_ROOT / path
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--output",
-        default="reports/requirement_check_report.md",
-        help="Output Markdown report path.",
-    )
-    args = parser.parse_args()
+    args = parse_args()
 
-    requirements = parse_requirements_doc(REQUIREMENTS_DOC)
-    scenarios = load_scenarios(SCENARIOS_DIR)
-
-    output_path = REPO_ROOT / args.output
-    passed, manual, planned, problems = write_report(requirements, scenarios, output_path)
+    try:
+        requirements = parse_requirements_doc(resolve_repo_path(args.requirements))
+        matrix = parse_verification_matrix(resolve_repo_path(args.matrix))
+        scenarios = load_scenarios(resolve_repo_path(args.scenarios))
+        output_path = resolve_repo_path(args.output)
+        counts, problems = write_report(requirements, matrix, scenarios, output_path)
+    except (OSError, ValueError, yaml.YAMLError) as error:
+        print(f"ERROR: {error}")
+        return 1
 
     print("Requirement check complete.")
-    print(f"PASS={passed}")
-    print(f"MANUAL={manual}")
-    print(f"PLANNED={planned}")
-    print(f"PROBLEMS={problems}")
+    for name in ("PASS", "MANUAL", "PLANNED", "HISTORICAL", "FAIL"):
+        print(f"{name}={counts[name]}")
+    print(f"TRACEABILITY_PROBLEMS={len(problems)}")
     print(f"Report written to {output_path.relative_to(REPO_ROOT)}")
 
-    return 0 if problems == 0 else 1
+    return 0 if counts["FAIL"] == 0 and not problems else 1
 
 
 if __name__ == "__main__":

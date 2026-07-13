@@ -31,6 +31,8 @@ MODES = {
     "DEGRADED_PAYLOAD": 3,
     "SAFE": 4,
     "RECOVERY": 5,
+    "STANDBY": 6,
+    "TEST": 7,
 }
 
 FAULTS = {
@@ -78,7 +80,7 @@ def parse_argument(command: str, argument: str | None) -> int:
 
 
 def build_packet(sequence: int, command: str, argument_value: int) -> bytes:
-    timestamp_ms = int(time.monotonic() * 1000)
+    timestamp_ms = int(time.time() * 1000)
     command_id = COMMANDS[command]
 
     payload = struct.pack(

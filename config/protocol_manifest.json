@@ -1,0 +1,61 @@
+{
+  "schema": "astra-os.protocol-manifest.v1",
+  "command_packet": {
+    "magic": 1129137235,
+    "magic_hex": "0x434D4453",
+    "version": 1,
+    "size_bytes": 26,
+    "endianness": "little",
+    "crc": "CRC-16-CCITT init=0xFFFF poly=0x1021"
+  },
+  "telemetry_packet": {
+    "magic": 1095980114,
+    "magic_hex": "0x41535452",
+    "version": 1,
+    "packet_type_health": 1,
+    "size_bytes": 43,
+    "endianness": "little",
+    "crc": "CRC-16-CCITT init=0xFFFF poly=0x1021"
+  },
+  "commands": {
+    "NOOP": 0,
+    "SET_MODE": 1,
+    "INJECT_FAULT": 2,
+    "REQUEST_TELEMETRY": 3,
+    "CLEAR_FAULT": 4
+  },
+  "command_statuses": {
+    "ACCEPTED": 0,
+    "REJECTED_BAD_ARGUMENT": 1,
+    "REJECTED_INVALID_TRANSITION": 2,
+    "REJECTED_UNKNOWN_COMMAND": 3,
+    "REJECTED_DUPLICATE_SEQUENCE": 4,
+    "REJECTED_REPLAYED_SEQUENCE": 5,
+    "REJECTED_STALE_TIMESTAMP": 6,
+    "REJECTED_FUTURE_TIMESTAMP": 7,
+    "REJECTED_GUARD_CONFIGURATION": 8
+  },
+  "modes": {
+    "BOOT": 0,
+    "NOMINAL": 1,
+    "DEGRADED_SENSOR": 2,
+    "DEGRADED_PAYLOAD": 3,
+    "SAFE": 4,
+    "RECOVERY": 5,
+    "STANDBY": 6,
+    "TEST": 7
+  },
+  "faults": {
+    "NONE": 0,
+    "SENSOR_TIMEOUT": 100,
+    "SENSOR_INVALID_DATA": 101,
+    "PAYLOAD_HEARTBEAT_TIMEOUT": 200,
+    "CPU_OVERLOAD": 300,
+    "MEMORY_OVERLOAD": 301,
+    "TELEMETRY_SOCKET_FAILURE": 400,
+    "COMMAND_BAD_CRC": 500,
+    "COMMAND_UNKNOWN_ID": 501,
+    "COMMAND_TIMEOUT": 502,
+    "WATCHDOG_DEADLINE_MISS": 600
+  }
+}

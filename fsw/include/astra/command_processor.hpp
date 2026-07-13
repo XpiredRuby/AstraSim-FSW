@@ -1,6 +1,7 @@
 #pragma once
 
 #include "astra/command_packet.hpp"
+#include "astra/fdir_manager.hpp"
 #include "astra/mode_manager.hpp"
 
 #include <cstdint>
@@ -12,7 +13,12 @@ enum class CommandStatus : std::uint8_t {
     ACCEPTED = 0,
     REJECTED_BAD_ARGUMENT = 1,
     REJECTED_INVALID_TRANSITION = 2,
-    REJECTED_UNKNOWN_COMMAND = 3
+    REJECTED_UNKNOWN_COMMAND = 3,
+    REJECTED_DUPLICATE_SEQUENCE = 4,
+    REJECTED_REPLAYED_SEQUENCE = 5,
+    REJECTED_STALE_TIMESTAMP = 6,
+    REJECTED_FUTURE_TIMESTAMP = 7,
+    REJECTED_GUARD_CONFIGURATION = 8
 };
 
 struct CommandResult {
@@ -37,6 +43,7 @@ public:
 
 private:
     ModeManager& mode_manager_;
+    FdirManager fdir_manager_;
     FaultCode last_fault_;
 };
 

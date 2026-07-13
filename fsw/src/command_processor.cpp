@@ -12,6 +12,16 @@ std::string command_status_to_string(CommandStatus status) {
             return "REJECTED_INVALID_TRANSITION";
         case CommandStatus::REJECTED_UNKNOWN_COMMAND:
             return "REJECTED_UNKNOWN_COMMAND";
+        case CommandStatus::REJECTED_DUPLICATE_SEQUENCE:
+            return "REJECTED_DUPLICATE_SEQUENCE";
+        case CommandStatus::REJECTED_REPLAYED_SEQUENCE:
+            return "REJECTED_REPLAYED_SEQUENCE";
+        case CommandStatus::REJECTED_STALE_TIMESTAMP:
+            return "REJECTED_STALE_TIMESTAMP";
+        case CommandStatus::REJECTED_FUTURE_TIMESTAMP:
+            return "REJECTED_FUTURE_TIMESTAMP";
+        case CommandStatus::REJECTED_GUARD_CONFIGURATION:
+            return "REJECTED_GUARD_CONFIGURATION";
     }
 
     return "UNKNOWN_STATUS";
@@ -19,6 +29,7 @@ std::string command_status_to_string(CommandStatus status) {
 
 CommandProcessor::CommandProcessor(ModeManager& mode_manager)
     : mode_manager_(mode_manager),
+      fdir_manager_(),
       last_fault_(FaultCode::NONE) {}
 
 CommandResult CommandProcessor::process(const CommandPacket& packet) {
@@ -79,12 +90,19 @@ CommandResult CommandProcessor::process(const CommandPacket& packet) {
             }
 
             last_fault_ = requested_fault;
-            mode_manager_.handle_fault(requested_fault);
+            const auto action = fdir_manager_.apply_fault(mode_manager_, requested_fault);
 
             result.status = CommandStatus::ACCEPTED;
             result.resulting_mode = mode_manager_.current_mode();
             result.resulting_fault = last_fault_;
-            result.message = "INJECT_FAULT accepted";
+            result.message =
+                "INJECT_FAULT accepted: severity=" +
+                fault_severity_to_string(action.disposition.severity) +
+                " response=" +
+                fault_response_to_string(action.disposition.response);
+            if (action.safe_fallback_used) {
+                result.message += " fallback=ENTER_SAFE";
+            }
             break;
         }
     }
