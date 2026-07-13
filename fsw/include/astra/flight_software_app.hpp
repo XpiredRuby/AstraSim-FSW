@@ -2,6 +2,7 @@
 
 #include "astra/command_packet.hpp"
 #include "astra/command_processor.hpp"
+#include "astra/event_logger.hpp"
 #include "astra/fdir_manager.hpp"
 #include "astra/health_monitor.hpp"
 #include "astra/mode_manager.hpp"
@@ -9,6 +10,7 @@
 #include "astra/watchdog.hpp"
 
 #include <cstdint>
+#include <vector>
 
 namespace astra {
 
@@ -53,6 +55,8 @@ public:
 
     Mode current_mode() const;
     FaultCode last_fault() const;
+    std::vector<EventRecord> event_snapshot() const;
+    std::uint64_t dropped_event_count() const;
 
 private:
     CommandPacket make_internal_fault_command(
@@ -66,11 +70,19 @@ private:
         const char* message
     ) const;
 
+    void record_step_events(
+        std::uint64_t timestamp_ms,
+        Mode mode_before,
+        FaultCode fault_before,
+        const FlightSoftwareStepOutput& output
+    );
+
     ModeManager mode_manager_;
     CommandProcessor command_processor_;
     FdirManager fdir_manager_;
     HealthMonitor health_monitor_;
     Watchdog watchdog_;
+    EventLogger event_logger_;
     bool watchdog_initialized_;
     std::uint32_t telemetry_sequence_;
     bool ground_command_sequence_initialized_;
