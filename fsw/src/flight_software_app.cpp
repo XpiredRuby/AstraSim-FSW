@@ -1,5 +1,7 @@
 #include "astra/flight_software_app.hpp"
 
+#include <vector>
+
 namespace astra {
 namespace {
 
@@ -15,6 +17,7 @@ bool sequence_is_newer(std::uint32_t candidate, std::uint32_t reference) {
 FlightSoftwareApp::FlightSoftwareApp()
     : mode_manager_(),
       command_processor_(mode_manager_),
+      fdir_manager_(),
       health_monitor_(),
       watchdog_(),
       watchdog_initialized_(false),
@@ -35,14 +38,13 @@ FlightSoftwareStepOutput FlightSoftwareApp::step(const FlightSoftwareStepInput& 
 
     output.watchdog_report = watchdog_.evaluate(input.timestamp_ms, input.loop_duration_ms);
 
-    if (output.watchdog_report.status == WatchdogStatus::EXPIRED &&
-        output.watchdog_report.fault != FaultCode::NONE) {
-        const auto watchdog_fault_command =
-            make_internal_fault_command(output.watchdog_report.fault, input.timestamp_ms);
-
-        output.watchdog_fault_processed = true;
-        output.watchdog_fault_result = command_processor_.process(watchdog_fault_command);
-    }
+    HealthSnapshot health_snapshot;
+    health_snapshot.cpu_load_percent = input.cpu_load_percent;
+    health_snapshot.memory_load_percent = input.memory_load_percent;
+    health_snapshot.sensor_age_ms = input.sensor_age_ms;
+    health_snapshot.payload_age_ms = input.payload_age_ms;
+    health_snapshot.loop_duration_ms = input.loop_duration_ms;
+    output.health_report = health_monitor_.evaluate(health_snapshot);
 
     if (input.has_command) {
         output.command_processed = true;
@@ -76,22 +78,39 @@ FlightSoftwareStepOutput FlightSoftwareApp::step(const FlightSoftwareStepInput& 
         last_ground_command_status_ = static_cast<std::uint8_t>(output.command_result.status);
     }
 
-    HealthSnapshot health_snapshot;
-    health_snapshot.cpu_load_percent = input.cpu_load_percent;
-    health_snapshot.memory_load_percent = input.memory_load_percent;
-    health_snapshot.sensor_age_ms = input.sensor_age_ms;
-    health_snapshot.payload_age_ms = input.payload_age_ms;
-    health_snapshot.loop_duration_ms = input.loop_duration_ms;
+    std::vector<FaultCode> internal_fault_candidates;
+    const bool watchdog_fault_active =
+        output.watchdog_report.status == WatchdogStatus::EXPIRED &&
+        output.watchdog_report.fault != FaultCode::NONE;
+    const bool health_fault_active =
+        output.health_report.status == HealthStatus::CRITICAL &&
+        output.health_report.fault != FaultCode::NONE;
 
-    output.health_report = health_monitor_.evaluate(health_snapshot);
+    if (watchdog_fault_active) {
+        internal_fault_candidates.push_back(output.watchdog_report.fault);
+    }
+    if (health_fault_active) {
+        internal_fault_candidates.push_back(output.health_report.fault);
+    }
 
-    if (output.health_report.status == HealthStatus::CRITICAL &&
-        output.health_report.fault != FaultCode::NONE) {
-        const auto health_fault_command =
-            make_internal_fault_command(output.health_report.fault, input.timestamp_ms);
+    output.primary_internal_fault =
+        fdir_manager_.select_primary_fault(internal_fault_candidates);
 
-        output.health_fault_processed = true;
-        output.health_fault_result = command_processor_.process(health_fault_command);
+    if (output.primary_internal_fault != FaultCode::NONE) {
+        const auto internal_fault_command =
+            make_internal_fault_command(output.primary_internal_fault, input.timestamp_ms);
+        output.internal_fault_processed = true;
+        output.internal_fault_result = command_processor_.process(internal_fault_command);
+
+        if (watchdog_fault_active &&
+            output.watchdog_report.fault == output.primary_internal_fault) {
+            output.watchdog_fault_processed = true;
+            output.watchdog_fault_result = output.internal_fault_result;
+        } else if (health_fault_active &&
+                   output.health_report.fault == output.primary_internal_fault) {
+            output.health_fault_processed = true;
+            output.health_fault_result = output.internal_fault_result;
+        }
     }
 
     watchdog_.kick(input.timestamp_ms);
