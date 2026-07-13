@@ -182,6 +182,14 @@ target_link_libraries(astra_fdir_manager_tests PRIVATE
     astra_fsw_core
 )
 
+add_executable(astra_simultaneous_fault_tests
+    fsw/tests/test_simultaneous_faults.cpp
+)
+
+target_link_libraries(astra_simultaneous_fault_tests PRIVATE
+    astra_fsw_core
+)
+
 if(ASTRA_BUILD_FUZZERS)
     if(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         message(FATAL_ERROR "ASTRA_BUILD_FUZZERS requires Clang with matching libFuzzer support")
@@ -224,3 +232,4 @@ add_test(NAME watchdog_tests COMMAND astra_watchdog_tests)
 add_test(NAME rate_group_scheduler_tests COMMAND astra_rate_group_scheduler_tests)
 add_test(NAME extended_mode_tests COMMAND astra_extended_mode_tests)
 add_test(NAME fdir_manager_tests COMMAND astra_fdir_manager_tests)
+add_test(NAME simultaneous_fault_tests COMMAND astra_simultaneous_fault_tests)
