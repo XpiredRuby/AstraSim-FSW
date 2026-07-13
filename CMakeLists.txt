@@ -11,6 +11,7 @@ option(ASTRA_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" ON)
 option(ASTRA_ENABLE_SANITIZERS "Enable AddressSanitizer and UndefinedBehaviorSanitizer" OFF)
 option(ASTRA_ENABLE_COVERAGE "Enable GCC/Clang coverage instrumentation" OFF)
 option(ASTRA_ENABLE_CLANG_TIDY "Run clang-tidy as part of the build" OFF)
+option(ASTRA_BUILD_FUZZERS "Build Clang libFuzzer targets" OFF)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     add_compile_options(-Wall -Wextra -Wpedantic)
@@ -163,6 +164,35 @@ add_executable(astra_rate_group_scheduler_tests
 target_link_libraries(astra_rate_group_scheduler_tests PRIVATE
     astra_fsw_core
 )
+
+if(ASTRA_BUILD_FUZZERS)
+    if(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        message(FATAL_ERROR "ASTRA_BUILD_FUZZERS requires Clang with matching libFuzzer support")
+    endif()
+
+    target_compile_options(astra_fsw_core PRIVATE
+        -fsanitize=fuzzer-no-link,address,undefined
+        -fno-omit-frame-pointer
+    )
+
+    add_executable(astra_command_packet_fuzzer
+        fsw/fuzz/fuzz_command_packet.cpp
+    )
+
+    target_link_libraries(astra_command_packet_fuzzer PRIVATE
+        astra_fsw_core
+    )
+
+    target_compile_options(astra_command_packet_fuzzer PRIVATE
+        -fsanitize=fuzzer,address,undefined
+        -fno-omit-frame-pointer
+    )
+
+    target_link_options(astra_command_packet_fuzzer PRIVATE
+        -fsanitize=fuzzer,address,undefined
+        -fno-omit-frame-pointer
+    )
+endif()
 
 enable_testing()
 add_test(NAME mode_manager_tests COMMAND astra_fsw_tests)
