@@ -55,12 +55,20 @@ private:
         std::uint64_t timestamp_ms
     ) const;
 
+    CommandResult reject_ground_command(
+        const CommandPacket& packet,
+        CommandStatus status,
+        const char* message
+    ) const;
+
     ModeManager mode_manager_;
     CommandProcessor command_processor_;
     HealthMonitor health_monitor_;
     Watchdog watchdog_;
     bool watchdog_initialized_;
     std::uint32_t telemetry_sequence_;
+    bool ground_command_sequence_initialized_;
+    std::uint32_t highest_ground_command_sequence_number_;
     std::uint32_t last_ground_command_sequence_number_;
     std::uint8_t last_ground_command_id_;
     std::uint8_t last_ground_command_status_;
