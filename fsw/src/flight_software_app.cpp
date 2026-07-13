@@ -1,15 +1,32 @@
 #include "astra/flight_software_app.hpp"
 
+#include <string>
 #include <vector>
 
 namespace astra {
 namespace {
 
 constexpr std::uint32_t SERIAL_HALF_RANGE = 0x80000000U;
+constexpr std::size_t EVENT_LOG_CAPACITY = 256U;
 
 bool sequence_is_newer(std::uint32_t candidate, std::uint32_t reference) {
     const std::uint32_t forward_distance = candidate - reference;
     return forward_distance != 0U && forward_distance < SERIAL_HALF_RANGE;
+}
+
+EventSeverity event_severity_for_fault(const FaultDisposition& disposition) {
+    switch (disposition.severity) {
+        case FaultSeverity::NONE:
+            return EventSeverity::INFO;
+        case FaultSeverity::ADVISORY:
+            return EventSeverity::WARNING;
+        case FaultSeverity::DEGRADED:
+            return EventSeverity::ERROR;
+        case FaultSeverity::CRITICAL:
+            return EventSeverity::CRITICAL;
+    }
+
+    return EventSeverity::CRITICAL;
 }
 
 }  // namespace
@@ -20,6 +37,7 @@ FlightSoftwareApp::FlightSoftwareApp()
       fdir_manager_(),
       health_monitor_(),
       watchdog_(),
+      event_logger_(EVENT_LOG_CAPACITY),
       watchdog_initialized_(false),
       telemetry_sequence_(0),
       ground_command_sequence_initialized_(false),
@@ -30,6 +48,8 @@ FlightSoftwareApp::FlightSoftwareApp()
 
 FlightSoftwareStepOutput FlightSoftwareApp::step(const FlightSoftwareStepInput& input) {
     FlightSoftwareStepOutput output;
+    const Mode mode_before = mode_manager_.current_mode();
+    const FaultCode fault_before = command_processor_.last_fault();
 
     if (!watchdog_initialized_) {
         watchdog_.reset(input.timestamp_ms);
@@ -114,6 +134,7 @@ FlightSoftwareStepOutput FlightSoftwareApp::step(const FlightSoftwareStepInput& 
     }
 
     watchdog_.kick(input.timestamp_ms);
+    record_step_events(input.timestamp_ms, mode_before, fault_before, output);
 
     telemetry_sequence_ += 1;
 
@@ -137,6 +158,14 @@ Mode FlightSoftwareApp::current_mode() const {
 
 FaultCode FlightSoftwareApp::last_fault() const {
     return command_processor_.last_fault();
+}
+
+std::vector<EventRecord> FlightSoftwareApp::event_snapshot() const {
+    return event_logger_.snapshot();
+}
+
+std::uint64_t FlightSoftwareApp::dropped_event_count() const {
+    return event_logger_.dropped_count();
 }
 
 CommandPacket FlightSoftwareApp::make_internal_fault_command(
@@ -164,6 +193,60 @@ CommandResult FlightSoftwareApp::reject_ground_command(
     result.resulting_fault = command_processor_.last_fault();
     result.message = message;
     return result;
+}
+
+void FlightSoftwareApp::record_step_events(
+    std::uint64_t timestamp_ms,
+    Mode mode_before,
+    FaultCode fault_before,
+    const FlightSoftwareStepOutput& output
+) {
+    if (output.command_processed) {
+        const auto severity =
+            output.command_result.status == CommandStatus::ACCEPTED
+                ? EventSeverity::INFO
+                : EventSeverity::WARNING;
+        event_logger_.log(
+            timestamp_ms,
+            severity,
+            EventSource::COMMAND,
+            static_cast<std::uint16_t>(output.command_result.command_id),
+            "sequence=" + std::to_string(output.command_result.sequence_number) +
+                " status=" + command_status_to_string(output.command_result.status) +
+                " message=" + output.command_result.message
+        );
+    }
+
+    const Mode mode_after = mode_manager_.current_mode();
+    if (mode_after != mode_before) {
+        event_logger_.log(
+            timestamp_ms,
+            EventSeverity::INFO,
+            EventSource::MODE,
+            static_cast<std::uint16_t>(mode_after),
+            "mode=" + mode_to_string(mode_before) + "->" + mode_to_string(mode_after)
+        );
+    }
+
+    const FaultCode fault_after = command_processor_.last_fault();
+    if (fault_after != fault_before) {
+        EventSeverity severity = EventSeverity::INFO;
+        std::string response = "CLEARED";
+        if (fault_after != FaultCode::NONE) {
+            const auto disposition = fdir_manager_.disposition_for(fault_after);
+            severity = event_severity_for_fault(disposition);
+            response = fault_response_to_string(disposition.response);
+        }
+
+        event_logger_.log(
+            timestamp_ms,
+            severity,
+            EventSource::FDIR,
+            static_cast<std::uint16_t>(fault_after),
+            "fault=" + fault_to_string(fault_before) + "->" +
+                fault_to_string(fault_after) + " response=" + response
+        );
+    }
 }
 
 }  // namespace astra
