@@ -88,6 +88,8 @@ bool is_valid_mode(std::uint8_t value) {
         case Mode::DEGRADED_PAYLOAD:
         case Mode::SAFE:
         case Mode::RECOVERY:
+        case Mode::STANDBY:
+        case Mode::TEST:
             return true;
     }
 
