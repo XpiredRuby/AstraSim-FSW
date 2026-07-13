@@ -86,7 +86,7 @@ cp tools/send_command.py "${PACKAGE_ROOT}/tools/"
 cp tools/telemetry_receiver.py "${PACKAGE_ROOT}/tools/"
 cp tools/run_scenario.py "${PACKAGE_ROOT}/tools/"
 cp tools/run_hil_smoke_test.py "${PACKAGE_ROOT}/tools/"
-cp tools/check_requirements.py "${PACKAGE_ROOT}/tools/"
+cp tools/run_fdir_campaign.py "${PACKAGE_ROOT}/tools/"
 
 cp scenarios/*.yaml "${PACKAGE_ROOT}/scenarios/"
 cp config/protocol_manifest.json "${PACKAGE_ROOT}/config/"
@@ -94,6 +94,9 @@ cp docs/REQUIREMENTS.md "${PACKAGE_ROOT}/docs/"
 cp docs/VERIFICATION_MATRIX.csv "${PACKAGE_ROOT}/docs/"
 cp docs/pi_deployment.md "${PACKAGE_ROOT}/docs/" 2>/dev/null || true
 cp docs/hil_smoke_test.md "${PACKAGE_ROOT}/docs/" 2>/dev/null || true
+cp docs/FDIR_MATRIX.md "${PACKAGE_ROOT}/docs/"
+cp docs/command_authorization.md "${PACKAGE_ROOT}/docs/"
+cp docs/recovery_supervisor.md "${PACKAGE_ROOT}/docs/"
 
 cat > "${PACKAGE_ROOT}/README_PI.md" <<'MD'
 # ASTRA-OS Raspberry Pi Deployment Package
@@ -149,7 +152,7 @@ ${PACKAGE_ARCHIVE_RELATIVE}
 - \`tools/telemetry_receiver.py\`
 - \`tools/run_scenario.py\`
 - \`tools/run_hil_smoke_test.py\`
-- \`tools/check_requirements.py\`
+- \`tools/run_fdir_campaign.py\`
 
 ## Included controlled interfaces
 

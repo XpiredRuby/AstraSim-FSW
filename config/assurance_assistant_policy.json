@@ -1,0 +1,67 @@
+{
+  "schema": "astra-os.assurance-assistant-policy.v1",
+  "claim_boundary": "Deterministic read and verification-tool permission policy for an educational assurance assistant. This is not an AI safety certification or a general-purpose sandbox.",
+  "approved_read_roots": [
+    "README.md",
+    "CHANGELOG.md",
+    "PROJECT_STATE.md",
+    "config",
+    "docs",
+    "reports",
+    "scenarios",
+    "fsw/include",
+    "fsw/src",
+    "fsw/tests",
+    "tools",
+    ".github/workflows"
+  ],
+  "allowlisted_tools": {
+    "check_protocol_conformance": [
+      "python3",
+      "tools/check_protocol_conformance.py"
+    ],
+    "check_requirements": [
+      "python3",
+      "tools/check_requirements.py"
+    ],
+    "python_tool_tests": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tools/tests",
+      "-p",
+      "test_*.py"
+    ],
+    "validate_nominal_timing": [
+      "python3",
+      "tools/validate_timing_evidence.py",
+      "reports/pi-hil/nominal-timing.json",
+      "--expect-no-misses"
+    ],
+    "validate_controlled_overrun_timing": [
+      "python3",
+      "tools/validate_timing_evidence.py",
+      "reports/pi-hil/controlled-overrun-timing.json",
+      "--expect-misses"
+    ],
+    "validate_soak_timing": [
+      "python3",
+      "tools/validate_timing_evidence.py",
+      "reports/pi-hil/soak-timing.json",
+      "--expect-no-misses"
+    ]
+  },
+  "explicitly_denied_actions": [
+    "shell",
+    "merge",
+    "push",
+    "force_push",
+    "delete",
+    "hardware_command",
+    "mark_requirement_verified",
+    "change_repository_visibility",
+    "write"
+  ]
+}

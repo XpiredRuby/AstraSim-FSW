@@ -40,7 +40,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install coverage tools
-        run: sudo apt-get update && sudo apt-get install -y cmake g++ lcov
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ lcov python3
 
       - name: Configure coverage build
         run: >-
@@ -61,6 +61,13 @@ jobs:
           lcov --remove coverage.raw.info '/usr/*' '*/fsw/tests/*' --output-file coverage.info
           lcov --summary coverage.info | tee coverage-summary.txt
 
+      - name: Generate per-module coverage evidence
+        run: |
+          python3 tools/summarize_lcov.py coverage.info \
+            --csv coverage-modules.csv \
+            --json coverage-modules.json \
+            --markdown coverage-modules.md
+
       - name: Upload coverage evidence
         uses: actions/upload-artifact@v4
         with:
@@ -68,6 +75,9 @@ jobs:
           path: |
             coverage.info
             coverage-summary.txt
+            coverage-modules.csv
+            coverage-modules.json
+            coverage-modules.md
           if-no-files-found: error
 
   clang-tidy:
@@ -163,6 +173,9 @@ jobs:
 
       - name: Compile Python tooling
         run: python3 -m compileall -q tools
+
+      - name: Run Python tool tests
+        run: python3 -m unittest discover -s tools/tests -p 'test_*.py'
 
       - name: Verify cross-language protocol conformance
         run: python3 tools/check_protocol_conformance.py

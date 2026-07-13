@@ -13,6 +13,8 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 CI_TESTS = REPO_ROOT / "ci" / "run_local_tests.sh"
 SCENARIOS_DIR = REPO_ROOT / "scenarios"
 RUN_SCENARIO = REPO_ROOT / "tools" / "run_scenario.py"
+RUN_FDIR_CAMPAIGN = REPO_ROOT / "tools" / "run_fdir_campaign.py"
+RUN_ASSISTANT_EVAL = REPO_ROOT / "tools" / "run_assurance_assistant_eval.py"
 CHECK_REQUIREMENTS = REPO_ROOT / "tools" / "check_requirements.py"
 CHECK_PROTOCOL = REPO_ROOT / "tools" / "check_protocol_conformance.py"
 RUN_MONTE_CARLO = REPO_ROOT / "tools" / "run_monte_carlo.py"
@@ -130,6 +132,16 @@ def main() -> int:
         help="Skip C++/Python protocol manifest conformance checking.",
     )
     parser.add_argument(
+        "--skip-fdir-campaign",
+        action="store_true",
+        help="Skip the ten-case command/telemetry FDIR campaign.",
+    )
+    parser.add_argument(
+        "--skip-assistant-eval",
+        action="store_true",
+        help="Skip the frozen assurance-assistant permission evaluation.",
+    )
+    parser.add_argument(
         "--skip-monte-carlo",
         action="store_true",
         help="Skip Monte Carlo regression after deterministic scenarios.",
@@ -165,6 +177,19 @@ def main() -> int:
     code = run_scenarios(args.pattern, args.build_dir)
     if code != 0:
         return code
+
+    if not args.skip_fdir_campaign:
+        code = run_command(
+            [
+                sys.executable,
+                str(RUN_FDIR_CAMPAIGN),
+                "--build-dir",
+                args.build_dir,
+            ],
+            "== Running ten-case FDIR campaign ==",
+        )
+        if code != 0:
+            return code
 
     if not args.skip_monte_carlo:
         code = run_command(
@@ -208,6 +233,14 @@ def main() -> int:
         code = run_command(
             [sys.executable, str(CHECK_REQUIREMENTS)],
             "== Checking requirement traceability ==",
+        )
+        if code != 0:
+            return code
+
+    if not args.skip_assistant_eval:
+        code = run_command(
+            [sys.executable, str(RUN_ASSISTANT_EVAL)],
+            "== Running frozen assurance-assistant evaluation ==",
         )
         if code != 0:
             return code
