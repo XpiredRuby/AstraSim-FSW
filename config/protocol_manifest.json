@@ -9,7 +9,7 @@
     "crc": "CRC-16-CCITT init=0xFFFF poly=0x1021"
   },
   "telemetry_packet": {
-    "magic": 1095976018,
+    "magic": 1095980114,
     "magic_hex": "0x41535452",
     "version": 1,
     "packet_type_health": 1,
