@@ -164,5 +164,8 @@ jobs:
       - name: Compile Python tooling
         run: python3 -m compileall -q tools
 
+      - name: Verify cross-language protocol conformance
+        run: python3 tools/check_protocol_conformance.py
+
       - name: Check shell scripts
         run: find ci tools -type f -name '*.sh' -print0 | xargs -0 shellcheck
