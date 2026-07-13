@@ -1,6 +1,16 @@
 #include "astra/flight_software_app.hpp"
 
 namespace astra {
+namespace {
+
+constexpr std::uint32_t SERIAL_HALF_RANGE = 0x80000000U;
+
+bool sequence_is_newer(std::uint32_t candidate, std::uint32_t reference) {
+    const std::uint32_t forward_distance = candidate - reference;
+    return forward_distance != 0U && forward_distance < SERIAL_HALF_RANGE;
+}
+
+}  // namespace
 
 FlightSoftwareApp::FlightSoftwareApp()
     : mode_manager_(),
@@ -9,6 +19,8 @@ FlightSoftwareApp::FlightSoftwareApp()
       watchdog_(),
       watchdog_initialized_(false),
       telemetry_sequence_(0),
+      ground_command_sequence_initialized_(false),
+      highest_ground_command_sequence_number_(0),
       last_ground_command_sequence_number_(0),
       last_ground_command_id_(0),
       last_ground_command_status_(0) {}
@@ -34,7 +46,31 @@ FlightSoftwareStepOutput FlightSoftwareApp::step(const FlightSoftwareStepInput& 
 
     if (input.has_command) {
         output.command_processed = true;
-        output.command_result = command_processor_.process(input.command);
+
+        if (!ground_command_sequence_initialized_) {
+            ground_command_sequence_initialized_ = true;
+            highest_ground_command_sequence_number_ = input.command.sequence_number;
+            output.command_result = command_processor_.process(input.command);
+        } else if (input.command.sequence_number == highest_ground_command_sequence_number_) {
+            output.command_result = reject_ground_command(
+                input.command,
+                CommandStatus::REJECTED_DUPLICATE_SEQUENCE,
+                "Command rejected: duplicate ground sequence"
+            );
+        } else if (!sequence_is_newer(
+                       input.command.sequence_number,
+                       highest_ground_command_sequence_number_
+                   )) {
+            output.command_result = reject_ground_command(
+                input.command,
+                CommandStatus::REJECTED_REPLAYED_SEQUENCE,
+                "Command rejected: replayed or stale ground sequence"
+            );
+        } else {
+            highest_ground_command_sequence_number_ = input.command.sequence_number;
+            output.command_result = command_processor_.process(input.command);
+        }
+
         last_ground_command_sequence_number_ = output.command_result.sequence_number;
         last_ground_command_id_ = static_cast<std::uint8_t>(output.command_result.command_id);
         last_ground_command_status_ = static_cast<std::uint8_t>(output.command_result.status);
@@ -94,6 +130,21 @@ CommandPacket FlightSoftwareApp::make_internal_fault_command(
     packet.command_id = CommandId::INJECT_FAULT;
     packet.argument = static_cast<std::uint32_t>(fault);
     return packet;
+}
+
+CommandResult FlightSoftwareApp::reject_ground_command(
+    const CommandPacket& packet,
+    CommandStatus status,
+    const char* message
+) const {
+    CommandResult result;
+    result.status = status;
+    result.command_id = packet.command_id;
+    result.sequence_number = packet.sequence_number;
+    result.resulting_mode = mode_manager_.current_mode();
+    result.resulting_fault = command_processor_.last_fault();
+    result.message = message;
+    return result;
 }
 
 }  // namespace astra
