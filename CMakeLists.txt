@@ -56,6 +56,7 @@ add_library(astra_fsw_core
     fsw/src/health_monitor.cpp
     fsw/src/watchdog.cpp
     fsw/src/rate_group_scheduler.cpp
+    fsw/src/flight_software_executive.cpp
 )
 
 target_include_directories(astra_fsw_core PUBLIC
@@ -190,6 +191,14 @@ target_link_libraries(astra_simultaneous_fault_tests PRIVATE
     astra_fsw_core
 )
 
+add_executable(astra_flight_software_executive_tests
+    fsw/tests/test_flight_software_executive.cpp
+)
+
+target_link_libraries(astra_flight_software_executive_tests PRIVATE
+    astra_fsw_core
+)
+
 if(ASTRA_BUILD_FUZZERS)
     if(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         message(FATAL_ERROR "ASTRA_BUILD_FUZZERS requires Clang with matching libFuzzer support")
@@ -233,3 +242,4 @@ add_test(NAME rate_group_scheduler_tests COMMAND astra_rate_group_scheduler_test
 add_test(NAME extended_mode_tests COMMAND astra_extended_mode_tests)
 add_test(NAME fdir_manager_tests COMMAND astra_fdir_manager_tests)
 add_test(NAME simultaneous_fault_tests COMMAND astra_simultaneous_fault_tests)
+add_test(NAME flight_software_executive_tests COMMAND astra_flight_software_executive_tests)
