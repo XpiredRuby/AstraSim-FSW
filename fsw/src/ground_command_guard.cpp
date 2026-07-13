@@ -48,7 +48,7 @@ GroundCommandGuardResult GroundCommandGuard::evaluate(
     result.highest_sequence = highest_sequence_;
 
     if (!valid_) {
-        result.status = GroundCommandGuardStatus::REJECTED_STALE_TIMESTAMP;
+        result.status = GroundCommandGuardStatus::INVALID_CONFIGURATION;
         return result;
     }
 
@@ -116,6 +116,8 @@ std::string ground_command_guard_status_to_string(
             return "REJECTED_STALE_TIMESTAMP";
         case GroundCommandGuardStatus::REJECTED_FUTURE_TIMESTAMP:
             return "REJECTED_FUTURE_TIMESTAMP";
+        case GroundCommandGuardStatus::INVALID_CONFIGURATION:
+            return "INVALID_CONFIGURATION";
     }
 
     return "UNKNOWN_GUARD_STATUS";
