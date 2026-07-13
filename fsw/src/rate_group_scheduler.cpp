@@ -5,22 +5,6 @@
 #include <utility>
 
 namespace astra {
-namespace {
-
-bool configuration_has_duplicate_id(
-    const std::vector<RateGroupScheduler::TaskState>& tasks,
-    std::uint16_t task_id
-) {
-    return std::any_of(
-        tasks.begin(),
-        tasks.end(),
-        [task_id](const RateGroupScheduler::TaskState& task) {
-            return task.config.task_id == task_id;
-        }
-    );
-}
-
-}  // namespace
 
 RateGroupScheduler::RateGroupScheduler(std::vector<RateGroupConfig> configuration) {
     if (configuration.empty()) {
@@ -56,7 +40,15 @@ RateGroupScheduler::RateGroupScheduler(std::vector<RateGroupConfig> configuratio
             return;
         }
 
-        if (configuration_has_duplicate_id(tasks_, config.task_id)) {
+        const bool duplicate_id = std::any_of(
+            tasks_.begin(),
+            tasks_.end(),
+            [&config](const TaskState& task) {
+                return task.config.task_id == config.task_id;
+            }
+        );
+
+        if (duplicate_id) {
             validation_error_ = "rate-group task IDs must be unique";
             tasks_.clear();
             return;
@@ -94,12 +86,10 @@ SchedulerStepResult RateGroupScheduler::step(std::uint64_t tick) {
         }
 
         tick_initialized_ = true;
-    } else {
-        if (last_tick_ == std::numeric_limits<std::uint64_t>::max() ||
-            tick != last_tick_ + 1U) {
-            result.status = SchedulerStatus::TICK_DISCONTINUITY;
-            return result;
-        }
+    } else if (last_tick_ == std::numeric_limits<std::uint64_t>::max() ||
+               tick != last_tick_ + 1U) {
+        result.status = SchedulerStatus::TICK_DISCONTINUITY;
+        return result;
     }
 
     for (auto& task : tasks_) {
