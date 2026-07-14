@@ -4,133 +4,145 @@
 -- Check for working CXX compiler: /usr/bin/c++ - skipped
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
--- Configuring done (5.0s)
--- Generating done (0.1s)
+-- Configuring done (0.9s)
+-- Generating done (0.2s)
 -- Build files have been written to: /home/xpired/ghost_ws/tools/astra-os-hil/build
-[  3%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/event_logger.cpp.o
 [  3%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/fdir_manager.cpp.o
-[  5%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/mode_manager.cpp.o
+[  3%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/mode_manager.cpp.o
+[  4%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/event_logger.cpp.o
 [  6%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/telemetry_packet.cpp.o
-[  8%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/udp_telemetry_sender.cpp.o
-[ 10%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_packet.cpp.o
-[ 11%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_processor.cpp.o
-[ 13%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/udp_command_receiver.cpp.o
-[ 15%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_app.cpp.o
-[ 16%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/health_monitor.cpp.o
-[ 18%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/rate_group_scheduler.cpp.o
-[ 20%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/watchdog.cpp.o
-[ 21%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_executive.cpp.o
-[ 23%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/ground_command_guard.cpp.o
+[  7%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/udp_telemetry_sender.cpp.o
+[  9%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_packet.cpp.o
+[ 10%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_authorizer.cpp.o
+[ 12%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_processor.cpp.o
+[ 13%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/recovery_supervisor.cpp.o
+[ 15%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/udp_command_receiver.cpp.o
+[ 16%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_app.cpp.o
+[ 18%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/health_monitor.cpp.o
+[ 19%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/watchdog.cpp.o
+[ 21%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/rate_group_scheduler.cpp.o
+[ 22%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_executive.cpp.o
+[ 24%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/ground_command_guard.cpp.o
 [ 25%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/configuration_service.cpp.o
-[ 26%] Linking CXX static library libastra_fsw_core.a
-[ 26%] Built target astra_fsw_core
-[ 30%] Building CXX object CMakeFiles/astra_fsw_telemetry_demo.dir/fsw/src/telemetry_demo.cpp.o
+[ 27%] Linking CXX static library libastra_fsw_core.a
+[ 27%] Built target astra_fsw_core
 [ 30%] Building CXX object CMakeFiles/astra_fsw.dir/fsw/src/main.cpp.o
-[ 31%] Building CXX object CMakeFiles/astra_fsw_command_telemetry_demo.dir/fsw/src/command_telemetry_demo.cpp.o
+[ 30%] Building CXX object CMakeFiles/astra_fsw_telemetry_demo.dir/fsw/src/telemetry_demo.cpp.o
+[ 33%] Building CXX object CMakeFiles/astra_fsw_command_telemetry_demo.dir/fsw/src/command_telemetry_demo.cpp.o
 [ 33%] Building CXX object CMakeFiles/astra_timing_campaign.dir/fsw/src/timing_campaign.cpp.o
-[ 35%] Linking CXX executable astra_fsw
+[ 34%] Linking CXX executable astra_fsw
 [ 36%] Linking CXX executable astra_fsw_telemetry_demo
-[ 38%] Linking CXX executable astra_fsw_command_telemetry_demo
-[ 38%] Built target astra_fsw
-[ 40%] Building CXX object CMakeFiles/astra_fsw_tests.dir/fsw/tests/test_mode_manager.cpp.o
+[ 36%] Built target astra_fsw
+[ 37%] Linking CXX executable astra_fsw_command_telemetry_demo
+[ 39%] Building CXX object CMakeFiles/astra_fsw_tests.dir/fsw/tests/test_mode_manager.cpp.o
+[ 39%] Built target astra_fsw_telemetry_demo
+[ 40%] Building CXX object CMakeFiles/astra_telemetry_tests.dir/fsw/tests/test_telemetry_packet.cpp.o
 [ 40%] Built target astra_fsw_command_telemetry_demo
-[ 41%] Building CXX object CMakeFiles/astra_telemetry_tests.dir/fsw/tests/test_telemetry_packet.cpp.o
-[ 41%] Built target astra_fsw_telemetry_demo
+[ 42%] Building CXX object CMakeFiles/astra_udp_telemetry_tests.dir/fsw/tests/test_udp_telemetry_sender.cpp.o
 [ 43%] Linking CXX executable astra_timing_campaign
-[ 45%] Building CXX object CMakeFiles/astra_udp_telemetry_tests.dir/fsw/tests/test_udp_telemetry_sender.cpp.o
+[ 45%] Linking CXX executable astra_fsw_tests
 [ 45%] Built target astra_timing_campaign
 [ 46%] Building CXX object CMakeFiles/astra_command_tests.dir/fsw/tests/test_command_packet.cpp.o
-[ 48%] Linking CXX executable astra_fsw_tests
-[ 50%] Linking CXX executable astra_udp_telemetry_tests
-[ 51%] Linking CXX executable astra_telemetry_tests
-[ 53%] Linking CXX executable astra_command_tests
+[ 46%] Built target astra_fsw_tests
+[ 48%] Building CXX object CMakeFiles/astra_command_authorizer_tests.dir/fsw/tests/test_command_authorizer.cpp.o
+[ 50%] Linking CXX executable astra_telemetry_tests
+[ 51%] Linking CXX executable astra_udp_telemetry_tests
+[ 51%] Built target astra_telemetry_tests
+[ 53%] Building CXX object CMakeFiles/astra_command_processor_tests.dir/fsw/tests/test_command_processor.cpp.o
 [ 53%] Built target astra_udp_telemetry_tests
-[ 55%] Building CXX object CMakeFiles/astra_command_processor_tests.dir/fsw/tests/test_command_processor.cpp.o
-[ 55%] Built target astra_telemetry_tests
-[ 56%] Building CXX object CMakeFiles/astra_udp_command_receiver_tests.dir/fsw/tests/test_udp_command_receiver.cpp.o
-[ 56%] Built target astra_fsw_tests
-[ 58%] Building CXX object CMakeFiles/astra_flight_software_app_tests.dir/fsw/tests/test_flight_software_app.cpp.o
+[ 54%] Building CXX object CMakeFiles/astra_recovery_supervisor_tests.dir/fsw/tests/test_recovery_supervisor.cpp.o
+[ 56%] Linking CXX executable astra_command_tests
+[ 57%] Linking CXX executable astra_command_authorizer_tests
+[ 57%] Built target astra_command_tests
+[ 59%] Building CXX object CMakeFiles/astra_udp_command_receiver_tests.dir/fsw/tests/test_udp_command_receiver.cpp.o
+[ 59%] Built target astra_command_authorizer_tests
 [ 60%] Linking CXX executable astra_command_processor_tests
-[ 60%] Built target astra_command_tests
-[ 61%] Linking CXX executable astra_udp_command_receiver_tests
-[ 63%] Linking CXX executable astra_flight_software_app_tests
+[ 62%] Building CXX object CMakeFiles/astra_flight_software_app_tests.dir/fsw/tests/test_flight_software_app.cpp.o
+[ 63%] Linking CXX executable astra_recovery_supervisor_tests
+[ 63%] Built target astra_command_processor_tests
 [ 65%] Building CXX object CMakeFiles/astra_health_monitor_tests.dir/fsw/tests/test_health_monitor.cpp.o
-[ 65%] Built target astra_command_processor_tests
+[ 65%] Built target astra_recovery_supervisor_tests
 [ 66%] Building CXX object CMakeFiles/astra_watchdog_tests.dir/fsw/tests/test_watchdog.cpp.o
-[ 66%] Built target astra_udp_command_receiver_tests
-[ 68%] Linking CXX executable astra_health_monitor_tests
-[ 70%] Building CXX object CMakeFiles/astra_rate_group_scheduler_tests.dir/fsw/tests/test_rate_group_scheduler.cpp.o
-[ 70%] Built target astra_flight_software_app_tests
-[ 71%] Building CXX object CMakeFiles/astra_extended_mode_tests.dir/fsw/tests/test_extended_modes.cpp.o
-[ 71%] Built target astra_health_monitor_tests
-[ 73%] Building CXX object CMakeFiles/astra_fdir_manager_tests.dir/fsw/tests/test_fdir_manager.cpp.o
-[ 75%] Linking CXX executable astra_watchdog_tests
-[ 76%] Linking CXX executable astra_extended_mode_tests
-[ 78%] Linking CXX executable astra_rate_group_scheduler_tests
-[ 78%] Built target astra_watchdog_tests
-[ 80%] Building CXX object CMakeFiles/astra_simultaneous_fault_tests.dir/fsw/tests/test_simultaneous_faults.cpp.o
-[ 81%] Linking CXX executable astra_fdir_manager_tests
-[ 81%] Built target astra_fdir_manager_tests
-[ 83%] Building CXX object CMakeFiles/astra_flight_software_executive_tests.dir/fsw/tests/test_flight_software_executive.cpp.o
-[ 83%] Built target astra_extended_mode_tests
-[ 85%] Building CXX object CMakeFiles/astra_event_logger_tests.dir/fsw/tests/test_event_logger.cpp.o
-[ 85%] Built target astra_rate_group_scheduler_tests
+[ 68%] Linking CXX executable astra_udp_command_receiver_tests
+[ 68%] Built target astra_udp_command_receiver_tests
+[ 69%] Building CXX object CMakeFiles/astra_rate_group_scheduler_tests.dir/fsw/tests/test_rate_group_scheduler.cpp.o
+[ 71%] Linking CXX executable astra_flight_software_app_tests
+[ 72%] Linking CXX executable astra_health_monitor_tests
+[ 74%] Linking CXX executable astra_watchdog_tests
+[ 74%] Built target astra_flight_software_app_tests
+[ 75%] Building CXX object CMakeFiles/astra_extended_mode_tests.dir/fsw/tests/test_extended_modes.cpp.o
+[ 75%] Built target astra_health_monitor_tests
+[ 77%] Building CXX object CMakeFiles/astra_fdir_manager_tests.dir/fsw/tests/test_fdir_manager.cpp.o
+[ 77%] Built target astra_watchdog_tests
+[ 78%] Building CXX object CMakeFiles/astra_simultaneous_fault_tests.dir/fsw/tests/test_simultaneous_faults.cpp.o
+[ 80%] Linking CXX executable astra_rate_group_scheduler_tests
+[ 80%] Built target astra_rate_group_scheduler_tests
+[ 81%] Building CXX object CMakeFiles/astra_flight_software_executive_tests.dir/fsw/tests/test_flight_software_executive.cpp.o
+[ 83%] Linking CXX executable astra_extended_mode_tests
+[ 84%] Linking CXX executable astra_fdir_manager_tests
 [ 86%] Linking CXX executable astra_simultaneous_fault_tests
-[ 88%] Building CXX object CMakeFiles/astra_event_integration_tests.dir/fsw/tests/test_event_integration.cpp.o
+[ 86%] Built target astra_extended_mode_tests
+[ 87%] Building CXX object CMakeFiles/astra_event_logger_tests.dir/fsw/tests/test_event_logger.cpp.o
+[ 87%] Built target astra_fdir_manager_tests
+[ 89%] Building CXX object CMakeFiles/astra_event_integration_tests.dir/fsw/tests/test_event_integration.cpp.o
 [ 90%] Linking CXX executable astra_flight_software_executive_tests
 [ 90%] Built target astra_simultaneous_fault_tests
-[ 91%] Building CXX object CMakeFiles/astra_ground_command_guard_tests.dir/fsw/tests/test_ground_command_guard.cpp.o
-[ 93%] Linking CXX executable astra_event_logger_tests
-[ 95%] Linking CXX executable astra_event_integration_tests
-[ 95%] Built target astra_flight_software_executive_tests
-[ 96%] Building CXX object CMakeFiles/astra_configuration_service_tests.dir/fsw/tests/test_configuration_service.cpp.o
+[ 92%] Building CXX object CMakeFiles/astra_ground_command_guard_tests.dir/fsw/tests/test_ground_command_guard.cpp.o
+[ 92%] Built target astra_flight_software_executive_tests
+[ 93%] Building CXX object CMakeFiles/astra_configuration_service_tests.dir/fsw/tests/test_configuration_service.cpp.o
+[ 95%] Linking CXX executable astra_event_logger_tests
+[ 96%] Linking CXX executable astra_event_integration_tests
 [ 96%] Built target astra_event_logger_tests
-[ 96%] Built target astra_event_integration_tests
 [ 98%] Linking CXX executable astra_ground_command_guard_tests
+[ 98%] Built target astra_event_integration_tests
 [ 98%] Built target astra_ground_command_guard_tests
 [100%] Linking CXX executable astra_configuration_service_tests
 [100%] Built target astra_configuration_service_tests
 Test project /home/xpired/ghost_ws/tools/astra-os-hil/build
       Start  1: mode_manager_tests
- 1/18 Test  #1: mode_manager_tests ................   Passed    0.01 sec
+ 1/20 Test  #1: mode_manager_tests ................   Passed    0.01 sec
       Start  2: telemetry_packet_tests
- 2/18 Test  #2: telemetry_packet_tests ............   Passed    0.01 sec
+ 2/20 Test  #2: telemetry_packet_tests ............   Passed    0.01 sec
       Start  3: udp_telemetry_sender_tests
- 3/18 Test  #3: udp_telemetry_sender_tests ........   Passed    0.01 sec
+ 3/20 Test  #3: udp_telemetry_sender_tests ........   Passed    0.01 sec
       Start  4: command_packet_tests
- 4/18 Test  #4: command_packet_tests ..............   Passed    0.01 sec
-      Start  5: command_processor_tests
- 5/18 Test  #5: command_processor_tests ...........   Passed    0.01 sec
-      Start  6: udp_command_receiver_tests
- 6/18 Test  #6: udp_command_receiver_tests ........   Passed    0.01 sec
-      Start  7: flight_software_app_tests
- 7/18 Test  #7: flight_software_app_tests .........   Passed    0.01 sec
-      Start  8: health_monitor_tests
- 8/18 Test  #8: health_monitor_tests ..............   Passed    0.01 sec
-      Start  9: watchdog_tests
- 9/18 Test  #9: watchdog_tests ....................   Passed    0.01 sec
-      Start 10: rate_group_scheduler_tests
-10/18 Test #10: rate_group_scheduler_tests ........   Passed    0.01 sec
-      Start 11: extended_mode_tests
-11/18 Test #11: extended_mode_tests ...............   Passed    0.01 sec
-      Start 12: fdir_manager_tests
-12/18 Test #12: fdir_manager_tests ................   Passed    0.01 sec
-      Start 13: simultaneous_fault_tests
-13/18 Test #13: simultaneous_fault_tests ..........   Passed    0.01 sec
-      Start 14: flight_software_executive_tests
-14/18 Test #14: flight_software_executive_tests ...   Passed    0.01 sec
-      Start 15: event_logger_tests
-15/18 Test #15: event_logger_tests ................   Passed    0.01 sec
-      Start 16: event_integration_tests
-16/18 Test #16: event_integration_tests ...........   Passed    0.01 sec
-      Start 17: ground_command_guard_tests
-17/18 Test #17: ground_command_guard_tests ........   Passed    0.01 sec
-      Start 18: configuration_service_tests
-18/18 Test #18: configuration_service_tests .......   Passed    0.01 sec
+ 4/20 Test  #4: command_packet_tests ..............   Passed    0.01 sec
+      Start  5: command_authorizer_tests
+ 5/20 Test  #5: command_authorizer_tests ..........   Passed    0.01 sec
+      Start  6: command_processor_tests
+ 6/20 Test  #6: command_processor_tests ...........   Passed    0.01 sec
+      Start  7: recovery_supervisor_tests
+ 7/20 Test  #7: recovery_supervisor_tests .........   Passed    0.01 sec
+      Start  8: udp_command_receiver_tests
+ 8/20 Test  #8: udp_command_receiver_tests ........   Passed    0.01 sec
+      Start  9: flight_software_app_tests
+ 9/20 Test  #9: flight_software_app_tests .........   Passed    0.01 sec
+      Start 10: health_monitor_tests
+10/20 Test #10: health_monitor_tests ..............   Passed    0.01 sec
+      Start 11: watchdog_tests
+11/20 Test #11: watchdog_tests ....................   Passed    0.01 sec
+      Start 12: rate_group_scheduler_tests
+12/20 Test #12: rate_group_scheduler_tests ........   Passed    0.01 sec
+      Start 13: extended_mode_tests
+13/20 Test #13: extended_mode_tests ...............   Passed    0.01 sec
+      Start 14: fdir_manager_tests
+14/20 Test #14: fdir_manager_tests ................   Passed    0.01 sec
+      Start 15: simultaneous_fault_tests
+15/20 Test #15: simultaneous_fault_tests ..........   Passed    0.01 sec
+      Start 16: flight_software_executive_tests
+16/20 Test #16: flight_software_executive_tests ...   Passed    0.01 sec
+      Start 17: event_logger_tests
+17/20 Test #17: event_logger_tests ................   Passed    0.01 sec
+      Start 18: event_integration_tests
+18/20 Test #18: event_integration_tests ...........   Passed    0.01 sec
+      Start 19: ground_command_guard_tests
+19/20 Test #19: ground_command_guard_tests ........   Passed    0.01 sec
+      Start 20: configuration_service_tests
+20/20 Test #20: configuration_service_tests .......   Passed    0.01 sec
 
-100% tests passed, 0 tests failed out of 18
+100% tests passed, 0 tests failed out of 20
 
-Total Test time (real) =   0.24 sec
+Total Test time (real) =   0.28 sec
 AstraSim-FSW starting...
 Mode: BOOT
 Mode transition: BOOT -> NOMINAL
@@ -143,42 +155,92 @@ Injecting simulated CPU overload fault...
 Mode transition: NOMINAL -> DEGRADED_PAYLOAD | Reason: CPU_OVERLOAD
 AstraSim-FSW shutdown.
 Running scenario: basic_command_fault
-[SEND] seq=1 SET_MODE NOMINAL
+[SEND] seq=1 SET_MODE NOMINAL timestamp_ms=now
 [PASS] set nominal: mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED
-[SEND] seq=2 INJECT_FAULT CPU_OVERLOAD
+[SEND] seq=2 INJECT_FAULT CPU_OVERLOAD timestamp_ms=now
 [PASS] inject cpu fault: mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED
-[SEND] seq=3 CLEAR_FAULT
+[SEND] seq=3 CLEAR_FAULT  timestamp_ms=now
 [PASS] clear fault: mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=ACCEPTED
 Scenario passed.
 Report written to reports/scenario_basic_command_fault_output.txt
+Running scenario: command_timestamp_guard
+[SEND] seq=1 SET_MODE NOMINAL timestamp_ms=1783987406072
+[PASS] reject stale command: mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_STALE_TIMESTAMP
+[SEND] seq=2 SET_MODE NOMINAL timestamp_ms=1783987415327
+[PASS] reject future command: mode=BOOT fault=NONE ack_seq=2 ack_cmd=SET_MODE ack_status=REJECTED_FUTURE_TIMESTAMP
+[SEND] seq=3 SET_MODE NOMINAL timestamp_ms=now
+[PASS] accept current command: mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED
+Scenario passed.
+Report written to reports/scenario_command_timestamp_guard_output.txt
+Running scenario: extended_modes
+[SEND] seq=1 SET_MODE STANDBY timestamp_ms=now
+[PASS] enter standby from boot: mode=STANDBY fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED
+[SEND] seq=2 SET_MODE TEST timestamp_ms=now
+[PASS] enter test from standby: mode=TEST fault=NONE ack_seq=2 ack_cmd=SET_MODE ack_status=ACCEPTED
+[SEND] seq=3 SET_MODE NOMINAL timestamp_ms=now
+[PASS] reject direct test to nominal transition: mode=TEST fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION
+[SEND] seq=4 SET_MODE STANDBY timestamp_ms=now
+[PASS] leave test through standby: mode=STANDBY fault=NONE ack_seq=4 ack_cmd=SET_MODE ack_status=ACCEPTED
+[SEND] seq=5 SET_MODE NOMINAL timestamp_ms=now
+[PASS] enter nominal from standby: mode=NOMINAL fault=NONE ack_seq=5 ack_cmd=SET_MODE ack_status=ACCEPTED
+Scenario passed.
+Report written to reports/scenario_extended_modes_output.txt
 Running scenario: hil_smoke_test
-[SEND] seq=1 SET_MODE NOMINAL
+[SEND] seq=1 SET_MODE NOMINAL timestamp_ms=now
 [PASS] external controller sets nominal: mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED
-[SEND] seq=2 INJECT_FAULT CPU_OVERLOAD
+[SEND] seq=2 INJECT_FAULT CPU_OVERLOAD timestamp_ms=now
 [PASS] external controller injects cpu overload: mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED
-[SEND] seq=3 CLEAR_FAULT
+[SEND] seq=3 CLEAR_FAULT  timestamp_ms=now
 [PASS] external controller clears fault: mode=DEGRADED_PAYLOAD fault=NONE ack_seq=3 ack_cmd=CLEAR_FAULT ack_status=ACCEPTED
 Scenario passed.
 Report written to reports/scenario_hil_smoke_test_output.txt
 Running scenario: invalid_transition_rejected
-[SEND] seq=1 SET_MODE RECOVERY
+[SEND] seq=1 SET_MODE RECOVERY timestamp_ms=now
 [PASS] reject boot to recovery: mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION
 Scenario passed.
 Report written to reports/scenario_invalid_transition_rejected_output.txt
+Running scenario: recovery_failure_failsafe
+[SEND] seq=1 SET_MODE NOMINAL timestamp_ms=now
+[PASS] enter nominal: mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED
+[SEND] seq=2 INJECT_FAULT SENSOR_TIMEOUT timestamp_ms=now
+[PASS] inject critical sensor fault: mode=SAFE fault=SENSOR_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED
+[SEND] seq=3 SET_MODE RECOVERY timestamp_ms=now
+[PASS] enter recovery: mode=RECOVERY fault=SENSOR_TIMEOUT ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED
+[SEND] seq=4 SET_MODE TEST timestamp_ms=now
+[PASS] first failed recovery exit: mode=RECOVERY fault=SENSOR_TIMEOUT ack_seq=4 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION
+[SEND] seq=5 SET_MODE TEST timestamp_ms=now
+[PASS] second failed recovery exit: mode=RECOVERY fault=SENSOR_TIMEOUT ack_seq=5 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION
+[SEND] seq=6 SET_MODE TEST timestamp_ms=now
+[PASS] third failed recovery exit forces safe: mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT
+Scenario passed.
+Report written to reports/scenario_recovery_failure_failsafe_output.txt
 Running scenario: sensor_timeout_safe_mode
-[SEND] seq=1 SET_MODE NOMINAL
+[SEND] seq=1 SET_MODE NOMINAL timestamp_ms=now
 [PASS] set nominal before sensor timeout: mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED
 [WAIT] wait for sensor timeout safe mode
 [PASS] wait for sensor timeout safe mode: mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED
 Scenario passed.
 Report written to reports/scenario_sensor_timeout_safe_mode_output.txt
 Running scenario: watchdog_timeout_safe_mode
-[SEND] seq=1 SET_MODE NOMINAL
+[SEND] seq=1 SET_MODE NOMINAL timestamp_ms=now
 [PASS] set nominal before watchdog timeout: mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED
 [WAIT] wait for watchdog timeout safe mode
 [PASS] wait for watchdog timeout safe mode: mode=SAFE fault=WATCHDOG_DEADLINE_MISS ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED
 Scenario passed.
 Report written to reports/scenario_watchdog_timeout_safe_mode_output.txt
+FDIR cases: 10
+Build directory: build-pi
+[PASS] SENSOR_TIMEOUT -> SAFE
+[PASS] SENSOR_INVALID_DATA -> SAFE
+[PASS] PAYLOAD_HEARTBEAT_TIMEOUT -> DEGRADED_PAYLOAD
+[PASS] CPU_OVERLOAD -> DEGRADED_PAYLOAD
+[PASS] MEMORY_OVERLOAD -> SAFE
+[PASS] TELEMETRY_SOCKET_FAILURE -> SAFE
+[PASS] COMMAND_BAD_CRC -> NOMINAL
+[PASS] COMMAND_UNKNOWN_ID -> NOMINAL
+[PASS] COMMAND_TIMEOUT -> SAFE
+[PASS] WATCHDOG_DEADLINE_MISS -> SAFE
+Report written to reports/fdir_campaign_report.md
 Monte Carlo seed: 20260626
 Trials: 25
 [PASS] monte_carlo_trial_001_nominal_transition
@@ -213,11 +275,11 @@ Failed: 0
 Total:  25
 Report written to reports/monte_carlo_report.md
 -- Configuring done (0.0s)
--- Generating done (0.3s)
+-- Generating done (0.4s)
 -- Build files have been written to: /home/xpired/ghost_ws/tools/astra-os-hil/build-pi
-[ 88%] Built target astra_fsw_core
+[ 90%] Built target astra_fsw_core
 [100%] Built target astra_fsw
-[ 88%] Built target astra_fsw_core
+[ 90%] Built target astra_fsw_core
 [100%] Built target astra_fsw_command_telemetry_demo
 Package written to dist/astrasim-fsw-pi.tar.gz
 Report written to reports/pi_deployment_package_report.md
@@ -247,22 +309,34 @@ Report written to reports/pi_deployment_package_report.md
 [PASS] Python telemetry size
 Report: reports/latest/protocol_conformance.json
 Requirement check complete.
-PASS=9
-MANUAL=37
-PLANNED=15
-HISTORICAL=1
+PASS=22
+MANUAL=45
+PLANNED=0
+HISTORICAL=0
 FAIL=0
+REGISTERED_CTESTS=20
 TRACEABILITY_PROBLEMS=0
 Report written to reports/requirement_check_report.md
+Cases: 129
+Passed: 129
+Failed: 0
+JSON report: reports/assurance_assistant_eval.json
+Markdown report: reports/assurance_assistant_eval.md
 == Building and running unit tests ==
 
 == Running YAML scenarios ==
 
 --- scenarios/basic_command_fault.yaml ---
 
+--- scenarios/command_timestamp_guard.yaml ---
+
+--- scenarios/extended_modes.yaml ---
+
 --- scenarios/hil_smoke_test.yaml ---
 
 --- scenarios/invalid_transition_rejected.yaml ---
+
+--- scenarios/recovery_failure_failsafe.yaml ---
 
 --- scenarios/sensor_timeout_safe_mode.yaml ---
 
@@ -270,14 +344,19 @@ Report written to reports/requirement_check_report.md
 
 == Scenario Summary ==
 PASS: scenarios/basic_command_fault.yaml
+PASS: scenarios/command_timestamp_guard.yaml
+PASS: scenarios/extended_modes.yaml
 PASS: scenarios/hil_smoke_test.yaml
 PASS: scenarios/invalid_transition_rejected.yaml
+PASS: scenarios/recovery_failure_failsafe.yaml
 PASS: scenarios/sensor_timeout_safe_mode.yaml
 PASS: scenarios/watchdog_timeout_safe_mode.yaml
 
-Passed: 5
+Passed: 8
 Failed: 0
-Total:  5
+Total:  8
+
+== Running ten-case FDIR campaign ==
 
 == Running Monte Carlo regression ==
 
@@ -286,3 +365,5 @@ Total:  5
 == Checking protocol conformance ==
 
 == Checking requirement traceability ==
+
+== Running frozen assurance-assistant evaluation ==

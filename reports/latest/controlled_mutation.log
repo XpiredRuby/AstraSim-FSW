@@ -4,31 +4,33 @@
 -- Check for working CXX compiler: /usr/bin/c++ - skipped
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
--- Configuring done (1.2s)
--- Generating done (0.2s)
--- Build files have been written to: /tmp/astra-os-mutation-lvwglo1b/build
-[  5%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/mode_manager.cpp.o
-[ 11%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/event_logger.cpp.o
-[ 16%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_processor.cpp.o
-[ 22%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/udp_telemetry_sender.cpp.o
-[ 38%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_packet.cpp.o
-[ 33%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_app.cpp.o
-[ 38%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/udp_command_receiver.cpp.o
-[ 50%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/rate_group_scheduler.cpp.o
-[ 44%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/telemetry_packet.cpp.o
-[ 55%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/ground_command_guard.cpp.o
-[ 61%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/watchdog.cpp.o
-[ 66%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/health_monitor.cpp.o
-[ 72%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/fdir_manager.cpp.o
-[ 77%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/configuration_service.cpp.o
-[ 83%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_executive.cpp.o
-[ 88%] Linking CXX static library libastra_fsw_core.a
-[ 88%] Built target astra_fsw_core
-[ 94%] Building CXX object CMakeFiles/astra_command_tests.dir/fsw/tests/test_command_packet.cpp.o
+-- Configuring done (2.8s)
+-- Generating done (0.1s)
+-- Build files have been written to: /tmp/astra-os-mutation-tzisoadl/build
+[  5%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/fdir_manager.cpp.o
+[ 10%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/event_logger.cpp.o
+[ 15%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_authorizer.cpp.o
+[ 25%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/mode_manager.cpp.o
+[ 20%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/udp_telemetry_sender.cpp.o
+[ 30%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_packet.cpp.o
+[ 40%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/telemetry_packet.cpp.o
+[ 35%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_processor.cpp.o
+[ 50%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/recovery_supervisor.cpp.o
+[ 55%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_app.cpp.o
+[ 50%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/udp_command_receiver.cpp.o
+[ 60%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/health_monitor.cpp.o
+[ 65%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/watchdog.cpp.o
+[ 75%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/configuration_service.cpp.o
+[ 75%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_executive.cpp.o
+[ 80%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/ground_command_guard.cpp.o
+[ 85%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/rate_group_scheduler.cpp.o
+[ 90%] Linking CXX static library libastra_fsw_core.a
+[ 90%] Built target astra_fsw_core
+[ 95%] Building CXX object CMakeFiles/astra_command_tests.dir/fsw/tests/test_command_packet.cpp.o
 [100%] Linking CXX executable astra_command_tests
 [100%] Built target astra_command_tests
-Internal ctest changing into directory: /tmp/astra-os-mutation-lvwglo1b/build
-Test project /tmp/astra-os-mutation-lvwglo1b/build
+Internal ctest changing into directory: /tmp/astra-os-mutation-tzisoadl/build
+Test project /tmp/astra-os-mutation-tzisoadl/build
     Start 4: command_packet_tests
 1/1 Test #4: command_packet_tests .............***Failed    0.01 sec
 Running CommandPacket tests...
@@ -72,7 +74,7 @@ Total Test time (real) =   0.02 sec
 The following tests FAILED:
 	  4 - command_packet_tests (Failed)
 Errors while running CTest
-+ cmake -S /tmp/astra-os-mutation-lvwglo1b/source -B /tmp/astra-os-mutation-lvwglo1b/build -DCMAKE_BUILD_TYPE=Debug -DASTRA_WARNINGS_AS_ERRORS=ON
-+ cmake --build /tmp/astra-os-mutation-lvwglo1b/build --target astra_command_tests --parallel
-+ ctest --test-dir /tmp/astra-os-mutation-lvwglo1b/build --tests-regex ^command_packet_tests$ --output-on-failure
++ cmake -S /tmp/astra-os-mutation-tzisoadl/source -B /tmp/astra-os-mutation-tzisoadl/build -DCMAKE_BUILD_TYPE=Debug -DASTRA_WARNINGS_AS_ERRORS=ON
++ cmake --build /tmp/astra-os-mutation-tzisoadl/build --target astra_command_tests --parallel
++ ctest --test-dir /tmp/astra-os-mutation-tzisoadl/build --tests-regex ^command_packet_tests$ --output-on-failure
 MUTATION KILLED: command-packet tests detected the disabled CRC rejection path.

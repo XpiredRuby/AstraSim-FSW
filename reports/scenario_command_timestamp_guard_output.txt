@@ -1,0 +1,127 @@
+# Scenario Output: command_timestamp_guard
+
+Result: PASS
+
+## Scenario
+
+```yaml
+name: command_timestamp_guard
+description: Verify stale and future ground-command timestamps are rejected before
+  a current command is accepted.
+requirements:
+- FSW-REQ-115
+- FSW-REQ-112
+- FSW-REQ-113
+- VER-REQ-002
+command_port: 6011
+telemetry_port: 5011
+loop_count: 30
+steps:
+- name: reject stale command
+  command: SET_MODE
+  argument: NOMINAL
+  timestamp_offset_ms: -7000
+  expect:
+    ack_seq: 1
+    ack_cmd: SET_MODE
+    ack_status: REJECTED_STALE_TIMESTAMP
+    mode: BOOT
+    fault: NONE
+- name: reject future command
+  command: SET_MODE
+  argument: NOMINAL
+  timestamp_offset_ms: 2000
+  expect:
+    ack_seq: 2
+    ack_cmd: SET_MODE
+    ack_status: REJECTED_FUTURE_TIMESTAMP
+    mode: BOOT
+    fault: NONE
+- name: accept current command
+  command: SET_MODE
+  argument: NOMINAL
+  expect:
+    ack_seq: 3
+    ack_cmd: SET_MODE
+    ack_status: ACCEPTED
+    mode: NOMINAL
+    fault: NONE
+```
+
+## Telemetry Packets
+
+```text
+seq=1 t_ms=1783987412276 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.25% hb=1
+seq=2 t_ms=1783987412476 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.50% hb=2
+seq=3 t_ms=1783987412677 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.75% hb=3
+seq=4 t_ms=1783987412878 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.00% hb=4
+seq=5 t_ms=1783987413079 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.25% hb=5
+seq=6 t_ms=1783987413280 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_STALE_TIMESTAMP cpu=18.00% mem=43.50% hb=6
+seq=7 t_ms=1783987413431 mode=BOOT fault=NONE ack_seq=2 ack_cmd=SET_MODE ack_status=REJECTED_FUTURE_TIMESTAMP cpu=18.00% mem=43.75% hb=7
+seq=8 t_ms=1783987413607 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=44.00% hb=8
+seq=9 t_ms=1783987413757 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=44.25% hb=9
+seq=10 t_ms=1783987413958 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=44.50% hb=10
+seq=11 t_ms=1783987414159 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=44.75% hb=11
+seq=12 t_ms=1783987414361 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=45.00% hb=12
+seq=13 t_ms=1783987414561 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=45.25% hb=13
+seq=14 t_ms=1783987414762 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=45.50% hb=14
+seq=15 t_ms=1783987414963 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=45.75% hb=15
+seq=16 t_ms=1783987415164 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=46.00% hb=16
+seq=17 t_ms=1783987415365 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=46.25% hb=17
+seq=18 t_ms=1783987415566 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=46.50% hb=18
+seq=19 t_ms=1783987415767 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=46.75% hb=19
+seq=20 t_ms=1783987415968 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=47.00% hb=20
+seq=21 t_ms=1783987416169 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=47.25% hb=21
+seq=22 t_ms=1783987416370 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=47.50% hb=22
+seq=23 t_ms=1783987416571 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=47.75% hb=23
+seq=24 t_ms=1783987416772 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=48.00% hb=24
+seq=25 t_ms=1783987416973 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=48.25% hb=25
+seq=26 t_ms=1783987417174 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=48.50% hb=26
+seq=27 t_ms=1783987417375 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=48.75% hb=27
+seq=28 t_ms=1783987417576 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=49.00% hb=28
+seq=29 t_ms=1783987417777 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=49.25% hb=29
+seq=30 t_ms=1783987417978 mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=49.50% hb=30
+```
+
+## C++ Server Output
+
+```text
+AstraSim-FSW command/telemetry demo
+Using FlightSoftwareApp core loop
+Listening for UDP commands on port 6011
+Sending UDP telemetry to 127.0.0.1:5011
+TX telemetry seq=1 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=2 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=3 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=4 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=5 mode=BOOT fault=NONE sent=yes
+RX command seq=1 id=SET_MODE status=REJECTED_STALE_TIMESTAMP mode=BOOT fault=NONE msg="Command rejected: stale timestamp age_ms=7208"
+TX telemetry seq=6 mode=BOOT fault=NONE sent=yes
+RX command seq=2 id=SET_MODE status=REJECTED_FUTURE_TIMESTAMP mode=BOOT fault=NONE msg="Command rejected: future timestamp skew_ms=1896"
+TX telemetry seq=7 mode=BOOT fault=NONE sent=yes
+RX command seq=3 id=SET_MODE status=ACCEPTED mode=NOMINAL fault=NONE msg="SET_MODE accepted"
+TX telemetry seq=8 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=9 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=10 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=11 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=12 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=13 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=14 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=15 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=16 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=17 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=18 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=19 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=20 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=21 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=22 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=23 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=24 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=25 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=26 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=27 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=28 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=29 mode=NOMINAL fault=NONE sent=yes
+TX telemetry seq=30 mode=NOMINAL fault=NONE sent=yes
+Command/telemetry demo complete.
+```

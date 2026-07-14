@@ -25,9 +25,10 @@ EventSeverity event_severity_for_fault(const FaultDisposition& disposition) {
 
 FlightSoftwareApp::FlightSoftwareApp(FlightSoftwareAppConfig configuration)
     : mode_manager_(),
-      command_processor_(mode_manager_),
+      command_processor_(mode_manager_, configuration.recovery_supervisor),
       fdir_manager_(),
       ground_command_guard_(configuration.ground_command_guard),
+      command_authorizer_(configuration.command_authorization),
       health_monitor_(),
       watchdog_(),
       event_logger_(configuration.event_log_capacity),
@@ -36,6 +37,11 @@ FlightSoftwareApp::FlightSoftwareApp(FlightSoftwareAppConfig configuration)
       last_ground_command_sequence_number_(0),
       last_ground_command_id_(0),
       last_ground_command_status_(0) {
+    if (!command_processor_.valid()) {
+        validation_error_ = command_processor_.validation_error();
+        return;
+    }
+
     if (!ground_command_guard_.valid()) {
         validation_error_ = ground_command_guard_.validation_error();
         return;
@@ -87,7 +93,18 @@ FlightSoftwareStepOutput FlightSoftwareApp::step(const FlightSoftwareStepInput& 
 
         switch (output.command_guard_result.status) {
             case GroundCommandGuardStatus::ACCEPTED:
-                output.command_result = command_processor_.process(input.command);
+                output.command_authorization_result =
+                    command_authorizer_.authorize(input.command);
+                if (output.command_authorization_result.authorized) {
+                    output.command_result = command_processor_.process(input.command);
+                } else {
+                    output.command_result = reject_ground_command(
+                        input.command,
+                        CommandStatus::REJECTED_UNAUTHORIZED,
+                        "Command rejected: " +
+                            output.command_authorization_result.message
+                    );
+                }
                 break;
 
             case GroundCommandGuardStatus::REJECTED_DUPLICATE_SEQUENCE:

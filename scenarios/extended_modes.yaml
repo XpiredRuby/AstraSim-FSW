@@ -1,0 +1,56 @@
+name: extended_modes
+description: Verify STANDBY and TEST mode command transitions while preserving prohibited transitions.
+requirements:
+  - FSW-REQ-003
+  - FSW-REQ-012
+  - FSW-REQ-106
+  - VER-REQ-002
+command_port: 6010
+telemetry_port: 5010
+loop_count: 36
+steps:
+  - name: enter standby from boot
+    command: SET_MODE
+    argument: STANDBY
+    expect:
+      ack_seq: 1
+      ack_cmd: SET_MODE
+      ack_status: ACCEPTED
+      mode: STANDBY
+      fault: NONE
+  - name: enter test from standby
+    command: SET_MODE
+    argument: TEST
+    expect:
+      ack_seq: 2
+      ack_cmd: SET_MODE
+      ack_status: ACCEPTED
+      mode: TEST
+      fault: NONE
+  - name: reject direct test to nominal transition
+    command: SET_MODE
+    argument: NOMINAL
+    expect:
+      ack_seq: 3
+      ack_cmd: SET_MODE
+      ack_status: REJECTED_INVALID_TRANSITION
+      mode: TEST
+      fault: NONE
+  - name: leave test through standby
+    command: SET_MODE
+    argument: STANDBY
+    expect:
+      ack_seq: 4
+      ack_cmd: SET_MODE
+      ack_status: ACCEPTED
+      mode: STANDBY
+      fault: NONE
+  - name: enter nominal from standby
+    command: SET_MODE
+    argument: NOMINAL
+    expect:
+      ack_seq: 5
+      ack_cmd: SET_MODE
+      ack_status: ACCEPTED
+      mode: NOMINAL
+      fault: NONE

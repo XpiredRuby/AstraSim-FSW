@@ -1,0 +1,93 @@
+# Scenario Output: fdir_cpu_overload
+
+Result: PASS
+
+## Scenario
+
+```yaml
+name: fdir_cpu_overload
+description: Exercise the explicit FDIR disposition for CPU_OVERLOAD.
+requirements:
+- FSW-REQ-207
+- FSW-REQ-208
+- FSW-REQ-113
+command_port: 6103
+telemetry_port: 5103
+loop_count: 20
+steps:
+- name: enter nominal
+  command: SET_MODE
+  argument: NOMINAL
+  expect:
+    ack_seq: 1
+    ack_cmd: SET_MODE
+    ack_status: ACCEPTED
+    mode: NOMINAL
+    fault: NONE
+- name: inject CPU_OVERLOAD
+  command: INJECT_FAULT
+  argument: CPU_OVERLOAD
+  expect:
+    ack_seq: 2
+    ack_cmd: INJECT_FAULT
+    ack_status: ACCEPTED
+    mode: DEGRADED_PAYLOAD
+    fault: CPU_OVERLOAD
+```
+
+## Telemetry Packets
+
+```text
+seq=1 t_ms=1783987466135 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.25% hb=1
+seq=2 t_ms=1783987466335 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.50% hb=2
+seq=3 t_ms=1783987466536 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.75% hb=3
+seq=4 t_ms=1783987466737 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.00% hb=4
+seq=5 t_ms=1783987466938 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.25% hb=5
+seq=6 t_ms=1783987467139 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=43.50% hb=6
+seq=7 t_ms=1783987467290 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=43.75% hb=7
+seq=8 t_ms=1783987467466 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=92.00% mem=44.00% hb=8
+seq=9 t_ms=1783987467667 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=92.00% mem=44.25% hb=9
+seq=10 t_ms=1783987467868 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=92.00% mem=44.50% hb=10
+seq=11 t_ms=1783987468069 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=92.00% mem=44.75% hb=11
+seq=12 t_ms=1783987468270 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=92.00% mem=45.00% hb=12
+seq=13 t_ms=1783987468471 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=92.00% mem=45.25% hb=13
+seq=14 t_ms=1783987468672 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=92.00% mem=45.50% hb=14
+seq=15 t_ms=1783987468873 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=92.00% mem=45.75% hb=15
+seq=16 t_ms=1783987469074 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=92.00% mem=46.00% hb=16
+seq=17 t_ms=1783987469275 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=92.00% mem=46.25% hb=17
+seq=18 t_ms=1783987469476 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=92.00% mem=46.50% hb=18
+seq=19 t_ms=1783987469677 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=92.00% mem=46.75% hb=19
+seq=20 t_ms=1783987469878 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=92.00% mem=47.00% hb=20
+```
+
+## C++ Server Output
+
+```text
+AstraSim-FSW command/telemetry demo
+Using FlightSoftwareApp core loop
+Listening for UDP commands on port 6103
+Sending UDP telemetry to 127.0.0.1:5103
+TX telemetry seq=1 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=2 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=3 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=4 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=5 mode=BOOT fault=NONE sent=yes
+RX command seq=1 id=SET_MODE status=ACCEPTED mode=NOMINAL fault=NONE msg="SET_MODE accepted"
+TX telemetry seq=6 mode=NOMINAL fault=NONE sent=yes
+RX command seq=2 id=INJECT_FAULT status=ACCEPTED mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD msg="INJECT_FAULT accepted: severity=DEGRADED response=ENTER_DEGRADED_PAYLOAD"
+TX telemetry seq=7 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX telemetry seq=8 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX telemetry seq=9 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX telemetry seq=10 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX telemetry seq=11 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX telemetry seq=12 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX telemetry seq=13 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX telemetry seq=14 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX telemetry seq=15 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX telemetry seq=16 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX telemetry seq=17 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX telemetry seq=18 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX telemetry seq=19 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+TX telemetry seq=20 mode=DEGRADED_PAYLOAD fault=CPU_OVERLOAD sent=yes
+Command/telemetry demo complete.
+```

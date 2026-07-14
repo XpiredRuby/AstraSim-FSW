@@ -1,5 +1,6 @@
 #pragma once
 
+#include "astra/command_authorizer.hpp"
 #include "astra/command_packet.hpp"
 #include "astra/command_processor.hpp"
 #include "astra/event_logger.hpp"
@@ -12,12 +13,15 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <string>
 #include <vector>
 
 namespace astra {
 
 struct FlightSoftwareAppConfig {
     GroundCommandGuardConfig ground_command_guard;
+    CommandAuthorizationConfig command_authorization;
+    RecoverySupervisorConfig recovery_supervisor;
     std::size_t event_log_capacity = 256U;
 };
 
@@ -38,6 +42,7 @@ struct FlightSoftwareStepInput {
 struct FlightSoftwareStepOutput {
     bool command_processed = false;
     GroundCommandGuardResult command_guard_result;
+    CommandAuthorizationResult command_authorization_result;
     CommandResult command_result;
 
     WatchdogReport watchdog_report;
@@ -94,6 +99,7 @@ private:
     CommandProcessor command_processor_;
     FdirManager fdir_manager_;
     GroundCommandGuard ground_command_guard_;
+    CommandAuthorizer command_authorizer_;
     HealthMonitor health_monitor_;
     Watchdog watchdog_;
     EventLogger event_logger_;

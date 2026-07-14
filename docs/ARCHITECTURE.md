@@ -1,210 +1,207 @@
 # ASTRA-OS Software Architecture
 
-## 1. Purpose
+## 1. Purpose and boundary
 
-ASTRA-OS evolves the existing AstraSim-FSW codebase into a deterministic, testable flight-software and assurance platform. The architecture preserves the working command, telemetry, health, watchdog, scenario, and Raspberry Pi demonstration paths while progressively introducing explicit scheduling, traceability, stronger command semantics, and quantitative assurance evidence.
+ASTRA-OS is a deterministic C++17 spacecraft-style flight-software and assurance platform with Python ground tooling. It demonstrates mode management, UDP command and telemetry protocols, command guards and authorization policy, health and watchdog monitoring, FDIR dispositions, bounded recovery supervision, rate-group execution, configuration control, event evidence, Raspberry Pi execution, and automated verification.
 
-This is an educational and portfolio architecture. It does not represent a certified flight computer or a production avionics security design.
+It is educational and portfolio focused. It is not certified, flight qualified, airworthy, hard-real-time, production ready, or a production avionics security design.
 
 ## 2. Architectural principles
 
-1. Preserve externally observable working behavior unless a requirement authorizes a change.
-2. Keep the flight-software core independent from UDP, files, Python tooling, and target hardware wherever practical.
-3. Prefer deterministic state transitions and explicit inputs over hidden clocks, globals, or background threads.
-4. Reject malformed or stale external inputs before they reach state-changing logic.
-5. Keep internal fault injection distinguishable from ground command processing.
-6. Treat evidence as a generated product with exact build and source provenance.
-7. Add assurance mechanisms behind explicit build options so normal and instrumented builds remain reproducible.
-8. Do not use AI output as numerical truth or as an automatic verification disposition.
+1. Preserve stable command and telemetry values unless a controlled interface revision authorizes a change.
+2. Keep decision logic deterministic and driven by explicit inputs.
+3. Reject malformed, replayed, stale, future, or unauthorized external commands before state mutation.
+4. Keep internal fault processing distinct from ground-command policy.
+5. Validate configuration before execution and expose typed failure dispositions.
+6. Generate evidence with exact source, toolchain, workload, and platform provenance.
+7. Never treat an AI-generated statement as automatic requirement verification.
 
-## 3. Current component view
+## 3. Component and data flow
 
 ```text
-Ground command tool
+Python command sender or scenario harness
     |
     v
 UDP command receiver
     |
     v
-Command packet decoder
-  - fixed length
+CommandPacket decoder
+  - fixed 26-byte format
+  - magic and version
+  - command ID
   - CRC-16-CCITT
-  - magic/version checks
-  - command-ID validation
     |
     v
 FlightSoftwareApp ground boundary
-  - duplicate/replay sequence guard
-  - command acknowledgement state
+  - GroundCommandGuard timestamp and sequence policy
+  - CommandAuthorizer execution policy
     |
     v
-CommandProcessor ----------------------+
-    |                                  |
-    v                                  |
-ModeManager                            |
-                                       |
-HealthMonitor ---- internal fault -----+
-Watchdog --------- internal fault -----+
+CommandProcessor
+  - semantic command validation
+  - RecoverySupervisor
+  - FDIRManager fault disposition
+    |
+    v
+ModeManager and active fault state
 
-FlightSoftwareApp
+HealthMonitor --------+
+Watchdog --------------+--> internal fault selection --> CommandProcessor
+
+FlightSoftwareExecutive
+  - RateGroupScheduler
+  - flight-service dispatch
+  - housekeeping accounting
     |
     v
-Telemetry packet encoder
+TelemetryPacket and EventLogger
     |
     v
-UDP telemetry sender --> ground receiver/dashboard
+UDP telemetry sender --> Python receiver and scenario verifier
 ```
-
-The deterministic `RateGroupScheduler` is currently a separately tested core service. It is not yet the production driver for `FlightSoftwareApp`; that integration is a planned, requirement-controlled change.
 
 ## 4. Core components
 
 ### 4.1 `ModeManager`
 
-Owns the current operational mode and validates transitions. Existing mode numeric values are part of the command and telemetry interface and must remain stable. The current implementation supports BOOT, NOMINAL, DEGRADED_SENSOR, DEGRADED_PAYLOAD, SAFE, and RECOVERY. STANDBY and TEST are required additions but are not yet implemented.
+Owns BOOT, NOMINAL, DEGRADED_SENSOR, DEGRADED_PAYLOAD, SAFE, RECOVERY, STANDBY, and TEST. Existing numeric values remain stable. It accepts only declared transitions and leaves state unchanged after a prohibited transition.
 
 ### 4.2 `CommandPacket`
 
-Defines the current 26-byte little-endian command format:
+Defines the little-endian command format:
 
 - 32-bit magic;
-- 16-bit protocol version;
+- 16-bit version;
 - 32-bit sequence number;
 - 64-bit timestamp in milliseconds;
 - 16-bit command ID;
 - 32-bit argument;
 - 16-bit CRC-16-CCITT.
 
-Deserialization performs structural and integrity validation. Semantic validation of mode and fault arguments remains in the command-processing layer.
+The decoder performs structural and integrity checks. Semantic command arguments are checked later by `CommandProcessor`.
 
-### 4.3 Ground command sequence guard
+### 4.3 `GroundCommandGuard`
 
-`FlightSoftwareApp` enforces replay protection after successful packet decoding and before command execution. It uses unsigned half-range serial-number arithmetic:
+Applies two independent controls to decoded ground commands:
 
-- the first syntactically valid ground command initializes the sequence state;
-- an equal sequence is rejected as a duplicate;
-- a sequence outside the forward half-range is rejected as replayed or stale;
-- maximum-to-zero wrap is accepted;
-- a semantically rejected command still consumes its sequence number.
+- bounded age and future-skew checks against the supplied application timestamp;
+- unsigned half-range sequence comparison for duplicate, replay, and wrap behavior.
 
-This is replay resistance, not authentication. CRC protects accidental corruption and does not establish command authority.
+A syntactically valid command that passes the guard consumes its sequence even when semantic or authorization policy later rejects it. This prevents reusing a rejected sequence with altered content.
 
-### 4.4 `CommandProcessor`
+### 4.4 `CommandAuthorizer`
 
-Maps accepted commands to deterministic mode or fault operations and returns a structured disposition. It owns the last active fault state. It does not perform transport decoding or ground replay checks.
+Applies configurable execution policy after decoding and ground guarding but before state mutation. It can independently disable command classes or entry into TEST. A denial returns `REJECTED_UNAUTHORIZED`, preserves mode and fault state, and is acknowledged in telemetry and events.
 
-### 4.5 `HealthMonitor`
+This is command policy, not cryptographic sender authentication. CRC is also not authentication.
 
-Evaluates an explicit snapshot containing CPU load, memory load, sensor age, payload age, and loop duration. It returns a status and fault recommendation. Critical recommendations are converted to internal fault commands by `FlightSoftwareApp`.
+### 4.5 `CommandProcessor`
 
-### 4.6 `Watchdog`
+Performs semantic validation and deterministic command execution. It owns the active fault state, delegates fault response to `FDIRManager`, and supervises RECOVERY exits through `RecoverySupervisor`.
 
-Evaluates explicit timestamps and loop duration. It distinguishes nominal, warning, and expired states. Expired watchdog outputs are converted to internal fault commands.
+### 4.6 `RecoverySupervisor`
 
-### 4.7 Internal fault path
+Starts a bounded session when SAFE enters RECOVERY. Successful exit clears the counter. Repeated prohibited exits increment the counter; reaching the configured limit forces SAFE and returns `REJECTED_RECOVERY_LIMIT`.
 
-Health and watchdog faults are created inside `FlightSoftwareApp` and sent directly to `CommandProcessor`. They intentionally bypass the ground sequence guard because they are not ground commands. Future telemetry and event logging must preserve the origin distinction.
+### 4.7 `HealthMonitor` and `Watchdog`
 
-### 4.8 `RateGroupScheduler`
+Both consume explicit snapshots and return typed reports. Critical health or expired watchdog results become internal fault candidates. They do not pass through the ground replay or authorization policy.
 
-A pure, tick-driven scheduler service with no threads, sleeps, or system-clock reads. Configuration defines task ID, name, period, phase, and relative deadline. The scheduler:
+### 4.8 `FDIRManager`
 
-- rejects invalid configuration;
-- requires monotonic contiguous ticks beginning at zero;
-- emits deterministic release records in configuration order;
-- tracks pending jobs, completions, overruns, and deadline misses;
-- rejects discontinuities without advancing scheduler state;
-- exposes cumulative statistics.
+Owns the ten-fault disposition table, severity, priority, response, detection or policy source, and recovery-rule metadata. Simultaneous observations are resolved by highest priority and then lower numeric fault code. A degraded response that is invalid from the current mode falls back to SAFE.
 
-The scheduler does not execute callbacks. The application layer owns task dispatch and measured execution duration, which keeps scheduler decisions independently testable.
+The FDIR policy is verified by unit tests and a ten-case UDP command/telemetry campaign. Some physical detector sources remain outside the software-only implementation and are explicitly identified in `docs/FDIR_MATRIX.md`.
 
-### 4.9 Telemetry
+### 4.9 `RateGroupScheduler` and `FlightSoftwareExecutive`
 
-Telemetry includes software state, resource values, heartbeat, and the last attempted ground-command acknowledgement. The acknowledgement represents accepted and rejected attempts. Future revisions must add explicit validity and interface-revision fields without silently changing the current wire format.
+The scheduler is tick driven and has no threads, sleeps, or hidden clock reads. It validates periods, phases, and deadlines; releases jobs deterministically; rejects tick discontinuities; and records completions, overruns, and misses.
 
-## 5. Execution and concurrency model
+`FlightSoftwareExecutive` dispatches the flight-software application and housekeeping service through configured rate groups. Task execution duration is supplied explicitly so scheduler decisions remain independently testable.
 
-The current core is single-threaded and step-driven. All state changes occur during explicit method calls. UDP demo processes and Python ground tools are external to the core. No service may introduce a hidden worker thread without an architecture decision, ownership model, shutdown behavior, and deterministic test seam.
+### 4.10 `ConfigurationService`
 
-The target scheduler integration will use a cyclic executive or rate-group dispatcher. Target-specific priority and real-time policy are intentionally outside the portable core until SIL behavior is stable.
+Provides a versioned system schema, value validation, expected-revision comparison, strictly increasing revisions, activation, and irreversible runtime locking. The application configuration includes command guards, authorization policy, recovery supervision, and event-log capacity.
+
+### 4.11 `EventLogger`
+
+Records typed command dispositions, mode transitions, and fault transitions with timestamp, severity, source, code, and message. Capacity is bounded and dropped-event count is observable.
+
+### 4.12 Telemetry
+
+Telemetry includes sequence, timestamp, mode, active fault, resource values, heartbeat, and the last attempted ground-command sequence, ID, and status. Accepted and rejected attempts are visible. Protocol values are mirrored in `config/protocol_manifest.json` and checked against C++ and Python definitions.
+
+## 5. Execution model
+
+The portable core is single-threaded and step driven. All state changes occur in explicit calls. UDP processes and Python tools are external adapters. No hidden worker thread is used in the core.
+
+The Raspberry Pi build uses the same library, tests, scenarios, and protocol manifest as host CI. The timing campaign runs faster than mission time and measures host execution cost; it is not a hard-real-time or worst-case-execution-time proof.
 
 ## 6. Clock model
 
-Current services receive time as integer milliseconds or scheduler ticks. The portable core shall not call the wall clock directly. A future time service will define:
+Core services receive integer timestamps or ticks. The C++ core does not read the wall clock. The command/telemetry demo uses Unix wall-clock milliseconds only at its external adapter boundary so commands created on a separate machine use a comparable epoch.
 
-- monotonic mission time;
-- UTC correlation when available;
-- clock validity;
-- discontinuity handling;
-- commanded or simulated clock changes;
-- timestamp freshness tolerances.
-
-Tests and scenarios shall use fake time sources.
+Tests and scenarios may inject exact or relative command timestamps. Timestamp validity does not establish UTC quality or secure time synchronization.
 
 ## 7. Interface boundaries
 
-### 7.1 Core boundary
+### Core boundary
 
-The C++ core accepts typed structures and returns typed results. It shall not depend on sockets, YAML, command-line parsing, or report formatting for its decision logic.
+Typed C++ structures enter and leave the core. Core decision logic does not depend on YAML, files, sockets, or report formatting.
 
-### 7.2 Transport boundary
+### Transport boundary
 
-UDP receivers and senders own socket lifecycle, packet acquisition, and transport errors. Decoders own byte validation. State-changing services only receive decoded packets.
+UDP adapters own socket lifecycle and packet movement. Packet decoders own byte validation. Transport errors are not silently converted into valid commands.
 
-### 7.3 Simulation boundary
+### Verification boundary
 
-Python scenarios and future simulation bridges provide explicit snapshots, commands, delays, dropouts, and faults. Randomized campaigns shall publish their seeds and configuration.
+Python tools own scenarios, Monte Carlo generation, FDIR campaigns, protocol comparison, traceability, packaging, and reports. Randomized work publishes seed and configuration.
 
-### 7.4 Target boundary
+### Governed-assistant boundary
 
-Raspberry Pi deployment shall use the same core library and test vectors. Target-specific differences must be isolated in adapters and quantified in SIL-to-HIL comparison reports.
+`tools/assurance_assistant.py` is a deterministic permission interface. It can read only approved project sources and invoke only six exact verification commands. It explicitly denies merge, push, shell, hardware, write, deletion, and automatic verification disposition. The 129-case frozen evaluation applies only to this implemented interface.
 
-## 8. Error and status philosophy
+## 8. Digital thread
 
-- Expected invalid external input returns a typed rejection; it is not an exception.
-- Configuration errors are detected before execution and expose a diagnostic string.
-- Unknown enum values map to stable `UNKNOWN_*` strings for diagnostics but are rejected before state changes.
-- Internal programming errors may use assertions in tests, but production error behavior must remain explicit.
-- A failure to generate or validate evidence causes the corresponding CI job to fail.
+The canonical digital thread consists of:
+
+- `docs/REQUIREMENTS.md`;
+- `docs/VERIFICATION_MATRIX.csv`;
+- declared YAML scenarios;
+- CMake-registered CTests;
+- committed evidence reports;
+- `config/traceability_baseline.json`.
+
+`tools/check_requirements.py` checks missing and unknown rows, scenario references, registered CTests without requirement allocation, changed requirement fingerprints, and changed controlled-interface hashes. Baseline hashes are updated only after review.
 
 ## 9. Assurance architecture
 
-The build exposes independently selectable controls:
+Independent build and workflow controls include:
 
 - warnings as errors;
-- AddressSanitizer and UndefinedBehaviorSanitizer;
-- GCC or Clang coverage instrumentation;
+- normal CTest;
+- ASan and UBSan;
 - clang-tidy;
-- deterministic unit and scenario tests;
-- a controlled mutation that disables CRC rejection;
-- provenance manifests containing source hashes and toolchain data.
+- LCOV aggregate and per-module reports;
+- controlled CRC mutation;
+- bounded libFuzzer execution with deterministic corpus;
+- deterministic scenarios and a ten-case FDIR campaign;
+- seeded Monte Carlo regression;
+- Pi deployment packaging;
+- timing and soak campaigns;
+- provenance manifests;
+- frozen assurance-assistant permission evaluation.
 
-GitHub Actions separates normal build, full verification, and assurance jobs so a failure is attributable to a specific evidence class.
+A passing mechanism is evidence only for the exact executed configuration. Coverage percentages, fuzz runs, sanitizers, and timing measurements do not prove absence of defects.
 
-## 10. Evidence architecture
+## 10. Remaining external limitations
 
-Generated evidence is not treated as authoritative without provenance. Each full verification run generates or uploads:
+The completed software baseline does not include or prove:
 
-- test and scenario reports;
-- requirement-check results;
-- Monte Carlo results and seed;
-- deployment-package report;
-- source and documentation hashes;
-- exact commit and dirty state;
-- compiler, CMake, CTest, Python, host, and architecture information;
-- command list and verification disposition.
-
-Large or reproducible build products remain CI artifacts rather than committed binary clutter.
-
-## 11. Planned architectural increments
-
-1. Integrate the scheduler with the application service execution order.
-2. Add STANDBY and TEST while preserving existing interface values.
-3. Add a time service and ground-command freshness checks.
-4. Separate FDIR policy from mode-transition mechanics.
-5. Add event and persistent fault records.
-6. Add configuration schema validation and versioning.
-7. Add fake command and telemetry transports for integration testing without UDP.
-8. Add coverage-guided command fuzzing and a frozen corpus.
-9. Add per-module coverage and timing reports.
-10. Add a read-only, permissioned assurance assistant only after the core evidence baseline is stable.
+- cryptographic command authentication or mission key management;
+- spacecraft bus drivers or representative avionics hardware;
+- actuator command and feedback integration;
+- radiation tolerance or single-event-effect recovery;
+- mission-derived hard-real-time scheduling guarantees;
+- physical detector calibration for every FDIR policy input;
+- flight certification or production operations.

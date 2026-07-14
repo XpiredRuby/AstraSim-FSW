@@ -22,7 +22,36 @@ sys.path.insert(0, str(TOOLS_DIR))
 from telemetry_receiver import COMMAND_STATUSES, decode_packet  # noqa: E402
 
 
-def send_command(host: str, port: int, sequence: int, command: str, argument: str | None) -> None:
+def resolve_step_timestamp(
+    step: dict[str, Any],
+    *,
+    now_ms: int | None = None,
+) -> int | None:
+    """Resolve an optional exact or wall-clock-relative command timestamp."""
+    has_exact = "timestamp_ms" in step
+    has_offset = "timestamp_offset_ms" in step
+
+    if has_exact and has_offset:
+        raise ValueError("scenario step cannot define both timestamp_ms and timestamp_offset_ms")
+
+    if has_exact:
+        return int(step["timestamp_ms"])
+
+    if has_offset:
+        current_ms = int(time.time() * 1000) if now_ms is None else int(now_ms)
+        return current_ms + int(step["timestamp_offset_ms"])
+
+    return None
+
+
+def send_command(
+    host: str,
+    port: int,
+    sequence: int,
+    command: str,
+    argument: str | None,
+    timestamp_ms: int | None = None,
+) -> None:
     cmd = [
         sys.executable,
         str(TOOLS_DIR / "send_command.py"),
@@ -38,11 +67,24 @@ def send_command(host: str, port: int, sequence: int, command: str, argument: st
 
     if argument is not None:
         cmd.extend(["--argument", argument])
+    if timestamp_ms is not None:
+        cmd.extend(["--timestamp-ms", str(timestamp_ms)])
 
-    subprocess.run(cmd, check=True, cwd=REPO_ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    subprocess.run(
+        cmd,
+        check=True,
+        cwd=REPO_ROOT,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
 
 
-def telemetry_listener(sock: socket.socket, stop_event: threading.Event, packets: list[dict[str, Any]]) -> None:
+def telemetry_listener(
+    sock: socket.socket,
+    stop_event: threading.Event,
+    packets: list[dict[str, Any]],
+) -> None:
     sock.settimeout(0.2)
 
     while not stop_event.is_set():
@@ -173,6 +215,22 @@ def main() -> int:
     watchdog_timeout_loop = scenario.get("watchdog_timeout_loop")
     steps = scenario.get("steps", [])
 
+    if not isinstance(steps, list):
+        print("ERROR: scenario steps must be a list")
+        return 1
+
+    try:
+        for step in steps:
+            if not isinstance(step, dict):
+                raise ValueError("every scenario step must be a mapping")
+            if "timestamp_ms" in step and "timestamp_offset_ms" in step:
+                raise ValueError(
+                    "scenario step cannot define both timestamp_ms and timestamp_offset_ms"
+                )
+    except ValueError as error:
+        print(f"ERROR: {error}")
+        return 1
+
     build_dir = Path(args.build_dir)
     if not build_dir.is_absolute():
         build_dir = REPO_ROOT / build_dir
@@ -188,7 +246,11 @@ def main() -> int:
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind((args.host, telemetry_port))
 
-    listener = threading.Thread(target=telemetry_listener, args=(sock, stop_event, packets), daemon=True)
+    listener = threading.Thread(
+        target=telemetry_listener,
+        args=(sock, stop_event, packets),
+        daemon=True,
+    )
     listener.start()
 
     server_args = [
@@ -228,8 +290,20 @@ def main() -> int:
             expected = step.get("expect", {})
 
             if command is not None:
-                print(f"[SEND] seq={sequence} {command} {argument or ''}".rstrip())
-                send_command(args.host, command_port, sequence, command, argument)
+                timestamp_ms = resolve_step_timestamp(step)
+                timestamp_label = "now" if timestamp_ms is None else str(timestamp_ms)
+                print(
+                    f"[SEND] seq={sequence} {command} {argument or ''} "
+                    f"timestamp_ms={timestamp_label}".rstrip()
+                )
+                send_command(
+                    args.host,
+                    command_port,
+                    sequence,
+                    command,
+                    argument,
+                    timestamp_ms,
+                )
                 sequence += 1
             else:
                 print(f"[WAIT] {name}")

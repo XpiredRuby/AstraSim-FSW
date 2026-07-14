@@ -10,7 +10,7 @@
     "source_date_epoch": null,
     "warnings_as_errors": true
   },
-  "generated_at_utc": "2026-07-13T21:50:08.423939+00:00",
+  "generated_at_utc": "2026-07-14T00:07:45.613654+00:00",
   "host": {
     "machine": "aarch64",
     "platform": "Linux-6.8.0-1060-raspi-aarch64-with-glibc2.39",
@@ -21,8 +21,8 @@
   "inputs": [
     {
       "path": ".github/workflows/assurance.yml",
-      "sha256": "ea604324abc4e505bdea69fe7ef82c3612b5a3a1f3888db531fe98039fa897ed",
-      "size_bytes": 5214
+      "sha256": "07a42ea13afc914c4296b89776a5e2b0f9f576d60a699d61c58346693f37cbba",
+      "size_bytes": 5683
     },
     {
       "path": ".github/workflows/full_verification.yml",
@@ -46,23 +46,23 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "124fa3303f054a0b59d6003687f963c51c403a1b1dd5c39073adefd72f7787ac",
-      "size_bytes": 2838
+      "sha256": "8545c11ffe01ea37b3cf73ac777f0ca178a0a1b93c2ff5c06691def0000667bb",
+      "size_bytes": 3521
     },
     {
       "path": "CMakeLists.txt",
-      "sha256": "b20e0da8547ddb77b20d0f1f954fd2baea2c4f39c27c39c0085c323a7d04cd42",
-      "size_bytes": 7801
+      "sha256": "ba5a1047701c2ee4a03a18cf476e0ddc4668c676fd93e07cb049d04eeeece3e1",
+      "size_bytes": 8383
     },
     {
       "path": "PROJECT_STATE.md",
-      "sha256": "56695e55575d44a4cf3d0191ce9a9a5d5cebe6934659b9dcf1a968ce06b00734",
-      "size_bytes": 6388
+      "sha256": "55c4ad34fc4a4c38979499d62948592e85c85c57e0693e3553c51df0c219a548",
+      "size_bytes": 3409
     },
     {
       "path": "README.md",
-      "sha256": "0eead545588047e3d4a1bf11707004388e3745f8045c2fab4baf1e7a9cf719b3",
-      "size_bytes": 7030
+      "sha256": "409ee7c53f9e9ccc0c520cebf5dea5fe3be0e57b446d000d4ffea86eca0a2e5a",
+      "size_bytes": 9339
     },
     {
       "path": "ci/run_local_tests.sh",
@@ -70,49 +70,69 @@
       "size_bytes": 141
     },
     {
+      "path": "config/assurance_assistant_eval.json",
+      "sha256": "b8e97494dd2e98b128ad9a4cc3ca37aca1a3eaf98338445d90132c2eabf7ed05",
+      "size_bytes": 27309
+    },
+    {
+      "path": "config/assurance_assistant_policy.json",
+      "sha256": "166324d6ae7ee90b6a0c0dd39b3428cfd36c0f72be22e8ab045367fa5553e69f",
+      "size_bytes": 1609
+    },
+    {
       "path": "config/protocol_manifest.json",
-      "sha256": "85908791615a58ab4d04a701a9a1eb45af9fb47f69ce236c199d296d71a5055b",
-      "size_bytes": 1457
+      "sha256": "bc009900fd83350c7b21ad558a2540d14044f9024db26e233b91b9bbf2e36e14",
+      "size_bytes": 1524
+    },
+    {
+      "path": "config/traceability_baseline.json",
+      "sha256": "ea0159eb91127de6dbf6fc593648e19cb829ea353e8611bd17a394d4403fd6e2",
+      "size_bytes": 6840
     },
     {
       "path": "docs/ARCHITECTURE.md",
-      "sha256": "37922a6f29ea4f23e78a92838a5b4bb9dfb85d1102d21a94174aa9bcc4dc4594",
-      "size_bytes": 9876
+      "sha256": "514ab87ff3be005faf485e1579e61a25a27acc76e4336c6e9c6eb092fececd36",
+      "size_bytes": 9803
     },
     {
       "path": "docs/ASSURANCE.md",
-      "sha256": "c07d3c413f2ad5fecfa7df9b95a19a7753e2e314b63e42f3eff1c26246a88d08",
-      "size_bytes": 4552
+      "sha256": "2049c670e54000c4c67e468ca4a524e43fd6cc599e8e99bf2dc1b9b55f6ae745",
+      "size_bytes": 7552
     },
     {
       "path": "docs/DECISIONS.md",
-      "sha256": "321210e9978e02c85371d315f5e852d14125cf64b8959135dc6077510a9e199b",
-      "size_bytes": 5190
+      "sha256": "d09a266d24fe41be1f8dc3b546397db413ab14532067dc8ca0f5717a2d7ba96d",
+      "size_bytes": 7377
     },
     {
       "path": "docs/FDIR_MATRIX.md",
-      "sha256": "88bf20e4f119d5a0fed2f68d5eaae8dca7028d5974ebcfc192bbda51932ed92c",
-      "size_bytes": 3997
+      "sha256": "f16da7fe42ebfaf1a9c86da158536f2ea1fc52adc5b742b8b9a719918f381bfd",
+      "size_bytes": 4870
     },
     {
       "path": "docs/REQUIREMENTS.md",
-      "sha256": "4afe9492be7c712679d9ab3ce5368bb5bf8663786302dffbcaa314308de2ef78",
-      "size_bytes": 12841
+      "sha256": "672097d019eb602a02709f04e7bd8e0529cf672c5a3f3f48a53f89844c12fb00",
+      "size_bytes": 15630
     },
     {
       "path": "docs/RISKS_AND_BLOCKERS.md",
-      "sha256": "b593d322947a2571d9fc3cef08cb924ea885b1cab4bd36141d2e030f89132ab2",
-      "size_bytes": 5429
+      "sha256": "e95f54ce3ce9ae3f3588eeaae6e06ef11316b4131446fb5383715717c4989401",
+      "size_bytes": 5035
     },
     {
       "path": "docs/VERIFICATION_MATRIX.csv",
-      "sha256": "3539e35d2401d9fb49c546a123c722a45f69ba5b132e0ad548a664bea94f33cc",
-      "size_bytes": 6880
+      "sha256": "820a583a22cc3814235492279ccbd27fd7a1eca7c39b5f41e77003647d98f655",
+      "size_bytes": 8737
     },
     {
       "path": "docs/architecture.md",
       "sha256": "a8ca02a62bced042e281a3e0d927cebbee4c46eb783c85802be652028a72eed7",
       "size_bytes": 384
+    },
+    {
+      "path": "docs/command_authorization.md",
+      "sha256": "1d2e4c556ba91d00c26ac60ef7fbaa46d386bad5628789206c2f280aa883ba62",
+      "size_bytes": 1682
     },
     {
       "path": "docs/command_packet.md",
@@ -151,13 +171,18 @@
     },
     {
       "path": "docs/monte_carlo.md",
-      "sha256": "63de96802f9ae174fe0578456640aaf9cba85e25249d7070534de644f38fcee9",
-      "size_bytes": 862
+      "sha256": "4ca29ca468fa22a70ed1df4642d30964952da78a38af7cc0af4d1d1c94b9ef60",
+      "size_bytes": 1194
     },
     {
       "path": "docs/pi_deployment.md",
-      "sha256": "812408701d9800fc223acbbe93e68daf208471fce4e537cc91e023dd5d73cb99",
-      "size_bytes": 1381
+      "sha256": "315148b04d1ea204f7e8544360450c2b2078c3dc66dca4bded7d2f91d075bfdd",
+      "size_bytes": 2066
+    },
+    {
+      "path": "docs/recovery_supervisor.md",
+      "sha256": "55b779b93e7c7e5aa7aa9441f7899257edbb5f453850a6a4725ec85b00640bea",
+      "size_bytes": 1449
     },
     {
       "path": "docs/requirements.md",
@@ -190,14 +215,19 @@
       "size_bytes": 2272
     },
     {
+      "path": "fsw/include/astra/command_authorizer.hpp",
+      "sha256": "c60a13d6b503ab61001d543f2809cbb55792535fc896422d080d68f1f30e9187",
+      "size_bytes": 1091
+    },
+    {
       "path": "fsw/include/astra/command_packet.hpp",
       "sha256": "c06ec8db4fde54421ee91490fbaece4ae048d30033cca7fec67d1487a2a4be42",
       "size_bytes": 1298
     },
     {
       "path": "fsw/include/astra/command_processor.hpp",
-      "sha256": "854d856a2a61beac324fa892737112007690928854c83cdc2c434760b329ee3d",
-      "size_bytes": 1180
+      "sha256": "db4e4c328fae6ae5ea3ec8e8b984d217ec3cf7f8f05e711ee48940e1f39ae69f",
+      "size_bytes": 1574
     },
     {
       "path": "fsw/include/astra/configuration_service.hpp",
@@ -216,8 +246,8 @@
     },
     {
       "path": "fsw/include/astra/flight_software_app.hpp",
-      "sha256": "600699bf8a4fb22bfb6666ae3eaa1e8a57d809afbe1cd90b9809081cd226a0e2",
-      "size_bytes": 2937
+      "sha256": "be9c1e90b3a792697e800a0e19b1251ddeb7bdad2d7ed80ba414724b14a2f98d",
+      "size_bytes": 3203
     },
     {
       "path": "fsw/include/astra/flight_software_executive.hpp",
@@ -245,6 +275,11 @@
       "size_bytes": 2749
     },
     {
+      "path": "fsw/include/astra/recovery_supervisor.hpp",
+      "sha256": "0b5da5e53dc638b0f6767a19b48a8afaa1292c0c755bf03c9e255ffb54b86d92",
+      "size_bytes": 1229
+    },
+    {
       "path": "fsw/include/astra/telemetry_packet.hpp",
       "sha256": "28f4abe6a6f455afcab9c53e96964da26117337bce295512e990097934bb25ab",
       "size_bytes": 1063
@@ -265,14 +300,19 @@
       "size_bytes": 1291
     },
     {
+      "path": "fsw/src/command_authorizer.cpp",
+      "sha256": "de2180452f16843b476237e3eb402f5a596cb47b8998383c654d434c4164d288",
+      "size_bytes": 3351
+    },
+    {
       "path": "fsw/src/command_packet.cpp",
       "sha256": "cc83812bf7e5cc4a348c5b58aaae04ec43edae16c71283c7c25dc1611a28216e",
       "size_bytes": 6105
     },
     {
       "path": "fsw/src/command_processor.cpp",
-      "sha256": "f49478810c659a5d5eadf2d05242500737894c72c6411bca8cbf8518b679d57d",
-      "size_bytes": 4389
+      "sha256": "3a073740ed4ae51b72d5543899a880b30b78229feae849255e62bbb4dfc4c4f7",
+      "size_bytes": 6114
     },
     {
       "path": "fsw/src/command_telemetry_demo.cpp",
@@ -281,8 +321,8 @@
     },
     {
       "path": "fsw/src/configuration_service.cpp",
-      "sha256": "9f61b4966f83974004b9232d1a0bc95b97b206e2f5a17866ec50f45e296476e9",
-      "size_bytes": 5636
+      "sha256": "e00a086a1ad26caea850430ebe67f46fef90dbb34efeee3840edca28c0ed9c14",
+      "size_bytes": 6014
     },
     {
       "path": "fsw/src/event_logger.cpp",
@@ -296,8 +336,8 @@
     },
     {
       "path": "fsw/src/flight_software_app.cpp",
-      "sha256": "deb3218c69520dd86f714c5476d27d094c22fbf43af676bf62431f4839d108fe",
-      "size_bytes": 10723
+      "sha256": "ff2cbeab16e58cebd6ecfe194ede4f41cebc39d077ccf09e00abe53db6df6f2f",
+      "size_bytes": 11498
     },
     {
       "path": "fsw/src/flight_software_executive.cpp",
@@ -330,6 +370,11 @@
       "size_bytes": 7863
     },
     {
+      "path": "fsw/src/recovery_supervisor.cpp",
+      "sha256": "c40d6e422eec905f9a3f6fa9ba96c0d793195a1261ef155a732bbbd22e7707ea",
+      "size_bytes": 2557
+    },
+    {
       "path": "fsw/src/telemetry_demo.cpp",
       "sha256": "a8b4c6ef1b393495b2e609ed1197726f65cde267f0001b122205134f0e4908f3",
       "size_bytes": 3153
@@ -358,6 +403,11 @@
       "path": "fsw/src/watchdog.cpp",
       "sha256": "267ece76816a12e14fb427d3683940a6405e8d4c7e0a55f10943a118e873ec4f",
       "size_bytes": 2470
+    },
+    {
+      "path": "fsw/tests/test_command_authorizer.cpp",
+      "sha256": "cad9922756f7f3daa25f0c507f2c975d8763eba770e170a0bd1e3c8eef02d27f",
+      "size_bytes": 6265
     },
     {
       "path": "fsw/tests/test_command_packet.cpp",
@@ -425,6 +475,11 @@
       "size_bytes": 8505
     },
     {
+      "path": "fsw/tests/test_recovery_supervisor.cpp",
+      "sha256": "38d5baca418346fa2f25f489136f257fdfde562bbfa52914c874cbce8b2f2521",
+      "size_bytes": 7520
+    },
+    {
       "path": "fsw/tests/test_simultaneous_faults.cpp",
       "sha256": "6017e5c1b7c9947019c2b6ee9aa36393774bf1cc7b8c0980972389148e68599a",
       "size_bytes": 4179
@@ -460,6 +515,16 @@
       "size_bytes": 752
     },
     {
+      "path": "scenarios/command_timestamp_guard.yaml",
+      "sha256": "c95c7678a39390144b11bcc235c59a9857de980ad886ddf4830d4bcded0577ae",
+      "size_bytes": 954
+    },
+    {
+      "path": "scenarios/extended_modes.yaml",
+      "sha256": "3d7701d35f31b964701fe690dd422497c6dcfeb102c44849371a081b57ffd1b5",
+      "size_bytes": 1277
+    },
+    {
       "path": "scenarios/hil_smoke_test.yaml",
       "sha256": "ecb43f5925ddf4aa1e015dc9b3d011e634ae3ad056f1e724242138b13ba847cf",
       "size_bytes": 874
@@ -468,6 +533,11 @@
       "path": "scenarios/invalid_transition_rejected.yaml",
       "sha256": "92c516e26c1a7b77d0552567c48007ce29037aa303c719c4582921cb270ca8f9",
       "size_bytes": 417
+    },
+    {
+      "path": "scenarios/recovery_failure_failsafe.yaml",
+      "sha256": "7e86cab042e766218500bdadcbbd1a46bd8ceea0225e26b5a3304352c9659aca",
+      "size_bytes": 1553
     },
     {
       "path": "scenarios/sensor_timeout_safe_mode.yaml",
@@ -480,19 +550,34 @@
       "size_bytes": 627
     },
     {
+      "path": "tools/assurance_assistant.py",
+      "sha256": "d51b3c44c88dd91157ff87a5e5af8502c62462a614269c1b4ac17c0695cd0d46",
+      "size_bytes": 8137
+    },
+    {
       "path": "tools/check_protocol_conformance.py",
       "sha256": "2611f8ca16f2e3a159c6ccdec921b622e27e6a9bdf3769902dfcf5221857164d",
       "size_bytes": 7851
     },
     {
       "path": "tools/check_requirements.py",
-      "sha256": "0341e2ce8664ef618ce2e29038796004c8bfee543fb69cf4ab06946b59f0cd47",
-      "size_bytes": 12295
+      "sha256": "7ac74337392fe19d58364178083b497db27a31a5b14e8a2cd6453c5f9c7994f2",
+      "size_bytes": 17216
+    },
+    {
+      "path": "tools/check_source_cleanliness.py",
+      "sha256": "197dc5d8d8d7032489881365b7932acb93fe2fb5d36a3e222b2e14a973fb2d1a",
+      "size_bytes": 961
+    },
+    {
+      "path": "tools/generate_assurance_assistant_eval.py",
+      "sha256": "ee9c6be333cc4fd52cf1da0652b3912046764e19e528dab12d774441f26acd6d",
+      "size_bytes": 6347
     },
     {
       "path": "tools/generate_baseline_manifest.py",
-      "sha256": "c6069c908d07b861db5fdbe4c8e2e7db237eaf5a6c924a7a0aa2322ea6edc24f",
-      "size_bytes": 6085
+      "sha256": "bf2beb8d0531ac9ec2979b0a19cf02594e0f7b1c843d664c1632006c5f0a3d94",
+      "size_bytes": 6378
     },
     {
       "path": "tools/generate_command_fuzz_corpus.py",
@@ -505,19 +590,34 @@
       "size_bytes": 2458
     },
     {
+      "path": "tools/repository_state.py",
+      "sha256": "9160d427a4704453054036291aabe109a170cdd75f51956d6927b77e17cf8305",
+      "size_bytes": 1836
+    },
+    {
       "path": "tools/run_all_scenarios.py",
-      "sha256": "2a9b9d748e1fb168cd71db75bab1a6e889f32557560297f13504293de3031fd4",
-      "size_bytes": 5712
+      "sha256": "c74522a9b24837c411d86bf66c775bd465b5076cec62a277c725d76297037b49",
+      "size_bytes": 6762
+    },
+    {
+      "path": "tools/run_assurance_assistant_eval.py",
+      "sha256": "eb8d50d45a684027c61e9e411509494a2cf3b6e97d8b90801bff128bddcca2f5",
+      "size_bytes": 7201
     },
     {
       "path": "tools/run_astra_os_assurance.py",
-      "sha256": "0726d03275dbc270810094c10d0a2f01d0d8090003fd1eb01ec80e370ce3f8f8",
-      "size_bytes": 8307
+      "sha256": "33fba78a427f43ade3d186fd9c1fac10b707cd0bd874c949224d16f65dd4303c",
+      "size_bytes": 8835
     },
     {
       "path": "tools/run_controlled_mutation.py",
       "sha256": "4d2358a26c08b8334401d9252ba670c4950c07f45c6615379f038c24c46aefeb",
       "size_bytes": 3691
+    },
+    {
+      "path": "tools/run_fdir_campaign.py",
+      "sha256": "03210c4627ea175176826846a16951af0575a1cc8c4729f34aa680ee108ec928",
+      "size_bytes": 6080
     },
     {
       "path": "tools/run_hil_smoke_test.py",
@@ -531,13 +631,13 @@
     },
     {
       "path": "tools/run_scenario.py",
-      "sha256": "a4fb5f01686d0eaec3bc672a62ddfc68a4fb94959854cee1d33e7b2a94670d24",
-      "size_bytes": 8306
+      "sha256": "a4a28e2fcfc9cb8195b0da8598a7ae29f9efcd997682ae322c223603da8c11c5",
+      "size_bytes": 10157
     },
     {
       "path": "tools/send_command.py",
-      "sha256": "7a82b0502271f2e3c7f750ae1634862d6a779fd0e6325ce984f78076163078a9",
-      "size_bytes": 2976
+      "sha256": "cf77ef6e1c206b7bb83c71569e4259857ea85df007960bba7584134c002aeaf5",
+      "size_bytes": 3356
     },
     {
       "path": "tools/summarize_lcov.py",
@@ -551,8 +651,18 @@
     },
     {
       "path": "tools/telemetry_receiver.py",
-      "sha256": "26f0d223e628756e6320bb792c920293e098c18c42147e700288b69b080f7758",
-      "size_bytes": 4657
+      "sha256": "a714f9251c8e2f656ce50b21404421e8f6c9caee94272ff9f736905323f715c7",
+      "size_bytes": 4724
+    },
+    {
+      "path": "tools/traceability_baseline.py",
+      "sha256": "bc32cca5ddfc244d593613d671da6c632dd21cd36f940790ce72bcb1cf3b8f49",
+      "size_bytes": 2696
+    },
+    {
+      "path": "tools/update_traceability_baseline.py",
+      "sha256": "aa45a14869aafbb561451a6d4da723ee14e710bc8e1bc176c338b22ba75f9ead",
+      "size_bytes": 1675
     },
     {
       "path": "tools/validate_timing_evidence.py",
@@ -561,12 +671,98 @@
     }
   ],
   "repository": {
-    "branch": "astra-os/pi-hil-build-fix",
-    "commit": "395f1e028a3ab6bf46438b4dbd5bad256eced0cd",
-    "describe": "astrasim-fsw-baseline-2026-07-12-98-g395f1e0-dirty",
+    "branch": "astra-os/final-completion",
+    "commit": "bdd207a396c3054e3eeb74479798110e29b3d1eb",
+    "describe": "astrasim-fsw-baseline-2026-07-12-109-gbdd207a-dirty",
     "dirty": true,
+    "dirty_paths": [
+      "reports/ASTRA_OS_FINAL_COMPLETION_REPORT.md",
+      "reports/assurance_assistant_eval.json",
+      "reports/assurance_assistant_eval.md",
+      "reports/fdir_campaign_report.md",
+      "reports/latest/assurance_summary.json",
+      "reports/latest/baseline_manifest.json",
+      "reports/latest/build_sanitizers.log",
+      "reports/latest/configure_sanitizers.log",
+      "reports/latest/controlled_mutation.log",
+      "reports/latest/full_verification.log",
+      "reports/latest/protocol_conformance.json",
+      "reports/latest/test_sanitizers.log",
+      "reports/pi-hil/controlled-overrun-resource-usage.json",
+      "reports/pi-hil/controlled-overrun-timing.json",
+      "reports/pi-hil/final-ctest.txt",
+      "reports/pi-hil/nominal-resource-usage.json",
+      "reports/pi-hil/nominal-timing.json",
+      "reports/pi-hil/soak-resource-usage.json",
+      "reports/pi-hil/soak-timing.json",
+      "reports/pi_deployment_package_report.md",
+      "reports/python_tool_tests.json",
+      "reports/requirement_check_report.md",
+      "reports/scenario_basic_command_fault_output.txt",
+      "reports/scenario_command_timestamp_guard_output.txt",
+      "reports/scenario_extended_modes_output.txt",
+      "reports/scenario_fdir_command_bad_crc_output.txt",
+      "reports/scenario_fdir_command_timeout_output.txt",
+      "reports/scenario_fdir_command_unknown_id_output.txt",
+      "reports/scenario_fdir_cpu_overload_output.txt",
+      "reports/scenario_fdir_memory_overload_output.txt",
+      "reports/scenario_fdir_payload_heartbeat_timeout_output.txt",
+      "reports/scenario_fdir_sensor_invalid_data_output.txt",
+      "reports/scenario_fdir_sensor_timeout_output.txt",
+      "reports/scenario_fdir_telemetry_socket_failure_output.txt",
+      "reports/scenario_fdir_watchdog_deadline_miss_output.txt",
+      "reports/scenario_hil_smoke_test_output.txt",
+      "reports/scenario_invalid_transition_rejected_output.txt",
+      "reports/scenario_recovery_failure_failsafe_output.txt",
+      "reports/scenario_sensor_timeout_safe_mode_output.txt",
+      "reports/scenario_watchdog_timeout_safe_mode_output.txt"
+    ],
+    "generated_evidence_dirty_paths": [
+      "reports/ASTRA_OS_FINAL_COMPLETION_REPORT.md",
+      "reports/assurance_assistant_eval.json",
+      "reports/assurance_assistant_eval.md",
+      "reports/fdir_campaign_report.md",
+      "reports/latest/assurance_summary.json",
+      "reports/latest/baseline_manifest.json",
+      "reports/latest/build_sanitizers.log",
+      "reports/latest/configure_sanitizers.log",
+      "reports/latest/controlled_mutation.log",
+      "reports/latest/full_verification.log",
+      "reports/latest/protocol_conformance.json",
+      "reports/latest/test_sanitizers.log",
+      "reports/pi-hil/controlled-overrun-resource-usage.json",
+      "reports/pi-hil/controlled-overrun-timing.json",
+      "reports/pi-hil/final-ctest.txt",
+      "reports/pi-hil/nominal-resource-usage.json",
+      "reports/pi-hil/nominal-timing.json",
+      "reports/pi-hil/soak-resource-usage.json",
+      "reports/pi-hil/soak-timing.json",
+      "reports/pi_deployment_package_report.md",
+      "reports/python_tool_tests.json",
+      "reports/requirement_check_report.md",
+      "reports/scenario_basic_command_fault_output.txt",
+      "reports/scenario_command_timestamp_guard_output.txt",
+      "reports/scenario_extended_modes_output.txt",
+      "reports/scenario_fdir_command_bad_crc_output.txt",
+      "reports/scenario_fdir_command_timeout_output.txt",
+      "reports/scenario_fdir_command_unknown_id_output.txt",
+      "reports/scenario_fdir_cpu_overload_output.txt",
+      "reports/scenario_fdir_memory_overload_output.txt",
+      "reports/scenario_fdir_payload_heartbeat_timeout_output.txt",
+      "reports/scenario_fdir_sensor_invalid_data_output.txt",
+      "reports/scenario_fdir_sensor_timeout_output.txt",
+      "reports/scenario_fdir_telemetry_socket_failure_output.txt",
+      "reports/scenario_fdir_watchdog_deadline_miss_output.txt",
+      "reports/scenario_hil_smoke_test_output.txt",
+      "reports/scenario_invalid_transition_rejected_output.txt",
+      "reports/scenario_recovery_failure_failsafe_output.txt",
+      "reports/scenario_sensor_timeout_safe_mode_output.txt",
+      "reports/scenario_watchdog_timeout_safe_mode_output.txt"
+    ],
     "remote": "https://github.com/XpiredRuby/AstraSim-FSW.git",
-    "root": "/home/xpired/ghost_ws/tools/astra-os-hil"
+    "root": "/home/xpired/ghost_ws/tools/astra-os-hil",
+    "source_dirty": false,
+    "source_dirty_paths": []
   },
   "schema": "astra-os.provenance-manifest.v1",
   "toolchain": {
@@ -609,6 +805,8 @@
   },
   "verification": {
     "commands": [
+      "/usr/bin/python3 /home/xpired/ghost_ws/tools/astra-os-hil/tools/check_source_cleanliness.py",
+      "/usr/bin/python3 -m unittest discover -s tools/tests -p test_*.py",
       "/usr/bin/python3 /home/xpired/ghost_ws/tools/astra-os-hil/tools/run_all_scenarios.py --build-dir build-pi",
       "cmake -S . -B /home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers -DCMAKE_BUILD_TYPE=Debug -DASTRA_WARNINGS_AS_ERRORS=ON -DASTRA_ENABLE_SANITIZERS=ON",
       "cmake --build /home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers --parallel",

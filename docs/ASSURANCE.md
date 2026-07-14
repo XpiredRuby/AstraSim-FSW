@@ -2,131 +2,190 @@
 
 ## Claim boundary
 
-This workflow produces software-engineering evidence for an educational and portfolio project. It does not establish certification, DO-178C compliance, flight qualification, hard-real-time guarantees, airworthiness, production readiness, or operational reliability.
+This workflow produces repeatable software-engineering evidence for an educational and portfolio project. It does not establish certification, DO-178C compliance, flight qualification, hard-real-time guarantees, airworthiness, production readiness, cybersecurity certification, or operational reliability.
 
 ## One-command workflow
 
-From the repository root, run the workflow against an explicit build directory:
+Run the complete workflow against an explicit native build directory:
 
 ```bash
 python3 tools/run_astra_os_assurance.py --build-dir build-pi
 ```
 
-The default run performs:
+The default workflow performs:
 
-1. the complete CTest, deterministic YAML scenario, seeded Monte Carlo, Raspberry Pi package-generation, protocol-conformance, and traceability campaign;
-2. a warnings-as-errors AddressSanitizer and UndefinedBehaviorSanitizer build and test pass;
-3. a controlled mutation that disables command CRC rejection and must be detected by the tests;
-4. machine-readable stage summaries and source/toolchain provenance.
+1. a source-cleanliness gate that permits generated evidence changes but rejects uncommitted source configuration workflow or documentation changes;
+2. all Python tooling tests plus the native build and all registered CTests;
+3. all declared deterministic YAML scenarios;
+4. the ten-case FDIR command/telemetry campaign;
+5. seeded Monte Carlo regression;
+6. Raspberry Pi deployment-package generation;
+7. C++ Python and manifest protocol conformance;
+8. requirement matrix reverse-test and reviewed-hash traceability checks;
+9. the frozen assurance-assistant permission evaluation;
+10. warnings-as-errors ASan and UBSan build and tests;
+11. a controlled CRC mutation that the command tests must kill;
+12. machine-readable assurance and source/toolchain provenance output.
 
-`--build-dir` is forwarded to the full verification runner so deterministic scenarios, Monte Carlo trials, and packaging use the intended native executable set.
-
-For a faster software-only regression that omits sanitizer and mutation stages:
+For a faster regression that skips sanitizer and mutation stages:
 
 ```bash
 python3 tools/run_astra_os_assurance.py --build-dir build-pi --quick
 ```
 
-Generated run evidence is written under `reports/latest/` and ignored by Git by default. A release-closure commit may intentionally force-add selected, reviewed artifacts such as the final assurance summary, protocol-conformance report, and provenance manifest. Raw transient logs should remain excluded unless they are explicitly reviewed and required as release evidence.
+Generated transient evidence is written under `reports/latest/`. Selected reviewed release evidence may be committed intentionally.
 
-## Managed Raspberry Pi execution
+## Deterministic verification layers
 
-Long assurance runs should be launched as a managed process when the control tunnel has a bounded request window. This allows the Pi process to complete independently while status and logs are polled through short connector calls. The final process exit code and `reports/latest/assurance_summary.json` must both indicate success.
+### CTest
 
-## Continuous integration evidence
+The native C++ suite covers mode management command packets UDP adapters command processing command authorization recovery supervision the application health monitoring watchdog scheduling extended modes FDIR simultaneous faults executive dispatch event logging command guarding and configuration service behavior.
 
-### C++ Build and Unit Tests
+### Declared YAML scenarios
 
-- clean CMake configure;
-- warnings enabled and treated as errors where configured;
-- all registered CTest suites.
+The repository declares eight end-to-end command/telemetry scenarios:
 
-### Full Verification
+- basic command and CPU-fault flow;
+- stale and future timestamp rejection;
+- STANDBY and TEST transitions;
+- HIL-style smoke flow;
+- invalid transition rejection;
+- bounded recovery-failure fallback;
+- sensor-timeout SAFE transition;
+- watchdog-timeout SAFE transition.
 
-- native build and CTest;
-- deterministic YAML scenarios;
-- seeded Monte Carlo campaign;
-- Raspberry Pi deployment-package generation;
-- C++/Python protocol conformance;
-- canonical requirement and verification-matrix checks;
-- provenance manifest and report artifact generation.
+### Ten-case FDIR campaign
 
-### ASTRA-OS Software Assurance
+`tools/run_fdir_campaign.py` injects each supported fault through the UDP command/telemetry path and verifies acknowledgement fault indication and resulting mode. This verifies software policy response paths rather than every physical detector.
 
-Independent jobs execute:
+### Seeded Monte Carlo
+
+`tools/run_monte_carlo.py` uses explicit seed `20260626` by default in the aggregate workflow. Failed trials remain visible and are not discarded.
+
+## Digital-thread integrity
+
+`tools/check_requirements.py` checks:
+
+- missing or unknown requirement and matrix entries;
+- status mismatches;
+- unknown scenario requirement references;
+- missing scenario evidence;
+- every CMake-registered CTest has at least one requirement allocation;
+- changed requirement fingerprints awaiting review;
+- changed controlled-interface hashes awaiting review.
+
+The reviewed hashes are stored in:
+
+```text
+config/traceability_baseline.json
+```
+
+They are regenerated only after an intentional review:
+
+```bash
+python3 tools/update_traceability_baseline.py
+```
+
+Updating the baseline is not itself proof that a change is correct. The diff must be reviewed with the requirement and interface changes.
+
+## Governed assurance assistant
+
+`tools/assurance_assistant.py` implements a deterministic permission boundary. It may:
+
+- read files beneath approved project roots;
+- invoke six exact verification commands defined in policy.
+
+It explicitly denies merge push force-push shell write deletion hardware command repository-visibility change and automatic requirement-verification actions.
+
+Policy and frozen evaluation:
+
+```text
+config/assurance_assistant_policy.json
+config/assurance_assistant_eval.json
+```
+
+Run the evaluation with:
+
+```bash
+python3 tools/run_assurance_assistant_eval.py
+```
+
+The evaluation contains 129 deterministic allow and deny cases. Passing it does not establish general AI safety or security outside this interface.
+
+## Sanitizers and static analysis
+
+The assurance workflow and GitHub Actions provide independently attributable jobs for:
 
 - AddressSanitizer and UndefinedBehaviorSanitizer;
-- LCOV structural coverage capture with system headers and test sources excluded;
 - clang-tidy with findings treated as errors;
-- controlled CRC mutation testing;
-- a bounded command-packet fuzz campaign with a fixed seed and run count;
-- Python bytecode compilation and ShellCheck where available.
+- Python compilation and unit tests;
+- ShellCheck;
+- protocol-manifest conformance.
 
-## Fuzzing design
+## Controlled mutation
 
-The command fuzzer uses the in-process `LLVMFuzzerTestOneInput` interface and validates these invariants:
+`tools/run_controlled_mutation.py` creates an isolated source copy and disables CRC rejection. It builds and runs `command_packet_tests`.
 
-- rejected input does not modify the caller-provided output packet;
-- accepted input has the exact protocol size;
-- accepted input can be serialized and decoded again;
-- the decoded semantic fields survive the round trip;
-- mode and fault conversion helpers remain safe for arbitrary accepted arguments.
+- a detected test failure kills the mutation and passes the experiment;
+- test success means the defect survived and fails the experiment;
+- a mutation that does not compile is an invalid experiment rather than a killed defect.
 
-The reproducible seed corpus is generated by:
+## Coverage
+
+The CI coverage job removes system headers and test sources from the production trace and then generates:
+
+- aggregate LCOV summary;
+- per-module CSV;
+- per-module JSON;
+- per-module Markdown with exclusions.
+
+The report is produced by `tools/summarize_lcov.py`. Coverage percentage is not an adequacy or defect-absence claim.
+
+## Fuzzing
+
+The command fuzzer uses `LLVMFuzzerTestOneInput` and checks invariants including output preservation after rejection accepted-packet round trips field preservation and safe enum conversion.
+
+The deterministic seed corpus is generated by:
 
 ```bash
 python3 tools/generate_command_fuzz_corpus.py --output build-fuzz/command-corpus
 ```
 
-The generator records every seed's purpose, size, and SHA-256 digest. A passing bounded campaign is evidence only for the executed configuration; it is not proof that no parser defect exists.
+CI runs a fixed bounded campaign and preserves corpus manifest output and artifacts. A passing bounded run does not prove parser correctness for all inputs.
 
-## Controlled mutation
+## Timing and soak evidence
 
-`tools/run_controlled_mutation.py` creates an isolated source copy and changes the CRC decision so invalid CRCs would be accepted. It then builds and runs only `command_packet_tests`.
+`astra_timing_campaign` produces faster-than-real-time host measurements with explicit tick count mission step overload pattern percentiles final mode final fault and deadline-miss count. `/usr/bin/time` evidence adds CPU and maximum RSS. Pi evidence also records observed temperature ranges.
 
-- test failure means the controlled defect was **killed** and the mutation job passes;
-- test success means the defect **survived** and the assurance job fails;
-- a mutation that does not compile is treated as an invalid experiment, not a killed defect.
+These are host measurements not hard-real-time WCET or schedulability proofs.
 
-## Coverage interpretation
+## Deployment package
 
-Coverage output is retained as a CI artifact. Numerical coverage claims shall not be copied into the README, portfolio, or résumé until:
-
-- results are reported by production module;
-- exclusions are listed and justified;
-- the exact commit and toolchain are identified;
-- test effectiveness is considered alongside coverage;
-- safety-significant decisions are reviewed separately from aggregate line coverage.
+`tools/package_pi_deployment.sh --build-dir build-pi` packages the native binaries target scenarios ground tools protocol manifest and operational-policy documentation. Package generation is a separate claim from hardware execution.
 
 ## Provenance
 
 `tools/generate_baseline_manifest.py` records:
 
-- commit, branch, describe string, remote, and dirty state;
-- operating system, machine architecture, and Python version;
-- CMake, compiler, CTest, and Git probes;
+- commit branch remote describe full dirty state and source-versus-generated-evidence dirty paths;
+- OS architecture and Python;
+- compiler CMake CTest and Git probes;
 - build and instrumentation options;
 - executed verification commands;
-- GitHub Actions run metadata when available;
-- SHA-256 hashes and sizes for relevant source, test, scenario, workflow, tool, and documentation inputs.
+- GitHub metadata when available;
+- SHA-256 hashes and sizes for source tests scenarios workflows tools configuration and documentation.
 
-The manifest describes the software-under-test and the repository state at generation time. Documentation or evidence may be committed afterward; those release-closure changes should be identified separately from the tested software commit.
+## Managed Raspberry Pi execution
+
+Long assurance campaigns should run through the managed process registry when the connector request window is shorter than the campaign. Completion requires both process exit code zero and `reports/latest/assurance_summary.json` with `overall_status: passed`.
 
 ## Primary evidence
 
 - `reports/ASTRA_OS_RASPBERRY_PI_VERIFICATION_REPORT.md`
-- `reports/latest/assurance_summary.json`
-- `reports/latest/baseline_manifest.json`
-- `reports/latest/protocol_conformance.json`
 - `reports/requirement_check_report.md`
+- `reports/fdir_campaign_report.md`
+- `reports/assurance_assistant_eval.md`
 - `reports/monte_carlo_report.md`
 - `reports/pi_deployment_package_report.md`
 - `reports/pi-hil/`
-
-## Primary tool documentation
-
-- LLVM libFuzzer: https://llvm.org/docs/LibFuzzer.html
-- Clang AddressSanitizer: https://clang.llvm.org/docs/AddressSanitizer.html
-- Clang UndefinedBehaviorSanitizer: https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html
-- CMake CTest: https://cmake.org/cmake/help/latest/manual/ctest.1.html
-- GitHub Actions artifact storage: https://docs.github.com/actions/using-workflows/storing-workflow-data-as-artifacts
+- selected `reports/latest/` release artifacts
