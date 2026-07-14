@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Interactive ASTRA-OS flight-software command, telemetry, FDIR, and recovery model.">
+  <meta name="theme-color" content="#07111f">
+  <title>ASTRA-OS Interactive Mission Console</title>
+  <link rel="canonical" href="https://xpiredruby.github.io/AstraSim-FSW/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="ASTRA-OS Interactive Mission Console">
+  <meta property="og:description" content="Operate modes, inject faults, inspect telemetry, and run deterministic ASTRA-OS scenarios in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://xpiredruby.github.io/AstraSim-FSW/">
+  <meta property="og:image" content="https://xpiredruby.github.io/AstraSim-FSW/assets/astra_os_architecture.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#console">Skip to simulator</a>
+  <header class="hero">
+    <nav class="nav shell" aria-label="Primary">
+      <a class="brand" href="#top" aria-label="ASTRA-OS home">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span><strong>ASTRA-OS</strong><small>Interactive Mission Console</small></span>
+      </a>
+      <div class="nav-links">
+        <a href="#console">Console</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#evidence">Evidence</a>
+        <a href="https://github.com/XpiredRuby/AstraSim-FSW">Source</a>
+      </div>
+    </nav>
+
+    <div id="top" class="hero-grid shell">
+      <section class="hero-copy">
+        <p class="eyebrow">Flight software · FDIR · Assurance · Raspberry Pi</p>
+        <h1>Command a spacecraft-style software stack in your browser.</h1>
+        <p class="lede">Operate eight modes, inject ten modeled faults, exercise command guards, watch telemetry update, and run the same deterministic behavior paths documented in ASTRA-OS v1.0.0.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#console">Launch console</a>
+          <button class="button ghost" id="heroScenario" type="button">Run CPU-fault demo</button>
+        </div>
+        <p class="claim"><strong>Model boundary:</strong> this browser simulator mirrors the documented control logic. It is not the native C++ binary, Raspberry Pi process, real-time qualification, or operational flight software.</p>
+      </section>
+
+      <section class="status-orbit" aria-label="Current spacecraft status">
+        <div class="orbit-ring ring-one"></div>
+        <div class="orbit-ring ring-two"></div>
+        <div class="craft" aria-hidden="true">✦</div>
+        <div class="hero-status-card">
+          <span class="status-label">Current mode</span>
+          <strong id="heroMode">BOOT</strong>
+          <span id="heroFault">FAULT: NONE</span>
+        </div>
+      </section>
+    </div>
+  </header>
+
+  <main>
+    <section class="telemetry-strip" aria-label="Live telemetry summary">
+      <div class="shell telemetry-grid">
+        <div><span>Mode</span><strong id="stripMode">BOOT</strong></div>
+        <div><span>Fault</span><strong id="stripFault">NONE</strong></div>
+        <div><span>Heartbeat</span><strong id="stripHeartbeat">0</strong></div>
+        <div><span>Command ACK</span><strong id="stripAck">—</strong></div>
+        <div><span>Sequence</span><strong id="stripSequence">0</strong></div>
+      </div>
+    </section>
+
+    <section id="console" class="section shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Interactive system-in-the-browser</p>
+          <h2>Mission operations console</h2>
+        </div>
+        <div class="console-actions">
+          <button class="button ghost small" id="tickButton" type="button">Advance one tick</button>
+          <button class="button danger small" id="resetButton" type="button">Reset simulation</button>
+        </div>
+      </div>
+
+      <div class="console-layout">
+        <aside class="panel controls-panel" aria-label="Command controls">
+          <div class="panel-heading">
+            <h3>Ground command</h3>
+            <span class="live-dot">LIVE MODEL</span>
+          </div>
+
+          <label for="commandSelect">Command</label>
+          <select id="commandSelect">
+            <option value="SET_MODE">SET_MODE</option>
+            <option value="INJECT_FAULT">INJECT_FAULT</option>
+            <option value="CLEAR_FAULT">CLEAR_FAULT</option>
+            <option value="REQUEST_TELEMETRY">REQUEST_TELEMETRY</option>
+            <option value="NOOP">NOOP</option>
+          </select>
+
+          <label for="argumentSelect">Argument</label>
+          <select id="argumentSelect"></select>
+
+          <div class="field-row">
+            <div>
+              <label for="sequenceInput">Sequence</label>
+              <input id="sequenceInput" type="number" min="0" max="4294967295" value="1">
+            </div>
+            <div>
+              <label for="timestampOffset">Time offset (ms)</label>
+              <input id="timestampOffset" type="number" value="0" step="100">
+            </div>
+          </div>
+
+          <button class="button primary full" id="sendButton" type="button">Transmit command</button>
+
+          <details class="policy-box">
+            <summary>Authorization policy</summary>
+            <label class="toggle"><input id="allowSetMode" type="checkbox" checked> Allow SET_MODE</label>
+            <label class="toggle"><input id="allowFaultInjection" type="checkbox" checked> Allow fault injection</label>
+            <label class="toggle"><input id="allowFaultClear" type="checkbox" checked> Allow fault clear</label>
+            <label class="toggle"><input id="allowTestMode" type="checkbox" checked> Allow TEST mode</label>
+          </details>
+
+          <hr>
+
+          <label for="scenarioSelect">Deterministic scenario</label>
+          <select id="scenarioSelect"></select>
+          <button class="button secondary full" id="runScenarioButton" type="button">Run selected scenario</button>
+        </aside>
+
+        <section class="panel spacecraft-panel" aria-label="Spacecraft state">
+          <div class="panel-heading">
+            <h3>Flight-software state</h3>
+            <span id="modePill" class="mode-pill mode-boot">BOOT</span>
+          </div>
+
+          <div class="state-grid">
+            <article class="state-card mode-card">
+              <span>Operating mode</span>
+              <strong id="modeValue">BOOT</strong>
+              <small id="modeTransitionHint">Allowed next: STANDBY, NOMINAL, SAFE</small>
+            </article>
+            <article class="state-card fault-card">
+              <span>Active fault</span>
+              <strong id="faultValue">NONE</strong>
+              <small id="faultDisposition">No active response</small>
+            </article>
+            <article class="state-card">
+              <span>Recovery attempts</span>
+              <strong id="recoveryAttempts">0 / 3</strong>
+              <small>Invalid exits before SAFE fallback</small>
+            </article>
+            <article class="state-card">
+              <span>Last command</span>
+              <strong id="lastCommand">NONE</strong>
+              <small id="lastStatus">No acknowledgement yet</small>
+            </article>
+          </div>
+
+          <div class="health-section">
+            <div class="subheading"><h4>Health inputs</h4><span>Adjust values, then advance a tick</span></div>
+            <div class="slider-grid">
+              <label>CPU load <output id="cpuOutput">20%</output><input id="cpuLoad" type="range" min="0" max="100" value="20"></label>
+              <label>Memory load <output id="memoryOutput">35%</output><input id="memoryLoad" type="range" min="0" max="100" value="35"></label>
+              <label>Sensor age <output id="sensorOutput">10 ms</output><input id="sensorAge" type="range" min="0" max="2000" value="10" step="10"></label>
+              <label>Payload age <output id="payloadOutput">20 ms</output><input id="payloadAge" type="range" min="0" max="2000" value="20" step="10"></label>
+              <label>Loop duration <output id="loopOutput">25 ms</output><input id="loopDuration" type="range" min="0" max="1000" value="25" step="5"></label>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="subheading"><h4>Telemetry timeline</h4><span id="chartLegend">Mode and fault state by tick</span></div>
+            <canvas id="telemetryChart" width="900" height="260" aria-label="Telemetry timeline chart"></canvas>
+          </div>
+        </section>
+
+        <aside class="panel log-panel" aria-label="Event log">
+          <div class="panel-heading">
+            <h3>Event stream</h3>
+            <button class="text-button" id="clearLogButton" type="button">Clear</button>
+          </div>
+          <ol id="eventLog" class="event-log" aria-live="polite"></ol>
+        </aside>
+      </div>
+    </section>
+
+    <section id="architecture" class="section architecture-section">
+      <div class="shell architecture-grid">
+        <div>
+          <p class="eyebrow">End-to-end digital thread</p>
+          <h2>From ground command to verified telemetry</h2>
+          <p>The browser model follows the same documented boundaries: packet integrity, freshness and replay guard, authorization policy, semantic command processing, recovery supervision, FDIR, operational modes, telemetry, and event evidence.</p>
+          <ul class="feature-list">
+            <li><strong>8</strong> stable operating modes</li>
+            <li><strong>10</strong> modeled fault dispositions</li>
+            <li><strong>11</strong> typed command outcomes</li>
+            <li><strong>3</strong> failed recovery exits before SAFE fallback</li>
+          </ul>
+        </div>
+        <div class="architecture-card">
+          <img src="assets/astra_os_architecture.svg" alt="ASTRA-OS command, flight-software, telemetry, and assurance architecture">
+        </div>
+      </div>
+    </section>
+
+    <section id="evidence" class="section shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Provenance-bound results</p>
+          <h2>Verification evidence</h2>
+        </div>
+        <a class="button ghost small" href="https://github.com/XpiredRuby/AstraSim-FSW/blob/main/reports/ASTRA_OS_V1_RELEASE_REPORT.md">Open release report</a>
+      </div>
+      <div id="evidenceGrid" class="evidence-grid"></div>
+      <div class="evidence-note">
+        <strong>Claim boundary</strong>
+        <p>These are software-engineering results for the documented source, CI, and Raspberry Pi configurations. They do not establish certification, flight qualification, hard-real-time guarantees, production security, or defect absence.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-grid">
+      <div><strong>ASTRA-OS v1.0.0</strong><p>Educational spacecraft-style flight software and assurance platform.</p></div>
+      <div><a href="https://github.com/XpiredRuby/AstraSim-FSW">GitHub repository</a><a href="https://github.com/XpiredRuby/AstraSim-FSW/releases/tag/v1.0.0">Release v1.0.0</a></div>
+    </div>
+  </footer>
+
+  <noscript><div class="noscript">JavaScript is required to operate the interactive mission console.</div></noscript>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
