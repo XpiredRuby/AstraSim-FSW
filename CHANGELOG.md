@@ -1,8 +1,8 @@
 # Changelog
 
-All notable ASTRA-OS changes are recorded here. Dates use UTC. The project does not claim semantic-version stability until the first ASTRA-OS release is tagged.
+All notable ASTRA-OS changes are recorded here. Dates use UTC. Semantic-versioned releases begin with ASTRA-OS v1.0.0.
 
-## Unreleased — final portable-software completion
+## [1.0.0] — 2026-07-14
 
 ### Added
 

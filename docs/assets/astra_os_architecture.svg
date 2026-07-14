@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">ASTRA-OS architecture and assurance flow</title>
+  <desc id="desc">A diagram showing ground command tools, protocol validation, command policy, deterministic flight software, telemetry, and the verification evidence pipeline.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#12253d"/>
+    </linearGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#143d66"/>
+      <stop offset="1" stop-color="#0e2d4d"/>
+    </linearGradient>
+    <linearGradient id="evidence" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#173f37"/>
+      <stop offset="1" stop-color="#0e2c28"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#7dd3fc"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#6ee7b7"/>
+    </marker>
+    <style>
+      .title { font: 700 42px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #f8fafc; }
+      .subtitle { font: 400 20px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #b9c9dd; }
+      .section { font: 700 22px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #e2e8f0; letter-spacing: 1px; }
+      .boxTitle { font: 700 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #f8fafc; }
+      .boxText { font: 400 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #cbd5e1; }
+      .metric { font: 700 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #d1fae5; }
+      .small { font: 400 13px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #a9bed3; }
+      .flow { stroke: #7dd3fc; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .eFlow { stroke: #6ee7b7; stroke-width: 3; fill: none; marker-end: url(#arrowGreen); }
+      .box { fill: url(#core); stroke: #4f86b9; stroke-width: 1.5; rx: 16; filter: url(#shadow); }
+      .policy { fill: #3b2c58; stroke: #a78bfa; stroke-width: 1.5; rx: 16; filter: url(#shadow); }
+      .eBox { fill: url(#evidence); stroke: #3d8b78; stroke-width: 1.5; rx: 16; filter: url(#shadow); }
+      .boundary { fill: none; stroke: #6b8db1; stroke-width: 2; stroke-dasharray: 8 8; rx: 24; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="1420" cy="90" r="210" fill="#2563eb" opacity="0.08"/>
+  <circle cx="130" cy="810" r="250" fill="#14b8a6" opacity="0.06"/>
+
+  <text x="70" y="72" class="title">ASTRA-OS</text>
+  <text x="70" y="106" class="subtitle">Deterministic spacecraft-style flight software with provenance-bound assurance evidence</text>
+
+  <text x="70" y="158" class="section">OPERATIONAL DATA PATH</text>
+  <rect x="55" y="178" width="1490" height="430" class="boundary"/>
+
+  <rect x="85" y="230" width="210" height="118" class="box"/>
+  <text x="190" y="264" text-anchor="middle" class="boxTitle">Ground Tools</text>
+  <text x="190" y="291" text-anchor="middle" class="boxText">Python command sender</text>
+  <text x="190" y="313" text-anchor="middle" class="boxText">Scenario and HIL drivers</text>
+  <text x="190" y="335" text-anchor="middle" class="boxText">Explicit timestamps + seeds</text>
+
+  <rect x="345" y="230" width="220" height="118" class="box"/>
+  <text x="455" y="264" text-anchor="middle" class="boxTitle">Protocol Boundary</text>
+  <text x="455" y="291" text-anchor="middle" class="boxText">26-byte command packet</text>
+  <text x="455" y="313" text-anchor="middle" class="boxText">CRC, magic, version, ID</text>
+  <text x="455" y="335" text-anchor="middle" class="boxText">UDP adapter isolation</text>
+
+  <rect x="615" y="215" width="245" height="148" class="policy"/>
+  <text x="737" y="250" text-anchor="middle" class="boxTitle">Command Policy</text>
+  <text x="737" y="278" text-anchor="middle" class="boxText">GroundCommandGuard</text>
+  <text x="737" y="301" text-anchor="middle" class="boxText">duplicate · replay · freshness</text>
+  <text x="737" y="324" text-anchor="middle" class="boxText">CommandAuthorizer</text>
+  <text x="737" y="347" text-anchor="middle" class="boxText">execution permission separate from CRC</text>
+
+  <rect x="915" y="205" width="335" height="168" class="box"/>
+  <text x="1082" y="240" text-anchor="middle" class="boxTitle">Deterministic Flight-Software Core</text>
+  <text x="1082" y="269" text-anchor="middle" class="boxText">FlightSoftwareExecutive + RateGroupScheduler</text>
+  <text x="1082" y="293" text-anchor="middle" class="boxText">FlightSoftwareApp · CommandProcessor · ModeManager</text>
+  <text x="1082" y="317" text-anchor="middle" class="boxText">HealthMonitor · Watchdog · FDIRManager</text>
+  <text x="1082" y="341" text-anchor="middle" class="boxText">RecoverySupervisor · EventLogger · ConfigurationService</text>
+
+  <rect x="1300" y="230" width="210" height="118" class="box"/>
+  <text x="1405" y="264" text-anchor="middle" class="boxTitle">Telemetry</text>
+  <text x="1405" y="291" text-anchor="middle" class="boxText">43-byte health packet</text>
+  <text x="1405" y="313" text-anchor="middle" class="boxText">state, fault, resources</text>
+  <text x="1405" y="335" text-anchor="middle" class="boxText">last-command disposition</text>
+
+  <path d="M295 289 H345" class="flow"/>
+  <path d="M565 289 H615" class="flow"/>
+  <path d="M860 289 H915" class="flow"/>
+  <path d="M1250 289 H1300" class="flow"/>
+  <path d="M1405 348 V405 H190 V348" class="flow" opacity="0.75"/>
+  <text x="795" y="429" text-anchor="middle" class="small">Closed-loop command acknowledgement and telemetry observation</text>
+
+  <rect x="120" y="480" width="300" height="86" class="policy"/>
+  <text x="270" y="513" text-anchor="middle" class="boxTitle">Mode &amp; Recovery Safety</text>
+  <text x="270" y="539" text-anchor="middle" class="boxText">8 stable modes · bounded recovery failure → SAFE</text>
+
+  <rect x="475" y="480" width="300" height="86" class="policy"/>
+  <text x="625" y="513" text-anchor="middle" class="boxTitle">FDIR Policy</text>
+  <text x="625" y="539" text-anchor="middle" class="boxText">10 explicit dispositions · deterministic priority</text>
+
+  <rect x="830" y="480" width="300" height="86" class="policy"/>
+  <text x="980" y="513" text-anchor="middle" class="boxTitle">Configuration Governance</text>
+  <text x="980" y="539" text-anchor="middle" class="boxText">schema validation · revisions · lock state</text>
+
+  <rect x="1185" y="480" width="300" height="86" class="policy"/>
+  <text x="1335" y="513" text-anchor="middle" class="boxTitle">Target Boundary</text>
+  <text x="1335" y="539" text-anchor="middle" class="boxText">same portable core on Raspberry Pi aarch64</text>
+
+  <text x="70" y="665" class="section">ASSURANCE &amp; DIGITAL THREAD</text>
+  <rect x="55" y="686" width="1490" height="160" class="boundary"/>
+
+  <rect x="85" y="720" width="190" height="92" class="eBox"/>
+  <text x="180" y="753" text-anchor="middle" class="metric">20 / 20</text>
+  <text x="180" y="781" text-anchor="middle" class="boxText">native + sanitizer CTests</text>
+
+  <rect x="300" y="720" width="190" height="92" class="eBox"/>
+  <text x="395" y="753" text-anchor="middle" class="metric">8 / 8</text>
+  <text x="395" y="781" text-anchor="middle" class="boxText">deterministic scenarios</text>
+
+  <rect x="515" y="720" width="190" height="92" class="eBox"/>
+  <text x="610" y="753" text-anchor="middle" class="metric">10 / 10</text>
+  <text x="610" y="781" text-anchor="middle" class="boxText">FDIR cases</text>
+
+  <rect x="730" y="720" width="190" height="92" class="eBox"/>
+  <text x="825" y="753" text-anchor="middle" class="metric">25 / 25</text>
+  <text x="825" y="781" text-anchor="middle" class="boxText">seeded Monte Carlo</text>
+
+  <rect x="945" y="720" width="190" height="92" class="eBox"/>
+  <text x="1040" y="753" text-anchor="middle" class="metric">129 / 129</text>
+  <text x="1040" y="781" text-anchor="middle" class="boxText">permission evaluations</text>
+
+  <rect x="1160" y="720" width="190" height="92" class="eBox"/>
+  <text x="1255" y="753" text-anchor="middle" class="metric">0</text>
+  <text x="1255" y="781" text-anchor="middle" class="boxText">traceability problems</text>
+
+  <rect x="1375" y="720" width="140" height="92" class="eBox"/>
+  <text x="1445" y="753" text-anchor="middle" class="metric">PASS</text>
+  <text x="1445" y="781" text-anchor="middle" class="boxText">Pi assurance</text>
+
+  <path d="M275 766 H300" class="eFlow"/>
+  <path d="M490 766 H515" class="eFlow"/>
+  <path d="M705 766 H730" class="eFlow"/>
+  <path d="M920 766 H945" class="eFlow"/>
+  <path d="M1135 766 H1160" class="eFlow"/>
+  <path d="M1350 766 H1375" class="eFlow"/>
+
+  <text x="70" y="875" class="small">Claim boundary: educational and portfolio evidence; not certification, flight qualification, hard-real-time proof, or production spacecraft readiness.</text>
+</svg>
