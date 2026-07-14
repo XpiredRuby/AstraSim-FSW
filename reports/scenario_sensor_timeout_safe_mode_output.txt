@@ -39,26 +39,26 @@ steps:
 ## Telemetry Packets
 
 ```text
-seq=1 t_ms=1783987443818 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.25% hb=1
-seq=2 t_ms=1783987444019 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.50% hb=2
-seq=3 t_ms=1783987444220 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.75% hb=3
-seq=4 t_ms=1783987444421 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.00% hb=4
-seq=5 t_ms=1783987444622 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.25% hb=5
-seq=6 t_ms=1783987444823 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=43.50% hb=6
-seq=7 t_ms=1783987444974 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=43.75% hb=7
-seq=8 t_ms=1783987445174 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=44.00% hb=8
-seq=9 t_ms=1783987445375 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=44.25% hb=9
-seq=10 t_ms=1783987445576 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=44.50% hb=10
-seq=11 t_ms=1783987445777 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=44.75% hb=11
-seq=12 t_ms=1783987445978 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=45.00% hb=12
-seq=13 t_ms=1783987446179 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=45.25% hb=13
-seq=14 t_ms=1783987446380 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=45.50% hb=14
-seq=15 t_ms=1783987446581 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=45.75% hb=15
-seq=16 t_ms=1783987446782 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=46.00% hb=16
-seq=17 t_ms=1783987446983 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=46.25% hb=17
-seq=18 t_ms=1783987447184 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=46.50% hb=18
-seq=19 t_ms=1783987447385 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=46.75% hb=19
-seq=20 t_ms=1783987447586 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=47.00% hb=20
+seq=1 t_ms=1784003512806 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.25% hb=1
+seq=2 t_ms=1784003513006 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.50% hb=2
+seq=3 t_ms=1784003513207 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.75% hb=3
+seq=4 t_ms=1784003513408 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.00% hb=4
+seq=5 t_ms=1784003513609 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.25% hb=5
+seq=6 t_ms=1784003513810 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=43.50% hb=6
+seq=7 t_ms=1784003513961 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=43.75% hb=7
+seq=8 t_ms=1784003514161 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=44.00% hb=8
+seq=9 t_ms=1784003514362 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=44.25% hb=9
+seq=10 t_ms=1784003514563 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=44.50% hb=10
+seq=11 t_ms=1784003514764 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=44.75% hb=11
+seq=12 t_ms=1784003514965 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=45.00% hb=12
+seq=13 t_ms=1784003515166 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=45.25% hb=13
+seq=14 t_ms=1784003515367 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=45.50% hb=14
+seq=15 t_ms=1784003515568 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=45.75% hb=15
+seq=16 t_ms=1784003515769 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=46.00% hb=16
+seq=17 t_ms=1784003515970 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=46.25% hb=17
+seq=18 t_ms=1784003516171 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=46.50% hb=18
+seq=19 t_ms=1784003516372 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=46.75% hb=19
+seq=20 t_ms=1784003516573 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=47.00% hb=20
 ```
 
 ## C++ Server Output

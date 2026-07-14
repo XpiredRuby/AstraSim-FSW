@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-14T00:07:45.387705+00:00",
+  "generated_at_utc": "2026-07-14T04:40:25.775290+00:00",
   "overall_status": "passed",
   "quick_mode": false,
   "schema": "astra-os.assurance-summary.v1",
@@ -9,12 +9,12 @@
         "/usr/bin/python3",
         "/home/xpired/ghost_ws/tools/astra-os-hil/tools/check_source_cleanliness.py"
       ],
-      "finished_at_utc": "2026-07-14T00:02:24.165559+00:00",
+      "finished_at_utc": "2026-07-14T04:29:46.581793+00:00",
       "log_path": "reports/latest/source_cleanliness.log",
       "name": "source_cleanliness",
       "passed": true,
       "return_code": 0,
-      "started_at_utc": "2026-07-14T00:02:23.955848+00:00"
+      "started_at_utc": "2026-07-14T04:29:46.313914+00:00"
     },
     {
       "command": [
@@ -27,12 +27,12 @@
         "-p",
         "test_*.py"
       ],
-      "finished_at_utc": "2026-07-14T00:02:24.928598+00:00",
+      "finished_at_utc": "2026-07-14T04:29:51.358207+00:00",
       "log_path": "reports/latest/python_tool_tests.log",
       "name": "python_tool_tests",
       "passed": true,
       "return_code": 0,
-      "started_at_utc": "2026-07-14T00:02:24.166333+00:00"
+      "started_at_utc": "2026-07-14T04:29:46.583640+00:00"
     },
     {
       "command": [
@@ -41,12 +41,12 @@
         "--build-dir",
         "build-pi"
       ],
-      "finished_at_utc": "2026-07-14T00:06:43.043687+00:00",
+      "finished_at_utc": "2026-07-14T04:36:28.766283+00:00",
       "log_path": "reports/latest/full_verification.log",
       "name": "full_verification",
       "passed": true,
       "return_code": 0,
-      "started_at_utc": "2026-07-14T00:02:24.929297+00:00"
+      "started_at_utc": "2026-07-14T04:29:51.358977+00:00"
     },
     {
       "command": [
@@ -59,12 +59,12 @@
         "-DASTRA_WARNINGS_AS_ERRORS=ON",
         "-DASTRA_ENABLE_SANITIZERS=ON"
       ],
-      "finished_at_utc": "2026-07-14T00:06:44.419368+00:00",
+      "finished_at_utc": "2026-07-14T04:36:31.709251+00:00",
       "log_path": "reports/latest/configure_sanitizers.log",
       "name": "configure_sanitizers",
       "passed": true,
       "return_code": 0,
-      "started_at_utc": "2026-07-14T00:06:43.045309+00:00"
+      "started_at_utc": "2026-07-14T04:36:28.767004+00:00"
     },
     {
       "command": [
@@ -73,12 +73,12 @@
         "/home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers",
         "--parallel"
       ],
-      "finished_at_utc": "2026-07-14T00:06:48.422746+00:00",
+      "finished_at_utc": "2026-07-14T04:39:17.624122+00:00",
       "log_path": "reports/latest/build_sanitizers.log",
       "name": "build_sanitizers",
       "passed": true,
       "return_code": 0,
-      "started_at_utc": "2026-07-14T00:06:44.421013+00:00"
+      "started_at_utc": "2026-07-14T04:36:31.709968+00:00"
     },
     {
       "command": [
@@ -87,24 +87,24 @@
         "/home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers",
         "--output-on-failure"
       ],
-      "finished_at_utc": "2026-07-14T00:06:49.965499+00:00",
+      "finished_at_utc": "2026-07-14T04:39:20.483518+00:00",
       "log_path": "reports/latest/test_sanitizers.log",
       "name": "test_sanitizers",
       "passed": true,
       "return_code": 0,
-      "started_at_utc": "2026-07-14T00:06:48.424435+00:00"
+      "started_at_utc": "2026-07-14T04:39:17.625799+00:00"
     },
     {
       "command": [
         "/usr/bin/python3",
         "/home/xpired/ghost_ws/tools/astra-os-hil/tools/run_controlled_mutation.py"
       ],
-      "finished_at_utc": "2026-07-14T00:07:45.387019+00:00",
+      "finished_at_utc": "2026-07-14T04:40:25.774667+00:00",
       "log_path": "reports/latest/controlled_mutation.log",
       "name": "controlled_mutation",
       "passed": true,
       "return_code": 0,
-      "started_at_utc": "2026-07-14T00:06:49.967034+00:00"
+      "started_at_utc": "2026-07-14T04:39:20.485067+00:00"
     }
   ]
 }

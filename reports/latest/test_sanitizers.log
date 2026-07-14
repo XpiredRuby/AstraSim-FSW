@@ -3,7 +3,7 @@ Test project /home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers
       Start  1: mode_manager_tests
  1/20 Test  #1: mode_manager_tests ................   Passed    0.04 sec
       Start  2: telemetry_packet_tests
- 2/20 Test  #2: telemetry_packet_tests ............   Passed    0.05 sec
+ 2/20 Test  #2: telemetry_packet_tests ............   Passed    0.04 sec
       Start  3: udp_telemetry_sender_tests
  3/20 Test  #3: udp_telemetry_sender_tests ........   Passed    0.05 sec
       Start  4: command_packet_tests
@@ -15,19 +15,19 @@ Test project /home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers
       Start  7: recovery_supervisor_tests
  7/20 Test  #7: recovery_supervisor_tests .........   Passed    0.05 sec
       Start  8: udp_command_receiver_tests
- 8/20 Test  #8: udp_command_receiver_tests ........   Passed    0.04 sec
+ 8/20 Test  #8: udp_command_receiver_tests ........   Passed    0.05 sec
       Start  9: flight_software_app_tests
  9/20 Test  #9: flight_software_app_tests .........   Passed    0.06 sec
       Start 10: health_monitor_tests
-10/20 Test #10: health_monitor_tests ..............   Passed    0.04 sec
+10/20 Test #10: health_monitor_tests ..............   Passed    0.05 sec
       Start 11: watchdog_tests
-11/20 Test #11: watchdog_tests ....................   Passed    0.05 sec
+11/20 Test #11: watchdog_tests ....................   Passed    0.04 sec
       Start 12: rate_group_scheduler_tests
 12/20 Test #12: rate_group_scheduler_tests ........   Passed    0.05 sec
       Start 13: extended_mode_tests
 13/20 Test #13: extended_mode_tests ...............   Passed    0.05 sec
       Start 14: fdir_manager_tests
-14/20 Test #14: fdir_manager_tests ................   Passed    0.04 sec
+14/20 Test #14: fdir_manager_tests ................   Passed    0.05 sec
       Start 15: simultaneous_fault_tests
 15/20 Test #15: simultaneous_fault_tests ..........   Passed    0.05 sec
       Start 16: flight_software_executive_tests
@@ -37,10 +37,10 @@ Test project /home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers
       Start 18: event_integration_tests
 18/20 Test #18: event_integration_tests ...........   Passed    0.05 sec
       Start 19: ground_command_guard_tests
-19/20 Test #19: ground_command_guard_tests ........   Passed    0.04 sec
+19/20 Test #19: ground_command_guard_tests ........   Passed    0.05 sec
       Start 20: configuration_service_tests
 20/20 Test #20: configuration_service_tests .......   Passed    0.05 sec
 
 100% tests passed, 0 tests failed out of 20
 
-Total Test time (real) =   1.01 sec
+Total Test time (real) =   1.02 sec

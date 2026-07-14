@@ -38,26 +38,26 @@ steps:
 ## Telemetry Packets
 
 ```text
-seq=1 t_ms=1783987481262 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.25% hb=1
-seq=2 t_ms=1783987481462 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.50% hb=2
-seq=3 t_ms=1783987481663 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.75% hb=3
-seq=4 t_ms=1783987481864 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.00% hb=4
-seq=5 t_ms=1783987482065 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.25% hb=5
-seq=6 t_ms=1783987482266 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=43.50% hb=6
-seq=7 t_ms=1783987482417 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=43.75% hb=7
-seq=8 t_ms=1783987482594 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.00% hb=8
-seq=9 t_ms=1783987482795 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.25% hb=9
-seq=10 t_ms=1783987482996 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.50% hb=10
-seq=11 t_ms=1783987483197 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.75% hb=11
-seq=12 t_ms=1783987483398 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.00% hb=12
-seq=13 t_ms=1783987483599 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.25% hb=13
-seq=14 t_ms=1783987483800 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.50% hb=14
-seq=15 t_ms=1783987484001 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.75% hb=15
-seq=16 t_ms=1783987484202 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.00% hb=16
-seq=17 t_ms=1783987484403 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.25% hb=17
-seq=18 t_ms=1783987484604 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.50% hb=18
-seq=19 t_ms=1783987484805 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.75% hb=19
-seq=20 t_ms=1783987485006 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=47.00% hb=20
+seq=1 t_ms=1784003565038 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.25% hb=1
+seq=2 t_ms=1784003565239 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.50% hb=2
+seq=3 t_ms=1784003565440 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.75% hb=3
+seq=4 t_ms=1784003565641 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.00% hb=4
+seq=5 t_ms=1784003565842 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.25% hb=5
+seq=6 t_ms=1784003566043 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=43.50% hb=6
+seq=7 t_ms=1784003566194 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=43.75% hb=7
+seq=8 t_ms=1784003566344 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.00% hb=8
+seq=9 t_ms=1784003566546 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.25% hb=9
+seq=10 t_ms=1784003566747 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.50% hb=10
+seq=11 t_ms=1784003566948 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.75% hb=11
+seq=12 t_ms=1784003567149 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.00% hb=12
+seq=13 t_ms=1784003567350 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.25% hb=13
+seq=14 t_ms=1784003567551 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.50% hb=14
+seq=15 t_ms=1784003567752 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.75% hb=15
+seq=16 t_ms=1784003567953 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.00% hb=16
+seq=17 t_ms=1784003568154 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.25% hb=17
+seq=18 t_ms=1784003568355 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.50% hb=18
+seq=19 t_ms=1784003568556 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.75% hb=19
+seq=20 t_ms=1784003568758 mode=NOMINAL fault=COMMAND_BAD_CRC ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=47.00% hb=20
 ```
 
 ## C++ Server Output

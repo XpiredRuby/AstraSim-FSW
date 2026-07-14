@@ -1,27 +1,10 @@
 PASS: no uncommitted source or configuration changes
 Generated evidence changes are present and permitted:
-- reports/ASTRA_OS_FINAL_COMPLETION_REPORT.md
-- reports/assurance_assistant_eval.json
-- reports/assurance_assistant_eval.md
-- reports/fdir_campaign_report.md
 - reports/latest/assurance_summary.json
 - reports/latest/baseline_manifest.json
-- reports/latest/build_sanitizers.log
-- reports/latest/configure_sanitizers.log
-- reports/latest/controlled_mutation.log
 - reports/latest/full_verification.log
-- reports/latest/protocol_conformance.json
-- reports/latest/test_sanitizers.log
-- reports/pi-hil/controlled-overrun-resource-usage.json
-- reports/pi-hil/controlled-overrun-timing.json
-- reports/pi-hil/final-ctest.txt
-- reports/pi-hil/nominal-resource-usage.json
-- reports/pi-hil/nominal-timing.json
-- reports/pi-hil/soak-resource-usage.json
-- reports/pi-hil/soak-timing.json
-- reports/pi_deployment_package_report.md
-- reports/python_tool_tests.json
-- reports/requirement_check_report.md
+- reports/latest/python_tool_tests.log
+- reports/latest/source_cleanliness.log
 - reports/scenario_basic_command_fault_output.txt
 - reports/scenario_command_timestamp_guard_output.txt
 - reports/scenario_extended_modes_output.txt
