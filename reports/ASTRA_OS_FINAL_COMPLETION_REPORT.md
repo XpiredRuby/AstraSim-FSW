@@ -208,7 +208,6 @@ Package generation does not independently prove target execution. The native Pi 
 - `reports/latest/controlled_mutation.log`
 - `reports/latest/protocol_conformance.json`
 - `reports/latest/final_release_assurance.log`
-- `reports/latest/final_completion_assurance.log`
 
 ### Timing and resources
 

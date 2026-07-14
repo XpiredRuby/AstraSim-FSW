@@ -19,7 +19,7 @@ dist/astrasim-fsw-pi.tar.gz
 - `tools/telemetry_receiver.py`
 - `tools/run_scenario.py`
 - `tools/run_hil_smoke_test.py`
-- `tools/check_requirements.py`
+- `tools/run_fdir_campaign.py`
 
 ## Included controlled interfaces
 
@@ -29,8 +29,8 @@ dist/astrasim-fsw-pi.tar.gz
 
 ## Package metadata
 
-- Size: `56K`
-- SHA256: `d00ddff08083217b03982dfccfa3667f47ae6d58c8d794927282e96d39813adb`
+- Size: `64K`
+- SHA256: `0811bbad2ef0c559d44823512397ebe3bbf4cfc0f34bdc8f854c192e2631d76f`
 
 ## Notes
 

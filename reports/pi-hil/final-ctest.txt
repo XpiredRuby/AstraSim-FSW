@@ -5,42 +5,46 @@ Internal ctest changing into directory: /home/xpired/ghost_ws/tools/astra-os-hil
 Test project /home/xpired/ghost_ws/tools/astra-os-hil/build-pi
 
       Start  1: mode_manager_tests
- 1/18 Test  #1: mode_manager_tests ................   Passed    0.01 sec
+ 1/20 Test  #1: mode_manager_tests ................   Passed    0.01 sec
       Start  2: telemetry_packet_tests
- 2/18 Test  #2: telemetry_packet_tests ............   Passed    0.01 sec
+ 2/20 Test  #2: telemetry_packet_tests ............   Passed    0.01 sec
       Start  3: udp_telemetry_sender_tests
- 3/18 Test  #3: udp_telemetry_sender_tests ........   Passed    0.01 sec
+ 3/20 Test  #3: udp_telemetry_sender_tests ........   Passed    0.01 sec
       Start  4: command_packet_tests
- 4/18 Test  #4: command_packet_tests ..............   Passed    0.01 sec
-      Start  5: command_processor_tests
- 5/18 Test  #5: command_processor_tests ...........   Passed    0.01 sec
-      Start  6: udp_command_receiver_tests
- 6/18 Test  #6: udp_command_receiver_tests ........   Passed    0.01 sec
-      Start  7: flight_software_app_tests
- 7/18 Test  #7: flight_software_app_tests .........   Passed    0.01 sec
-      Start  8: health_monitor_tests
- 8/18 Test  #8: health_monitor_tests ..............   Passed    0.01 sec
-      Start  9: watchdog_tests
- 9/18 Test  #9: watchdog_tests ....................   Passed    0.01 sec
-      Start 10: rate_group_scheduler_tests
-10/18 Test #10: rate_group_scheduler_tests ........   Passed    0.01 sec
-      Start 11: extended_mode_tests
-11/18 Test #11: extended_mode_tests ...............   Passed    0.01 sec
-      Start 12: fdir_manager_tests
-12/18 Test #12: fdir_manager_tests ................   Passed    0.01 sec
-      Start 13: simultaneous_fault_tests
-13/18 Test #13: simultaneous_fault_tests ..........   Passed    0.01 sec
-      Start 14: flight_software_executive_tests
-14/18 Test #14: flight_software_executive_tests ...   Passed    0.01 sec
-      Start 15: event_logger_tests
-15/18 Test #15: event_logger_tests ................   Passed    0.01 sec
-      Start 16: event_integration_tests
-16/18 Test #16: event_integration_tests ...........   Passed    0.01 sec
-      Start 17: ground_command_guard_tests
-17/18 Test #17: ground_command_guard_tests ........   Passed    0.01 sec
-      Start 18: configuration_service_tests
-18/18 Test #18: configuration_service_tests .......   Passed    0.01 sec
+ 4/20 Test  #4: command_packet_tests ..............   Passed    0.01 sec
+      Start  5: command_authorizer_tests
+ 5/20 Test  #5: command_authorizer_tests ..........   Passed    0.01 sec
+      Start  6: command_processor_tests
+ 6/20 Test  #6: command_processor_tests ...........   Passed    0.01 sec
+      Start  7: recovery_supervisor_tests
+ 7/20 Test  #7: recovery_supervisor_tests .........   Passed    0.01 sec
+      Start  8: udp_command_receiver_tests
+ 8/20 Test  #8: udp_command_receiver_tests ........   Passed    0.01 sec
+      Start  9: flight_software_app_tests
+ 9/20 Test  #9: flight_software_app_tests .........   Passed    0.01 sec
+      Start 10: health_monitor_tests
+10/20 Test #10: health_monitor_tests ..............   Passed    0.01 sec
+      Start 11: watchdog_tests
+11/20 Test #11: watchdog_tests ....................   Passed    0.01 sec
+      Start 12: rate_group_scheduler_tests
+12/20 Test #12: rate_group_scheduler_tests ........   Passed    0.01 sec
+      Start 13: extended_mode_tests
+13/20 Test #13: extended_mode_tests ...............   Passed    0.01 sec
+      Start 14: fdir_manager_tests
+14/20 Test #14: fdir_manager_tests ................   Passed    0.01 sec
+      Start 15: simultaneous_fault_tests
+15/20 Test #15: simultaneous_fault_tests ..........   Passed    0.01 sec
+      Start 16: flight_software_executive_tests
+16/20 Test #16: flight_software_executive_tests ...   Passed    0.01 sec
+      Start 17: event_logger_tests
+17/20 Test #17: event_logger_tests ................   Passed    0.01 sec
+      Start 18: event_integration_tests
+18/20 Test #18: event_integration_tests ...........   Passed    0.01 sec
+      Start 19: ground_command_guard_tests
+19/20 Test #19: ground_command_guard_tests ........   Passed    0.01 sec
+      Start 20: configuration_service_tests
+20/20 Test #20: configuration_service_tests .......   Passed    0.01 sec
 
-100% tests passed, 0 tests failed out of 18
+100% tests passed, 0 tests failed out of 20
 
-Total Test time (real) =   0.21 sec
+Total Test time (real) =   0.28 sec

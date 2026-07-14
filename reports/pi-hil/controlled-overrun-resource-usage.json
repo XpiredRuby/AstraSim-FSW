@@ -1,0 +1,36 @@
+{
+  "claim_boundary": "Observed Raspberry Pi process resource evidence only; not a hard-real-time or flight-qualification claim.",
+  "command": [
+    "./build-pi/astra_timing_campaign",
+    "--ticks",
+    "100000",
+    "--mission-step-ms",
+    "10",
+    "--overload-every",
+    "1000",
+    "--output",
+    "reports/pi-hil/controlled-overrun-timing.json"
+  ],
+  "generated_at_utc": "2026-07-13T23:56:14.288694+00:00",
+  "host": {
+    "machine": "aarch64",
+    "platform": "Linux-6.8.0-1060-raspi-aarch64-with-glibc2.39",
+    "python": "3.12.3",
+    "release": "6.8.0-1060-raspi",
+    "system": "Linux"
+  },
+  "involuntary_context_switches": 14,
+  "major_page_faults": 0,
+  "maximum_resident_set_kib": 12800,
+  "minor_page_faults": 511,
+  "return_code": 0,
+  "schema": "astra-os.pi-resource-usage.v1",
+  "stderr": "",
+  "stdout": "Wrote timing evidence: reports/pi-hil/controlled-overrun-timing.json\n",
+  "system_time_s": 0.009974,
+  "temperature_end_c": 36.998,
+  "temperature_start_c": 37.485,
+  "user_time_s": 0.11270799999999999,
+  "voluntary_context_switches": 1,
+  "wall_time_s": 0.123765803
+}

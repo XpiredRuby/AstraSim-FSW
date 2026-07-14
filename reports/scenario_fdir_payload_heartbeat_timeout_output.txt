@@ -1,0 +1,93 @@
+# Scenario Output: fdir_payload_heartbeat_timeout
+
+Result: PASS
+
+## Scenario
+
+```yaml
+name: fdir_payload_heartbeat_timeout
+description: Exercise the explicit FDIR disposition for PAYLOAD_HEARTBEAT_TIMEOUT.
+requirements:
+- FSW-REQ-207
+- FSW-REQ-208
+- FSW-REQ-113
+command_port: 6102
+telemetry_port: 5102
+loop_count: 20
+steps:
+- name: enter nominal
+  command: SET_MODE
+  argument: NOMINAL
+  expect:
+    ack_seq: 1
+    ack_cmd: SET_MODE
+    ack_status: ACCEPTED
+    mode: NOMINAL
+    fault: NONE
+- name: inject PAYLOAD_HEARTBEAT_TIMEOUT
+  command: INJECT_FAULT
+  argument: PAYLOAD_HEARTBEAT_TIMEOUT
+  expect:
+    ack_seq: 2
+    ack_cmd: INJECT_FAULT
+    ack_status: ACCEPTED
+    mode: DEGRADED_PAYLOAD
+    fault: PAYLOAD_HEARTBEAT_TIMEOUT
+```
+
+## Telemetry Packets
+
+```text
+seq=1 t_ms=1783987461858 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.25% hb=1
+seq=2 t_ms=1783987462058 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.50% hb=2
+seq=3 t_ms=1783987462259 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.75% hb=3
+seq=4 t_ms=1783987462460 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.00% hb=4
+seq=5 t_ms=1783987462661 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.25% hb=5
+seq=6 t_ms=1783987462862 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=43.50% hb=6
+seq=7 t_ms=1783987463012 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=43.75% hb=7
+seq=8 t_ms=1783987463191 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.00% hb=8
+seq=9 t_ms=1783987463392 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.25% hb=9
+seq=10 t_ms=1783987463593 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.50% hb=10
+seq=11 t_ms=1783987463794 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.75% hb=11
+seq=12 t_ms=1783987463995 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.00% hb=12
+seq=13 t_ms=1783987464196 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.25% hb=13
+seq=14 t_ms=1783987464397 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.50% hb=14
+seq=15 t_ms=1783987464598 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.75% hb=15
+seq=16 t_ms=1783987464799 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.00% hb=16
+seq=17 t_ms=1783987465000 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.25% hb=17
+seq=18 t_ms=1783987465201 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.50% hb=18
+seq=19 t_ms=1783987465402 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.75% hb=19
+seq=20 t_ms=1783987465603 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=47.00% hb=20
+```
+
+## C++ Server Output
+
+```text
+AstraSim-FSW command/telemetry demo
+Using FlightSoftwareApp core loop
+Listening for UDP commands on port 6102
+Sending UDP telemetry to 127.0.0.1:5102
+TX telemetry seq=1 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=2 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=3 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=4 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=5 mode=BOOT fault=NONE sent=yes
+RX command seq=1 id=SET_MODE status=ACCEPTED mode=NOMINAL fault=NONE msg="SET_MODE accepted"
+TX telemetry seq=6 mode=NOMINAL fault=NONE sent=yes
+RX command seq=2 id=INJECT_FAULT status=ACCEPTED mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT msg="INJECT_FAULT accepted: severity=DEGRADED response=ENTER_DEGRADED_PAYLOAD"
+TX telemetry seq=7 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT sent=yes
+TX telemetry seq=8 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT sent=yes
+TX telemetry seq=9 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT sent=yes
+TX telemetry seq=10 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT sent=yes
+TX telemetry seq=11 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT sent=yes
+TX telemetry seq=12 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT sent=yes
+TX telemetry seq=13 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT sent=yes
+TX telemetry seq=14 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT sent=yes
+TX telemetry seq=15 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT sent=yes
+TX telemetry seq=16 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT sent=yes
+TX telemetry seq=17 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT sent=yes
+TX telemetry seq=18 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT sent=yes
+TX telemetry seq=19 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT sent=yes
+TX telemetry seq=20 mode=DEGRADED_PAYLOAD fault=PAYLOAD_HEARTBEAT_TIMEOUT sent=yes
+Command/telemetry demo complete.
+```

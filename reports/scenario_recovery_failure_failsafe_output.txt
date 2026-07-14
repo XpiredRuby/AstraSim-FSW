@@ -1,0 +1,173 @@
+# Scenario Output: recovery_failure_failsafe
+
+Result: PASS
+
+## Scenario
+
+```yaml
+name: recovery_failure_failsafe
+description: Verify repeated failed exits from RECOVERY force a bounded SAFE disposition.
+requirements:
+- FSW-REQ-210
+- FSW-REQ-209
+- FSW-REQ-113
+- VER-REQ-002
+command_port: 6012
+telemetry_port: 5012
+loop_count: 42
+steps:
+- name: enter nominal
+  command: SET_MODE
+  argument: NOMINAL
+  expect:
+    ack_seq: 1
+    ack_cmd: SET_MODE
+    ack_status: ACCEPTED
+    mode: NOMINAL
+    fault: NONE
+- name: inject critical sensor fault
+  command: INJECT_FAULT
+  argument: SENSOR_TIMEOUT
+  expect:
+    ack_seq: 2
+    ack_cmd: INJECT_FAULT
+    ack_status: ACCEPTED
+    mode: SAFE
+    fault: SENSOR_TIMEOUT
+- name: enter recovery
+  command: SET_MODE
+  argument: RECOVERY
+  expect:
+    ack_seq: 3
+    ack_cmd: SET_MODE
+    ack_status: ACCEPTED
+    mode: RECOVERY
+    fault: SENSOR_TIMEOUT
+- name: first failed recovery exit
+  command: SET_MODE
+  argument: TEST
+  expect:
+    ack_seq: 4
+    ack_cmd: SET_MODE
+    ack_status: REJECTED_INVALID_TRANSITION
+    mode: RECOVERY
+    fault: SENSOR_TIMEOUT
+- name: second failed recovery exit
+  command: SET_MODE
+  argument: TEST
+  expect:
+    ack_seq: 5
+    ack_cmd: SET_MODE
+    ack_status: REJECTED_INVALID_TRANSITION
+    mode: RECOVERY
+    fault: SENSOR_TIMEOUT
+- name: third failed recovery exit forces safe
+  command: SET_MODE
+  argument: TEST
+  expect:
+    ack_seq: 6
+    ack_cmd: SET_MODE
+    ack_status: REJECTED_RECOVERY_LIMIT
+    mode: SAFE
+    fault: SENSOR_TIMEOUT
+```
+
+## Telemetry Packets
+
+```text
+seq=1 t_ms=1783987435467 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.25% hb=1
+seq=2 t_ms=1783987435667 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.50% hb=2
+seq=3 t_ms=1783987435868 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.75% hb=3
+seq=4 t_ms=1783987436069 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.00% hb=4
+seq=5 t_ms=1783987436270 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.25% hb=5
+seq=6 t_ms=1783987436471 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=43.50% hb=6
+seq=7 t_ms=1783987436622 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=43.75% hb=7
+seq=8 t_ms=1783987436800 mode=RECOVERY fault=SENSOR_TIMEOUT ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=44.00% hb=8
+seq=9 t_ms=1783987436950 mode=RECOVERY fault=SENSOR_TIMEOUT ack_seq=4 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=44.25% hb=9
+seq=10 t_ms=1783987437100 mode=RECOVERY fault=SENSOR_TIMEOUT ack_seq=5 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=44.50% hb=10
+seq=11 t_ms=1783987437251 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=44.75% hb=11
+seq=12 t_ms=1783987437401 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=45.00% hb=12
+seq=13 t_ms=1783987437602 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=45.25% hb=13
+seq=14 t_ms=1783987437803 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=45.50% hb=14
+seq=15 t_ms=1783987438004 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=45.75% hb=15
+seq=16 t_ms=1783987438205 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=46.00% hb=16
+seq=17 t_ms=1783987438406 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=46.25% hb=17
+seq=18 t_ms=1783987438607 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=46.50% hb=18
+seq=19 t_ms=1783987438808 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=46.75% hb=19
+seq=20 t_ms=1783987439009 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=47.00% hb=20
+seq=21 t_ms=1783987439210 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=47.25% hb=21
+seq=22 t_ms=1783987439411 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=47.50% hb=22
+seq=23 t_ms=1783987439612 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=47.75% hb=23
+seq=24 t_ms=1783987439813 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=48.00% hb=24
+seq=25 t_ms=1783987440014 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=48.25% hb=25
+seq=26 t_ms=1783987440215 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=48.50% hb=26
+seq=27 t_ms=1783987440416 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=48.75% hb=27
+seq=28 t_ms=1783987440617 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=49.00% hb=28
+seq=29 t_ms=1783987440818 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=49.25% hb=29
+seq=30 t_ms=1783987441019 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=49.50% hb=30
+seq=31 t_ms=1783987441220 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=49.75% hb=31
+seq=32 t_ms=1783987441421 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=50.00% hb=32
+seq=33 t_ms=1783987441622 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=50.25% hb=33
+seq=34 t_ms=1783987441823 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=50.50% hb=34
+seq=35 t_ms=1783987442024 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=50.75% hb=35
+seq=36 t_ms=1783987442225 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=51.00% hb=36
+seq=37 t_ms=1783987442426 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=51.25% hb=37
+seq=38 t_ms=1783987442627 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=51.50% hb=38
+seq=39 t_ms=1783987442828 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=51.75% hb=39
+seq=40 t_ms=1783987443029 mode=SAFE fault=SENSOR_TIMEOUT ack_seq=6 ack_cmd=SET_MODE ack_status=REJECTED_RECOVERY_LIMIT cpu=18.00% mem=52.00% hb=40
+```
+
+## C++ Server Output
+
+```text
+AstraSim-FSW command/telemetry demo
+Using FlightSoftwareApp core loop
+Listening for UDP commands on port 6012
+Sending UDP telemetry to 127.0.0.1:5012
+TX telemetry seq=1 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=2 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=3 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=4 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=5 mode=BOOT fault=NONE sent=yes
+RX command seq=1 id=SET_MODE status=ACCEPTED mode=NOMINAL fault=NONE msg="SET_MODE accepted"
+TX telemetry seq=6 mode=NOMINAL fault=NONE sent=yes
+RX command seq=2 id=INJECT_FAULT status=ACCEPTED mode=SAFE fault=SENSOR_TIMEOUT msg="INJECT_FAULT accepted: severity=CRITICAL response=ENTER_SAFE"
+TX telemetry seq=7 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+RX command seq=3 id=SET_MODE status=ACCEPTED mode=RECOVERY fault=SENSOR_TIMEOUT msg="SET_MODE accepted"
+TX telemetry seq=8 mode=RECOVERY fault=SENSOR_TIMEOUT sent=yes
+RX command seq=4 id=SET_MODE status=REJECTED_INVALID_TRANSITION mode=RECOVERY fault=SENSOR_TIMEOUT msg="SET_MODE rejected: invalid mode transition"
+TX telemetry seq=9 mode=RECOVERY fault=SENSOR_TIMEOUT sent=yes
+RX command seq=5 id=SET_MODE status=REJECTED_INVALID_TRANSITION mode=RECOVERY fault=SENSOR_TIMEOUT msg="SET_MODE rejected: invalid mode transition"
+TX telemetry seq=10 mode=RECOVERY fault=SENSOR_TIMEOUT sent=yes
+RX command seq=6 id=SET_MODE status=REJECTED_RECOVERY_LIMIT mode=SAFE fault=SENSOR_TIMEOUT msg="SET_MODE rejected: recovery failure limit reached attempts=3 fail_safe=SAFE"
+TX telemetry seq=11 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=12 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=13 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=14 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=15 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=16 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=17 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=18 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=19 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=20 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=21 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=22 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=23 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=24 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=25 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=26 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=27 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=28 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=29 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=30 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=31 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=32 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=33 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=34 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=35 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=36 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=37 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=38 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=39 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+TX telemetry seq=40 mode=SAFE fault=SENSOR_TIMEOUT sent=yes
+```

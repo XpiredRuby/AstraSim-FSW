@@ -1,0 +1,23 @@
+{
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tools/tests",
+    "-p",
+    "test_*.py"
+  ],
+  "generated_at_utc": "2026-07-13T23:57:51.465982+00:00",
+  "host": {
+    "machine": "aarch64",
+    "python": "3.12.3",
+    "release": "6.8.0-1060-raspi",
+    "system": "Linux"
+  },
+  "return_code": 0,
+  "schema": "astra-os.command-evidence.v1",
+  "stderr": "...........................\n----------------------------------------------------------------------\nRan 27 tests in 0.392s\n\nOK\n",
+  "stdout": ""
+}

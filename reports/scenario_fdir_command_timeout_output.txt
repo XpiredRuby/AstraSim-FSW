@@ -1,0 +1,93 @@
+# Scenario Output: fdir_command_timeout
+
+Result: PASS
+
+## Scenario
+
+```yaml
+name: fdir_command_timeout
+description: Exercise the explicit FDIR disposition for COMMAND_TIMEOUT.
+requirements:
+- FSW-REQ-207
+- FSW-REQ-208
+- FSW-REQ-113
+command_port: 6108
+telemetry_port: 5108
+loop_count: 20
+steps:
+- name: enter nominal
+  command: SET_MODE
+  argument: NOMINAL
+  expect:
+    ack_seq: 1
+    ack_cmd: SET_MODE
+    ack_status: ACCEPTED
+    mode: NOMINAL
+    fault: NONE
+- name: inject COMMAND_TIMEOUT
+  command: INJECT_FAULT
+  argument: COMMAND_TIMEOUT
+  expect:
+    ack_seq: 2
+    ack_cmd: INJECT_FAULT
+    ack_status: ACCEPTED
+    mode: SAFE
+    fault: COMMAND_TIMEOUT
+```
+
+## Telemetry Packets
+
+```text
+seq=1 t_ms=1783987489811 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.25% hb=1
+seq=2 t_ms=1783987490012 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.50% hb=2
+seq=3 t_ms=1783987490213 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.75% hb=3
+seq=4 t_ms=1783987490414 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.00% hb=4
+seq=5 t_ms=1783987490615 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.25% hb=5
+seq=6 t_ms=1783987490816 mode=NOMINAL fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=ACCEPTED cpu=18.00% mem=43.50% hb=6
+seq=7 t_ms=1783987490967 mode=SAFE fault=COMMAND_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=43.75% hb=7
+seq=8 t_ms=1783987491144 mode=SAFE fault=COMMAND_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.00% hb=8
+seq=9 t_ms=1783987491345 mode=SAFE fault=COMMAND_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.25% hb=9
+seq=10 t_ms=1783987491546 mode=SAFE fault=COMMAND_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.50% hb=10
+seq=11 t_ms=1783987491747 mode=SAFE fault=COMMAND_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=44.75% hb=11
+seq=12 t_ms=1783987491948 mode=SAFE fault=COMMAND_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.00% hb=12
+seq=13 t_ms=1783987492149 mode=SAFE fault=COMMAND_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.25% hb=13
+seq=14 t_ms=1783987492350 mode=SAFE fault=COMMAND_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.50% hb=14
+seq=15 t_ms=1783987492551 mode=SAFE fault=COMMAND_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=45.75% hb=15
+seq=16 t_ms=1783987492752 mode=SAFE fault=COMMAND_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.00% hb=16
+seq=17 t_ms=1783987492953 mode=SAFE fault=COMMAND_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.25% hb=17
+seq=18 t_ms=1783987493154 mode=SAFE fault=COMMAND_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.50% hb=18
+seq=19 t_ms=1783987493355 mode=SAFE fault=COMMAND_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=46.75% hb=19
+seq=20 t_ms=1783987493556 mode=SAFE fault=COMMAND_TIMEOUT ack_seq=2 ack_cmd=INJECT_FAULT ack_status=ACCEPTED cpu=18.00% mem=47.00% hb=20
+```
+
+## C++ Server Output
+
+```text
+AstraSim-FSW command/telemetry demo
+Using FlightSoftwareApp core loop
+Listening for UDP commands on port 6108
+Sending UDP telemetry to 127.0.0.1:5108
+TX telemetry seq=1 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=2 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=3 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=4 mode=BOOT fault=NONE sent=yes
+TX telemetry seq=5 mode=BOOT fault=NONE sent=yes
+RX command seq=1 id=SET_MODE status=ACCEPTED mode=NOMINAL fault=NONE msg="SET_MODE accepted"
+TX telemetry seq=6 mode=NOMINAL fault=NONE sent=yes
+RX command seq=2 id=INJECT_FAULT status=ACCEPTED mode=SAFE fault=COMMAND_TIMEOUT msg="INJECT_FAULT accepted: severity=CRITICAL response=ENTER_SAFE"
+TX telemetry seq=7 mode=SAFE fault=COMMAND_TIMEOUT sent=yes
+TX telemetry seq=8 mode=SAFE fault=COMMAND_TIMEOUT sent=yes
+TX telemetry seq=9 mode=SAFE fault=COMMAND_TIMEOUT sent=yes
+TX telemetry seq=10 mode=SAFE fault=COMMAND_TIMEOUT sent=yes
+TX telemetry seq=11 mode=SAFE fault=COMMAND_TIMEOUT sent=yes
+TX telemetry seq=12 mode=SAFE fault=COMMAND_TIMEOUT sent=yes
+TX telemetry seq=13 mode=SAFE fault=COMMAND_TIMEOUT sent=yes
+TX telemetry seq=14 mode=SAFE fault=COMMAND_TIMEOUT sent=yes
+TX telemetry seq=15 mode=SAFE fault=COMMAND_TIMEOUT sent=yes
+TX telemetry seq=16 mode=SAFE fault=COMMAND_TIMEOUT sent=yes
+TX telemetry seq=17 mode=SAFE fault=COMMAND_TIMEOUT sent=yes
+TX telemetry seq=18 mode=SAFE fault=COMMAND_TIMEOUT sent=yes
+TX telemetry seq=19 mode=SAFE fault=COMMAND_TIMEOUT sent=yes
+TX telemetry seq=20 mode=SAFE fault=COMMAND_TIMEOUT sent=yes
+Command/telemetry demo complete.
+```
