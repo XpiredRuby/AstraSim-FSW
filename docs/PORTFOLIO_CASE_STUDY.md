@@ -59,7 +59,7 @@ The starting repository demonstrated basic modes, UDP commands, telemetry, healt
 |---|---:|
 | Native CTest suites | **20/20 passed** |
 | ASan/UBSan CTest suites | **20/20 passed** |
-| Python tooling tests | **27/27 passed** |
+| Python tooling tests | **28/28 passed** |
 | Deterministic YAML scenarios | **8/8 passed** |
 | Explicit FDIR cases | **10/10 passed** |
 | Seeded Monte Carlo trials | **25/25 passed** |

@@ -17,6 +17,7 @@ ASTRA-OS v1.0.0 is the first complete software and assurance baseline of the Ast
 - Native Raspberry Pi build, timing, soak, resource, and packaging evidence.
 - Requirements, verification matrix, interface fingerprints, and reverse test allocation.
 - ASan/UBSan, clang-tidy, structural coverage, bounded libFuzzer, controlled mutation, and seeded Monte Carlo workflows.
+- Monte Carlo subprocess timeouts are configurable and recorded as explicit failed trials rather than aborting the campaign.
 - Deterministic governed-assurance boundary with 129 frozen permission cases.
 
 ## Definitive verification results
@@ -25,7 +26,7 @@ ASTRA-OS v1.0.0 is the first complete software and assurance baseline of the Ast
 |---|---:|
 | Native CTest suites | 20/20 passed |
 | ASan/UBSan CTest suites | 20/20 passed |
-| Python tooling tests | 27/27 passed |
+| Python tooling tests | 28/28 passed |
 | Deterministic scenarios | 8/8 passed |
 | FDIR cases | 10/10 passed |
 | Seeded Monte Carlo | 25/25 passed |

@@ -24,7 +24,7 @@ The final portable-software baseline has locally passed. The complete managed as
 | Ten-case FDIR campaign | 10/10 |
 | Protocol conformance | 24/24 |
 | Seeded Monte Carlo | 25/25 with seed `20260626` |
-| Python tool tests | 27/27 |
+| Python tool tests | 28/28 |
 | Frozen assurance-assistant evaluation | 129/129 |
 | Canonical planned requirements | 0 |
 | Requirement failures | 0 |
