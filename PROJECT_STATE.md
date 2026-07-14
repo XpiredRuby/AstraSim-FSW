@@ -47,7 +47,7 @@ Traceability problems:           0
 Planned canonical requirements:  0
 ```
 
-The complete managed sanitizer mutation and provenance campaign passed for source-clean commit `53300f18f805c30aa0e63638cf8561e0bb93f0c1`. Generated evidence was classified separately and `source_dirty` remained false.
+The complete managed sanitizer mutation and provenance campaign passed for source-clean commit `bdd207a396c3054e3eeb74479798110e29b3d1eb`. Generated evidence was classified separately and `source_dirty` remained false.
 
 ## Evidence locations
 

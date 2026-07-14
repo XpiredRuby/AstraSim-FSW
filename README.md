@@ -6,7 +6,7 @@ ASTRA-OS is an educational C++17 and Python spacecraft-style flight-software and
 
 ## Current completion status
 
-The final portable-software baseline has locally passed. The complete managed assurance campaign reported `overall_status: passed` for software-under-test commit `53300f18f805c30aa0e63638cf8561e0bb93f0c1`.
+The final portable-software baseline has locally passed. The complete managed assurance campaign reported `overall_status: passed` for software-under-test commit `bdd207a396c3054e3eeb74479798110e29b3d1eb`.
 
 | Verification area | Current result |
 |---|---:|

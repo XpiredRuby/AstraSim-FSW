@@ -42,7 +42,7 @@ All notable ASTRA-OS changes are recorded here. Dates use UTC. The project does 
 
 ### Final managed assurance
 
-- source-clean software-under-test commit `53300f18f805c30aa0e63638cf8561e0bb93f0c1`;
+- source-clean software-under-test commit `bdd207a396c3054e3eeb74479798110e29b3d1eb`;
 - complete workflow `overall_status: passed`;
 - source cleanliness full verification sanitizer build sanitizer CTest and controlled mutation all passed;
 - refreshed Pi timing resource and thermal evidence is preserved in `reports/pi-hil/`.
