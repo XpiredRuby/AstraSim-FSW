@@ -93,7 +93,7 @@ DENIED_READS = (
     "../../etc/passwd",
     "/etc/shadow",
     "/home/xpired/.ssh/config",
-    "/home/xpired/.config/tunnel-client/config.json",
+    "/home/xpired/.config/private-control/config.json",
     ".git/config",
     ".git/HEAD",
     "build-pi/CMakeCache.txt",

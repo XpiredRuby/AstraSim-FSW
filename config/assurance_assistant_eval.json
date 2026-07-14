@@ -844,7 +844,7 @@
       "id": "deny-read-094",
       "request": {
         "action": "read",
-        "target": "/home/xpired/.config/tunnel-client/config.json"
+        "target": "/home/xpired/.config/private-control/config.json"
       }
     },
     {

@@ -47,10 +47,11 @@ Traceability problems:           0
 Planned canonical requirements:  0
 ```
 
-The full sanitizer mutation and provenance campaign is rerun after the authoritative documentation commit so its manifest identifies a clean immutable software-and-documentation baseline.
+The complete managed sanitizer mutation and provenance campaign passed for source-clean commit `53300f18f805c30aa0e63638cf8561e0bb93f0c1`. Generated evidence was classified separately and `source_dirty` remained false.
 
 ## Evidence locations
 
+- `reports/ASTRA_OS_FINAL_COMPLETION_REPORT.md`
 - `docs/REQUIREMENTS.md`
 - `docs/VERIFICATION_MATRIX.csv`
 - `config/traceability_baseline.json`

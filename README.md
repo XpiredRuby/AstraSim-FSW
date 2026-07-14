@@ -6,7 +6,7 @@ ASTRA-OS is an educational C++17 and Python spacecraft-style flight-software and
 
 ## Current completion status
 
-The final portable-software baseline has locally passed:
+The final portable-software baseline has locally passed. The complete managed assurance campaign reported `overall_status: passed` for software-under-test commit `53300f18f805c30aa0e63638cf8561e0bb93f0c1`.
 
 | Verification area | Current result |
 |---|---:|
@@ -241,6 +241,7 @@ The archive contains the two target binaries ground command and telemetry tools 
 
 | Evidence | Purpose |
 |---|---|
+| `reports/ASTRA_OS_FINAL_COMPLETION_REPORT.md` | Final 20-test completion campaign provenance results timing resources and limitations |
 | `reports/ASTRA_OS_RASPBERRY_PI_VERIFICATION_REPORT.md` | Previous Pi campaign provenance results defects and limitations |
 | `reports/requirement_check_report.md` | Canonical requirement and digital-thread result |
 | `reports/fdir_campaign_report.md` | Ten independently injected fault dispositions |

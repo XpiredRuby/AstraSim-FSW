@@ -40,6 +40,13 @@ All notable ASTRA-OS changes are recorded here. Dates use UTC. The project does 
 - 129/129 governed-assistant evaluation cases;
 - zero requirement failures and zero traceability problems.
 
+### Final managed assurance
+
+- source-clean software-under-test commit `53300f18f805c30aa0e63638cf8561e0bb93f0c1`;
+- complete workflow `overall_status: passed`;
+- source cleanliness full verification sanitizer build sanitizer CTest and controlled mutation all passed;
+- refreshed Pi timing resource and thermal evidence is preserved in `reports/pi-hil/`.
+
 ### Claim boundary
 
 These results are software-engineering evidence for the documented Raspberry Pi and CI configurations. They do not establish certification flight qualification hard-real-time guarantees production security spacecraft-hardware compatibility or defect absence.
