@@ -193,6 +193,20 @@ def main() -> int:
             [sys.executable, str(CHECK_SOURCE_CLEANLINESS)],
             None,
         ),
+        (
+            "python_tool_tests",
+            [
+                sys.executable,
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "tools/tests",
+                "-p",
+                "test_*.py",
+            ],
+            None,
+        ),
         ("full_verification", full_verification_command, None),
     ]
 

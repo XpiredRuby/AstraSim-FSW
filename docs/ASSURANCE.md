@@ -15,7 +15,7 @@ python3 tools/run_astra_os_assurance.py --build-dir build-pi
 The default workflow performs:
 
 1. a source-cleanliness gate that permits generated evidence changes but rejects uncommitted source configuration workflow or documentation changes;
-2. native build and all registered CTests;
+2. all Python tooling tests plus the native build and all registered CTests;
 3. all declared deterministic YAML scenarios;
 4. the ten-case FDIR command/telemetry campaign;
 5. seeded Monte Carlo regression;
