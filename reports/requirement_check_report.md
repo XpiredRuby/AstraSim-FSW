@@ -2,8 +2,8 @@
 
 ## Summary
 
-- PASS: 22
-- MANUAL: 45
+- PASS: 21
+- MANUAL: 46
 - PLANNED: 0
 - HISTORICAL: 0
 - FAIL: 0
@@ -69,7 +69,7 @@ A MANUAL result means the requirement has a matrix allocation but was not automa
 | VER-REQ-007 | MANUAL | Verified | PiPackager | package_pi_deployment |
 | VER-REQ-008 | PASS | Verified | Provenance;RaspberryPiEvidence | hil_smoke_test |
 | VER-REQ-009 | MANUAL | Verified | CMake;UnitTests | normal_ci_build |
-| VER-REQ-010 | PASS | Verified | CMake;UnitTests | sanitizer_ci |
+| VER-REQ-010 | MANUAL | Verified | CMake;UnitTests | sanitizer_ci |
 | VER-REQ-011 | MANUAL | Verified | Coverage | coverage_ci |
 | VER-REQ-012 | MANUAL | Verified | CMake;Core | clang_tidy_ci |
 | VER-REQ-013 | MANUAL | Verified | PythonTools;ShellTools | python_shell_smoke;python_tool_tests |

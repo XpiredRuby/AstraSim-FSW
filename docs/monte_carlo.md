@@ -36,3 +36,7 @@ reports/monte_carlo_report.md
 ```
 
 The final Raspberry Pi campaign passed 25/25 trials with seed `20260626`. The result applies only to the executed trial count, seed, software commit, platform, and configuration; it is not exhaustive fault-space proof.
+
+## Per-trial timeout
+
+Each generated scenario has a configurable wall-time limit. The default is 45 seconds, which provides margin for a loaded Raspberry Pi while still detecting a hung trial. A timeout is recorded as a failed trial with diagnostic output; it does not crash the entire campaign. Override it with `--trial-timeout-s SECONDS`.

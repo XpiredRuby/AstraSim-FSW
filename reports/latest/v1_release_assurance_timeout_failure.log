@@ -1,14 +1,33 @@
+
+== source_cleanliness ==
++ /usr/bin/python3 /home/xpired/ghost_ws/tools/astra-os-hil/tools/check_source_cleanliness.py
+PASS: no uncommitted source or configuration changes
+Generated evidence changes are present and permitted:
+- reports/latest/source_cleanliness.log
+[PASS] source_cleanliness
+
+== python_tool_tests ==
++ /usr/bin/python3 -m unittest discover -s tools/tests -p test_*.py
+...........................
+----------------------------------------------------------------------
+Ran 27 tests in 5.149s
+
+OK
+[PASS] python_tool_tests
+
+== full_verification ==
++ /usr/bin/python3 /home/xpired/ghost_ws/tools/astra-os-hil/tools/run_all_scenarios.py --build-dir build-pi
 -- The CXX compiler identification is GNU 13.3.0
 -- Detecting CXX compiler ABI info
 -- Detecting CXX compiler ABI info - done
 -- Check for working CXX compiler: /usr/bin/c++ - skipped
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
--- Configuring done (1.2s)
+-- Configuring done (0.9s)
 -- Generating done (0.2s)
 -- Build files have been written to: /home/xpired/ghost_ws/tools/astra-os-hil/build
-[  1%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/mode_manager.cpp.o
 [  4%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/event_logger.cpp.o
+[  4%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/mode_manager.cpp.o
 [  4%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/fdir_manager.cpp.o
 [  6%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/telemetry_packet.cpp.o
 [  7%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/udp_telemetry_sender.cpp.o
@@ -26,8 +45,8 @@
 [ 25%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/configuration_service.cpp.o
 [ 27%] Linking CXX static library libastra_fsw_core.a
 [ 27%] Built target astra_fsw_core
-[ 28%] Building CXX object CMakeFiles/astra_fsw.dir/fsw/src/main.cpp.o
-[ 31%] Building CXX object CMakeFiles/astra_fsw_command_telemetry_demo.dir/fsw/src/command_telemetry_demo.cpp.o
+[ 30%] Building CXX object CMakeFiles/astra_fsw.dir/fsw/src/main.cpp.o
+[ 30%] Building CXX object CMakeFiles/astra_fsw_command_telemetry_demo.dir/fsw/src/command_telemetry_demo.cpp.o
 [ 31%] Building CXX object CMakeFiles/astra_fsw_telemetry_demo.dir/fsw/src/telemetry_demo.cpp.o
 [ 33%] Building CXX object CMakeFiles/astra_timing_campaign.dir/fsw/src/timing_campaign.cpp.o
 [ 34%] Linking CXX executable astra_fsw
@@ -38,30 +57,30 @@
 [ 40%] Building CXX object CMakeFiles/astra_fsw_tests.dir/fsw/tests/test_mode_manager.cpp.o
 [ 40%] Built target astra_fsw_telemetry_demo
 [ 42%] Building CXX object CMakeFiles/astra_telemetry_tests.dir/fsw/tests/test_telemetry_packet.cpp.o
-[ 42%] Built target astra_timing_campaign
+[ 42%] Built target astra_fsw_command_telemetry_demo
 [ 43%] Building CXX object CMakeFiles/astra_udp_telemetry_tests.dir/fsw/tests/test_udp_telemetry_sender.cpp.o
-[ 43%] Built target astra_fsw_command_telemetry_demo
+[ 43%] Built target astra_timing_campaign
 [ 45%] Building CXX object CMakeFiles/astra_command_tests.dir/fsw/tests/test_command_packet.cpp.o
 [ 46%] Linking CXX executable astra_fsw_tests
 [ 48%] Linking CXX executable astra_telemetry_tests
 [ 50%] Linking CXX executable astra_udp_telemetry_tests
 [ 51%] Linking CXX executable astra_command_tests
-[ 51%] Built target astra_udp_telemetry_tests
+[ 51%] Built target astra_fsw_tests
 [ 53%] Building CXX object CMakeFiles/astra_command_authorizer_tests.dir/fsw/tests/test_command_authorizer.cpp.o
 [ 53%] Built target astra_telemetry_tests
 [ 54%] Building CXX object CMakeFiles/astra_command_processor_tests.dir/fsw/tests/test_command_processor.cpp.o
-[ 54%] Built target astra_fsw_tests
-[ 56%] Building CXX object CMakeFiles/astra_recovery_supervisor_tests.dir/fsw/tests/test_recovery_supervisor.cpp.o
-[ 56%] Built target astra_command_tests
+[ 54%] Built target astra_udp_telemetry_tests
+[ 54%] Built target astra_command_tests
+[ 57%] Building CXX object CMakeFiles/astra_recovery_supervisor_tests.dir/fsw/tests/test_recovery_supervisor.cpp.o
 [ 57%] Building CXX object CMakeFiles/astra_udp_command_receiver_tests.dir/fsw/tests/test_udp_command_receiver.cpp.o
-[ 59%] Linking CXX executable astra_command_authorizer_tests
-[ 60%] Linking CXX executable astra_command_processor_tests
-[ 62%] Linking CXX executable astra_recovery_supervisor_tests
+[ 59%] Linking CXX executable astra_command_processor_tests
+[ 60%] Linking CXX executable astra_command_authorizer_tests
+[ 60%] Built target astra_command_processor_tests
+[ 62%] Building CXX object CMakeFiles/astra_flight_software_app_tests.dir/fsw/tests/test_flight_software_app.cpp.o
+[ 62%] Built target astra_command_authorizer_tests
 [ 63%] Linking CXX executable astra_udp_command_receiver_tests
-[ 63%] Built target astra_command_authorizer_tests
-[ 65%] Building CXX object CMakeFiles/astra_flight_software_app_tests.dir/fsw/tests/test_flight_software_app.cpp.o
-[ 65%] Built target astra_command_processor_tests
-[ 66%] Building CXX object CMakeFiles/astra_health_monitor_tests.dir/fsw/tests/test_health_monitor.cpp.o
+[ 65%] Building CXX object CMakeFiles/astra_health_monitor_tests.dir/fsw/tests/test_health_monitor.cpp.o
+[ 66%] Linking CXX executable astra_recovery_supervisor_tests
 [ 66%] Built target astra_udp_command_receiver_tests
 [ 68%] Building CXX object CMakeFiles/astra_watchdog_tests.dir/fsw/tests/test_watchdog.cpp.o
 [ 68%] Built target astra_recovery_supervisor_tests
@@ -71,31 +90,31 @@
 [ 72%] Built target astra_flight_software_app_tests
 [ 74%] Building CXX object CMakeFiles/astra_extended_mode_tests.dir/fsw/tests/test_extended_modes.cpp.o
 [ 75%] Linking CXX executable astra_watchdog_tests
-[ 77%] Linking CXX executable astra_rate_group_scheduler_tests
-[ 77%] Built target astra_health_monitor_tests
-[ 78%] Building CXX object CMakeFiles/astra_fdir_manager_tests.dir/fsw/tests/test_fdir_manager.cpp.o
-[ 78%] Built target astra_watchdog_tests
-[ 80%] Building CXX object CMakeFiles/astra_simultaneous_fault_tests.dir/fsw/tests/test_simultaneous_faults.cpp.o
-[ 81%] Linking CXX executable astra_extended_mode_tests
-[ 81%] Built target astra_extended_mode_tests
-[ 81%] Built target astra_rate_group_scheduler_tests
-[ 83%] Building CXX object CMakeFiles/astra_flight_software_executive_tests.dir/fsw/tests/test_flight_software_executive.cpp.o
-[ 84%] Linking CXX executable astra_fdir_manager_tests
-[ 86%] Building CXX object CMakeFiles/astra_event_logger_tests.dir/fsw/tests/test_event_logger.cpp.o
+[ 75%] Built target astra_health_monitor_tests
+[ 77%] Building CXX object CMakeFiles/astra_fdir_manager_tests.dir/fsw/tests/test_fdir_manager.cpp.o
+[ 77%] Built target astra_watchdog_tests
+[ 78%] Building CXX object CMakeFiles/astra_simultaneous_fault_tests.dir/fsw/tests/test_simultaneous_faults.cpp.o
+[ 80%] Linking CXX executable astra_extended_mode_tests
+[ 81%] Linking CXX executable astra_rate_group_scheduler_tests
+[ 83%] Linking CXX executable astra_fdir_manager_tests
+[ 83%] Built target astra_extended_mode_tests
+[ 84%] Building CXX object CMakeFiles/astra_flight_software_executive_tests.dir/fsw/tests/test_flight_software_executive.cpp.o
+[ 86%] Linking CXX executable astra_simultaneous_fault_tests
+[ 86%] Built target astra_rate_group_scheduler_tests
 [ 86%] Built target astra_fdir_manager_tests
-[ 87%] Linking CXX executable astra_simultaneous_fault_tests
-[ 89%] Building CXX object CMakeFiles/astra_event_integration_tests.dir/fsw/tests/test_event_integration.cpp.o
-[ 89%] Built target astra_simultaneous_fault_tests
-[ 90%] Building CXX object CMakeFiles/astra_ground_command_guard_tests.dir/fsw/tests/test_ground_command_guard.cpp.o
-[ 92%] Linking CXX executable astra_event_logger_tests
-[ 93%] Linking CXX executable astra_flight_software_executive_tests
-[ 95%] Linking CXX executable astra_event_integration_tests
-[ 96%] Linking CXX executable astra_ground_command_guard_tests
+[ 87%] Building CXX object CMakeFiles/astra_event_integration_tests.dir/fsw/tests/test_event_integration.cpp.o
+[ 89%] Building CXX object CMakeFiles/astra_event_logger_tests.dir/fsw/tests/test_event_logger.cpp.o
+[ 90%] Linking CXX executable astra_flight_software_executive_tests
+[ 90%] Built target astra_simultaneous_fault_tests
+[ 92%] Building CXX object CMakeFiles/astra_ground_command_guard_tests.dir/fsw/tests/test_ground_command_guard.cpp.o
+[ 93%] Linking CXX executable astra_event_integration_tests
+[ 93%] Built target astra_flight_software_executive_tests
+[ 95%] Building CXX object CMakeFiles/astra_configuration_service_tests.dir/fsw/tests/test_configuration_service.cpp.o
+[ 95%] Built target astra_event_integration_tests
+[ 96%] Linking CXX executable astra_event_logger_tests
 [ 96%] Built target astra_event_logger_tests
-[ 98%] Building CXX object CMakeFiles/astra_configuration_service_tests.dir/fsw/tests/test_configuration_service.cpp.o
-[ 98%] Built target astra_event_integration_tests
+[ 98%] Linking CXX executable astra_ground_command_guard_tests
 [ 98%] Built target astra_ground_command_guard_tests
-[ 98%] Built target astra_flight_software_executive_tests
 [100%] Linking CXX executable astra_configuration_service_tests
 [100%] Built target astra_configuration_service_tests
 Test project /home/xpired/ghost_ws/tools/astra-os-hil/build
@@ -164,9 +183,9 @@ Running scenario: basic_command_fault
 Scenario passed.
 Report written to reports/scenario_basic_command_fault_output.txt
 Running scenario: command_timestamp_guard
-[SEND] seq=1 SET_MODE NOMINAL timestamp_ms=1784003468149
+[SEND] seq=1 SET_MODE NOMINAL timestamp_ms=1784002615521
 [PASS] reject stale command: mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_STALE_TIMESTAMP
-[SEND] seq=2 SET_MODE NOMINAL timestamp_ms=1784003477405
+[SEND] seq=2 SET_MODE NOMINAL timestamp_ms=1784002624777
 [PASS] reject future command: mode=BOOT fault=NONE ack_seq=2 ack_cmd=SET_MODE ack_status=REJECTED_FUTURE_TIMESTAMP
 [SEND] seq=3 SET_MODE NOMINAL timestamp_ms=now
 [PASS] accept current command: mode=NOMINAL fault=NONE ack_seq=3 ack_cmd=SET_MODE ack_status=ACCEPTED
@@ -251,87 +270,35 @@ Trials: 25
 [PASS] monte_carlo_trial_006_watchdog_timeout
 [PASS] monte_carlo_trial_007_invalid_transition
 [PASS] monte_carlo_trial_008_sensor_timeout
+Wrote provenance manifest: reports/latest/baseline_manifest.json
+Hashed inputs: 133
 [PASS] monte_carlo_trial_009_cpu_fault_clear
 [PASS] monte_carlo_trial_010_sensor_timeout
 [PASS] monte_carlo_trial_011_sensor_timeout
 [PASS] monte_carlo_trial_012_sensor_timeout
 [PASS] monte_carlo_trial_013_invalid_transition
 [PASS] monte_carlo_trial_014_invalid_transition
-[PASS] monte_carlo_trial_015_nominal_transition
-[PASS] monte_carlo_trial_016_cpu_fault_clear
-[PASS] monte_carlo_trial_017_watchdog_timeout
-[PASS] monte_carlo_trial_018_watchdog_timeout
-[PASS] monte_carlo_trial_019_sensor_timeout
-[PASS] monte_carlo_trial_020_nominal_transition
-[PASS] monte_carlo_trial_021_nominal_transition
-[PASS] monte_carlo_trial_022_watchdog_timeout
-[PASS] monte_carlo_trial_023_nominal_transition
-[PASS] monte_carlo_trial_024_cpu_fault_clear
-[PASS] monte_carlo_trial_025_nominal_transition
-
-== Monte Carlo Summary ==
-Passed: 25
-Failed: 0
-Total:  25
-Report written to reports/monte_carlo_report.md
--- Configuring done (0.0s)
--- Generating done (5.2s)
--- Build files have been written to: /home/xpired/ghost_ws/tools/astra-os-hil/build-pi
-[  5%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_authorizer.cpp.o
-[ 15%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_processor.cpp.o
-[ 15%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_app.cpp.o
-[ 20%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/recovery_supervisor.cpp.o
-[ 25%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_executive.cpp.o
-[ 30%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/configuration_service.cpp.o
-[ 35%] Linking CXX static library libastra_fsw_core.a
-[ 90%] Built target astra_fsw_core
-[ 95%] Linking CXX executable astra_fsw
-[100%] Built target astra_fsw
-[ 90%] Built target astra_fsw_core
-[ 95%] Building CXX object CMakeFiles/astra_fsw_command_telemetry_demo.dir/fsw/src/command_telemetry_demo.cpp.o
-[100%] Linking CXX executable astra_fsw_command_telemetry_demo
-[100%] Built target astra_fsw_command_telemetry_demo
-Package written to dist/astrasim-fsw-pi.tar.gz
-Report written to reports/pi_deployment_package_report.md
-[PASS] C++ Mode enum
-[PASS] C++ FaultCode enum
-[PASS] C++ CommandId enum
-[PASS] C++ CommandStatus enum
-[PASS] C++ command magic
-[PASS] C++ command version
-[PASS] C++ command size
-[PASS] C++ telemetry magic
-[PASS] C++ telemetry version
-[PASS] C++ telemetry type
-[PASS] C++ telemetry size
-[PASS] Python sender commands
-[PASS] Python sender modes
-[PASS] Python sender faults
-[PASS] Python sender command magic
-[PASS] Python sender command version
-[PASS] Python receiver commands
-[PASS] Python receiver modes
-[PASS] Python receiver faults
-[PASS] Python receiver statuses
-[PASS] Python telemetry magic
-[PASS] Python telemetry version
-[PASS] Python telemetry type
-[PASS] Python telemetry size
-Report: reports/latest/protocol_conformance.json
-Requirement check complete.
-PASS=21
-MANUAL=46
-PLANNED=0
-HISTORICAL=0
-FAIL=0
-REGISTERED_CTESTS=20
-TRACEABILITY_PROBLEMS=0
-Report written to reports/requirement_check_report.md
-Cases: 129
-Passed: 129
-Failed: 0
-JSON report: reports/assurance_assistant_eval.json
-Markdown report: reports/assurance_assistant_eval.md
+Traceback (most recent call last):
+  File "/home/xpired/ghost_ws/tools/astra-os-hil/tools/run_monte_carlo.py", line 313, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/xpired/ghost_ws/tools/astra-os-hil/tools/run_monte_carlo.py", line 287, in main
+    ok, output = run_trial(scenario, args.build_dir)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xpired/ghost_ws/tools/astra-os-hil/tools/run_monte_carlo.py", line 204, in run_trial
+    result = subprocess.run(
+             ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 2116, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/usr/lib/python3.12/subprocess.py", line 1253, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['/usr/bin/python3', '/home/xpired/ghost_ws/tools/astra-os-hil/tools/run_scenario.py', '/tmp/tmps6ur895z.yaml', '--build-dir', 'build-pi']' timed out after 20 seconds
 == Building and running unit tests ==
 
 == Running YAML scenarios ==
@@ -369,11 +336,9 @@ Total:  8
 == Running ten-case FDIR campaign ==
 
 == Running Monte Carlo regression ==
+ERROR: Running Monte Carlo regression failed.
+[FAIL] full_verification
 
-== Building Raspberry Pi deployment package ==
-
-== Checking protocol conformance ==
-
-== Checking requirement traceability ==
-
-== Running frozen assurance-assistant evaluation ==
+Assurance status: FAILED
+Summary: reports/latest/assurance_summary.json
+Manifest: reports/latest/baseline_manifest.json

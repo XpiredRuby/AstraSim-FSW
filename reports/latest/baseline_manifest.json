@@ -10,7 +10,7 @@
     "source_date_epoch": null,
     "warnings_as_errors": true
   },
-  "generated_at_utc": "2026-07-14T00:07:45.613654+00:00",
+  "generated_at_utc": "2026-07-14T04:40:26.461223+00:00",
   "host": {
     "machine": "aarch64",
     "platform": "Linux-6.8.0-1060-raspi-aarch64-with-glibc2.39",
@@ -46,23 +46,28 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "8545c11ffe01ea37b3cf73ac777f0ca178a0a1b93c2ff5c06691def0000667bb",
-      "size_bytes": 3521
+      "sha256": "6d4218564b55966780ad7997a70c4124657df73993c30cfedbe429099a125e43",
+      "size_bytes": 3567
     },
     {
       "path": "CMakeLists.txt",
-      "sha256": "ba5a1047701c2ee4a03a18cf476e0ddc4668c676fd93e07cb049d04eeeece3e1",
+      "sha256": "7d45826536b9afa97424199ea0ba35b614cff915b56352c79745e1ad4b87bfc6",
       "size_bytes": 8383
     },
     {
       "path": "PROJECT_STATE.md",
-      "sha256": "55c4ad34fc4a4c38979499d62948592e85c85c57e0693e3553c51df0c219a548",
+      "sha256": "868270a20eb518b7089208a420f931cc3e6dfb7f5da0f8e3a53e383356bdeddb",
       "size_bytes": 3409
     },
     {
       "path": "README.md",
-      "sha256": "409ee7c53f9e9ccc0c520cebf5dea5fe3be0e57b446d000d4ffea86eca0a2e5a",
-      "size_bytes": 9339
+      "sha256": "c22beaaea48338d35e99444cf82742d5f85348c56047ebb7c0828ed3a12fca5f",
+      "size_bytes": 9809
+    },
+    {
+      "path": "RELEASE_NOTES_v1.0.0.md",
+      "sha256": "f34438dcbb2d81be9e5189cf90f023786ac9ce15e9aadcd734431744d40f715e",
+      "size_bytes": 3057
     },
     {
       "path": "ci/run_local_tests.sh",
@@ -108,6 +113,16 @@
       "path": "docs/FDIR_MATRIX.md",
       "sha256": "f16da7fe42ebfaf1a9c86da158536f2ea1fc52adc5b742b8b9a719918f381bfd",
       "size_bytes": 4870
+    },
+    {
+      "path": "docs/PORTFOLIO_CASE_STUDY.md",
+      "sha256": "4f895eee20ee1f45d031b429fd671cbe324ab94a5775a7f15b68fdfc2477f2e7",
+      "size_bytes": 6632
+    },
+    {
+      "path": "docs/PORTFOLIO_DEMO.md",
+      "sha256": "5055df29d34751fbaf8250d19a9f0b80ae3cd42bf02e404cd32708a56c6fc2c3",
+      "size_bytes": 2955
     },
     {
       "path": "docs/REQUIREMENTS.md",
@@ -171,8 +186,8 @@
     },
     {
       "path": "docs/monte_carlo.md",
-      "sha256": "4ca29ca468fa22a70ed1df4642d30964952da78a38af7cc0af4d1d1c94b9ef60",
-      "size_bytes": 1194
+      "sha256": "bcf7bc6780b40a019ecc6ff328f28b8839b9ec6f94d7b981dbf5275f9a9414f5",
+      "size_bytes": 1537
     },
     {
       "path": "docs/pi_deployment.md",
@@ -626,8 +641,8 @@
     },
     {
       "path": "tools/run_monte_carlo.py",
-      "sha256": "cfe62f3fe1e25a87a301d6b5100cb5ebe14bf6e4dac14008f77ced61c30676cf",
-      "size_bytes": 10318
+      "sha256": "d2038a9cca90e5c46ea59643da161186a3d7e6903e02dd6c43ef3c78c8013cb1",
+      "size_bytes": 11248
     },
     {
       "path": "tools/run_scenario.py",
@@ -671,32 +686,21 @@
     }
   ],
   "repository": {
-    "branch": "astra-os/final-completion",
-    "commit": "bdd207a396c3054e3eeb74479798110e29b3d1eb",
-    "describe": "astrasim-fsw-baseline-2026-07-12-109-gbdd207a-dirty",
+    "branch": "astra-os/v1.0.0-release",
+    "commit": "759d2a1c3e617a0aca7e4414baee9710e0f145ca",
+    "describe": "astrasim-fsw-baseline-2026-07-12-114-g759d2a1-dirty",
     "dirty": true,
     "dirty_paths": [
-      "reports/ASTRA_OS_FINAL_COMPLETION_REPORT.md",
-      "reports/assurance_assistant_eval.json",
-      "reports/assurance_assistant_eval.md",
-      "reports/fdir_campaign_report.md",
       "reports/latest/assurance_summary.json",
       "reports/latest/baseline_manifest.json",
       "reports/latest/build_sanitizers.log",
       "reports/latest/configure_sanitizers.log",
       "reports/latest/controlled_mutation.log",
       "reports/latest/full_verification.log",
-      "reports/latest/protocol_conformance.json",
+      "reports/latest/python_tool_tests.log",
+      "reports/latest/source_cleanliness.log",
       "reports/latest/test_sanitizers.log",
-      "reports/pi-hil/controlled-overrun-resource-usage.json",
-      "reports/pi-hil/controlled-overrun-timing.json",
-      "reports/pi-hil/final-ctest.txt",
-      "reports/pi-hil/nominal-resource-usage.json",
-      "reports/pi-hil/nominal-timing.json",
-      "reports/pi-hil/soak-resource-usage.json",
-      "reports/pi-hil/soak-timing.json",
       "reports/pi_deployment_package_report.md",
-      "reports/python_tool_tests.json",
       "reports/requirement_check_report.md",
       "reports/scenario_basic_command_fault_output.txt",
       "reports/scenario_command_timestamp_guard_output.txt",
@@ -718,27 +722,16 @@
       "reports/scenario_watchdog_timeout_safe_mode_output.txt"
     ],
     "generated_evidence_dirty_paths": [
-      "reports/ASTRA_OS_FINAL_COMPLETION_REPORT.md",
-      "reports/assurance_assistant_eval.json",
-      "reports/assurance_assistant_eval.md",
-      "reports/fdir_campaign_report.md",
       "reports/latest/assurance_summary.json",
       "reports/latest/baseline_manifest.json",
       "reports/latest/build_sanitizers.log",
       "reports/latest/configure_sanitizers.log",
       "reports/latest/controlled_mutation.log",
       "reports/latest/full_verification.log",
-      "reports/latest/protocol_conformance.json",
+      "reports/latest/python_tool_tests.log",
+      "reports/latest/source_cleanliness.log",
       "reports/latest/test_sanitizers.log",
-      "reports/pi-hil/controlled-overrun-resource-usage.json",
-      "reports/pi-hil/controlled-overrun-timing.json",
-      "reports/pi-hil/final-ctest.txt",
-      "reports/pi-hil/nominal-resource-usage.json",
-      "reports/pi-hil/nominal-timing.json",
-      "reports/pi-hil/soak-resource-usage.json",
-      "reports/pi-hil/soak-timing.json",
       "reports/pi_deployment_package_report.md",
-      "reports/python_tool_tests.json",
       "reports/requirement_check_report.md",
       "reports/scenario_basic_command_fault_output.txt",
       "reports/scenario_command_timestamp_guard_output.txt",

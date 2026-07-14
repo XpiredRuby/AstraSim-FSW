@@ -30,22 +30,22 @@ steps:
 ## Telemetry Packets
 
 ```text
-seq=1 t_ms=1783987431498 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.25% hb=1
-seq=2 t_ms=1783987431698 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.50% hb=2
-seq=3 t_ms=1783987431899 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.75% hb=3
-seq=4 t_ms=1783987432100 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.00% hb=4
-seq=5 t_ms=1783987432301 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.25% hb=5
-seq=6 t_ms=1783987432502 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=43.50% hb=6
-seq=7 t_ms=1783987432653 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=43.75% hb=7
-seq=8 t_ms=1783987432853 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=44.00% hb=8
-seq=9 t_ms=1783987433054 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=44.25% hb=9
-seq=10 t_ms=1783987433255 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=44.50% hb=10
-seq=11 t_ms=1783987433456 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=44.75% hb=11
-seq=12 t_ms=1783987433657 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=45.00% hb=12
-seq=13 t_ms=1783987433858 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=45.25% hb=13
-seq=14 t_ms=1783987434059 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=45.50% hb=14
-seq=15 t_ms=1783987434260 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=45.75% hb=15
-seq=16 t_ms=1783987434461 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=46.00% hb=16
+seq=1 t_ms=1784003500949 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.25% hb=1
+seq=2 t_ms=1784003501149 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.50% hb=2
+seq=3 t_ms=1784003501350 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=42.75% hb=3
+seq=4 t_ms=1784003501551 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.00% hb=4
+seq=5 t_ms=1784003501752 mode=BOOT fault=NONE ack_seq=0 ack_cmd=NONE ack_status=ACCEPTED cpu=18.00% mem=43.25% hb=5
+seq=6 t_ms=1784003501953 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=43.50% hb=6
+seq=7 t_ms=1784003502103 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=43.75% hb=7
+seq=8 t_ms=1784003502304 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=44.00% hb=8
+seq=9 t_ms=1784003502505 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=44.25% hb=9
+seq=10 t_ms=1784003502706 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=44.50% hb=10
+seq=11 t_ms=1784003502907 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=44.75% hb=11
+seq=12 t_ms=1784003503108 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=45.00% hb=12
+seq=13 t_ms=1784003503309 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=45.25% hb=13
+seq=14 t_ms=1784003503510 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=45.50% hb=14
+seq=15 t_ms=1784003503711 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=45.75% hb=15
+seq=16 t_ms=1784003503912 mode=BOOT fault=NONE ack_seq=1 ack_cmd=SET_MODE ack_status=REJECTED_INVALID_TRANSITION cpu=18.00% mem=46.00% hb=16
 ```
 
 ## C++ Server Output

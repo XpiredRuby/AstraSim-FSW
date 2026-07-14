@@ -1,3 +1,44 @@
+
+== source_cleanliness ==
++ /usr/bin/python3 /home/xpired/ghost_ws/tools/astra-os-hil/tools/check_source_cleanliness.py
+PASS: no uncommitted source or configuration changes
+Generated evidence changes are present and permitted:
+- reports/latest/assurance_summary.json
+- reports/latest/baseline_manifest.json
+- reports/latest/full_verification.log
+- reports/latest/python_tool_tests.log
+- reports/latest/source_cleanliness.log
+- reports/scenario_basic_command_fault_output.txt
+- reports/scenario_command_timestamp_guard_output.txt
+- reports/scenario_extended_modes_output.txt
+- reports/scenario_fdir_command_bad_crc_output.txt
+- reports/scenario_fdir_command_timeout_output.txt
+- reports/scenario_fdir_command_unknown_id_output.txt
+- reports/scenario_fdir_cpu_overload_output.txt
+- reports/scenario_fdir_memory_overload_output.txt
+- reports/scenario_fdir_payload_heartbeat_timeout_output.txt
+- reports/scenario_fdir_sensor_invalid_data_output.txt
+- reports/scenario_fdir_sensor_timeout_output.txt
+- reports/scenario_fdir_telemetry_socket_failure_output.txt
+- reports/scenario_fdir_watchdog_deadline_miss_output.txt
+- reports/scenario_hil_smoke_test_output.txt
+- reports/scenario_invalid_transition_rejected_output.txt
+- reports/scenario_recovery_failure_failsafe_output.txt
+- reports/scenario_sensor_timeout_safe_mode_output.txt
+- reports/scenario_watchdog_timeout_safe_mode_output.txt
+[PASS] source_cleanliness
+
+== python_tool_tests ==
++ /usr/bin/python3 -m unittest discover -s tools/tests -p test_*.py
+............................
+----------------------------------------------------------------------
+Ran 28 tests in 4.285s
+
+OK
+[PASS] python_tool_tests
+
+== full_verification ==
++ /usr/bin/python3 /home/xpired/ghost_ws/tools/astra-os-hil/tools/run_all_scenarios.py --build-dir build-pi
 -- The CXX compiler identification is GNU 13.3.0
 -- Detecting CXX compiler ABI info
 -- Detecting CXX compiler ABI info - done
@@ -377,3 +418,222 @@ Total:  8
 == Checking requirement traceability ==
 
 == Running frozen assurance-assistant evaluation ==
+[PASS] full_verification
+
+== configure_sanitizers ==
++ cmake -S . -B /home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers -DCMAKE_BUILD_TYPE=Debug -DASTRA_WARNINGS_AS_ERRORS=ON -DASTRA_ENABLE_SANITIZERS=ON
+-- Configuring done (0.0s)
+-- Generating done (1.5s)
+-- Build files have been written to: /home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers
+[PASS] configure_sanitizers
+
+== build_sanitizers ==
++ cmake --build /home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers --parallel
+[  1%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/configuration_service.cpp.o
+[  3%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_processor.cpp.o
+[  6%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_executive.cpp.o
+[  6%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_authorizer.cpp.o
+[  7%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_app.cpp.o
+[  9%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/recovery_supervisor.cpp.o
+[ 10%] Linking CXX static library libastra_fsw_core.a
+[ 27%] Built target astra_fsw_core
+[ 28%] Linking CXX executable astra_fsw
+[ 30%] Linking CXX executable astra_command_tests
+[ 31%] Building CXX object CMakeFiles/astra_command_authorizer_tests.dir/fsw/tests/test_command_authorizer.cpp.o
+[ 33%] Linking CXX executable astra_fsw_telemetry_demo
+[ 34%] Building CXX object CMakeFiles/astra_fsw_command_telemetry_demo.dir/fsw/src/command_telemetry_demo.cpp.o
+[ 36%] Building CXX object CMakeFiles/astra_extended_mode_tests.dir/fsw/tests/test_extended_modes.cpp.o
+[ 37%] Linking CXX executable astra_fsw_tests
+[ 40%] Building CXX object CMakeFiles/astra_timing_campaign.dir/fsw/src/timing_campaign.cpp.o
+[ 42%] Linking CXX executable astra_event_logger_tests
+[ 43%] Linking CXX executable astra_udp_command_receiver_tests
+[ 46%] Linking CXX executable astra_telemetry_tests
+[ 48%] Building CXX object CMakeFiles/astra_flight_software_app_tests.dir/fsw/tests/test_flight_software_app.cpp.o
+[ 53%] Building CXX object CMakeFiles/astra_configuration_service_tests.dir/fsw/tests/test_configuration_service.cpp.o
+[ 54%] Linking CXX executable astra_rate_group_scheduler_tests
+[ 56%] Building CXX object CMakeFiles/astra_event_integration_tests.dir/fsw/tests/test_event_integration.cpp.o
+[ 60%] Building CXX object CMakeFiles/astra_simultaneous_fault_tests.dir/fsw/tests/test_simultaneous_faults.cpp.o
+[ 62%] Building CXX object CMakeFiles/astra_command_processor_tests.dir/fsw/tests/test_command_processor.cpp.o
+[ 63%] Linking CXX executable astra_health_monitor_tests
+[ 65%] Linking CXX executable astra_ground_command_guard_tests
+[ 68%] Building CXX object CMakeFiles/astra_flight_software_executive_tests.dir/fsw/tests/test_flight_software_executive.cpp.o
+[ 69%] Linking CXX executable astra_watchdog_tests
+[ 71%] Linking CXX executable astra_fdir_manager_tests
+[ 72%] Linking CXX executable astra_udp_telemetry_tests
+[ 74%] Built target astra_fsw_tests
+[ 74%] Building CXX object CMakeFiles/astra_recovery_supervisor_tests.dir/fsw/tests/test_recovery_supervisor.cpp.o
+[ 74%] Built target astra_fsw
+[ 75%] Built target astra_command_tests
+[ 77%] Built target astra_fsw_telemetry_demo
+[ 77%] Built target astra_event_logger_tests
+[ 78%] Built target astra_telemetry_tests
+[ 78%] Built target astra_udp_command_receiver_tests
+[ 83%] Built target astra_health_monitor_tests
+[ 83%] Built target astra_rate_group_scheduler_tests
+[ 83%] Built target astra_ground_command_guard_tests
+[ 83%] Built target astra_fdir_manager_tests
+[ 83%] Built target astra_watchdog_tests
+[ 83%] Built target astra_udp_telemetry_tests
+[ 84%] Linking CXX executable astra_flight_software_app_tests
+[ 86%] Linking CXX executable astra_command_processor_tests
+[ 87%] Linking CXX executable astra_extended_mode_tests
+[ 89%] Linking CXX executable astra_command_authorizer_tests
+[ 90%] Linking CXX executable astra_simultaneous_fault_tests
+[ 92%] Linking CXX executable astra_fsw_command_telemetry_demo
+[ 93%] Linking CXX executable astra_configuration_service_tests
+[ 95%] Linking CXX executable astra_timing_campaign
+[ 96%] Linking CXX executable astra_flight_software_executive_tests
+[ 98%] Linking CXX executable astra_event_integration_tests
+[100%] Linking CXX executable astra_recovery_supervisor_tests
+[100%] Built target astra_flight_software_app_tests
+[100%] Built target astra_extended_mode_tests
+[100%] Built target astra_fsw_command_telemetry_demo
+[100%] Built target astra_flight_software_executive_tests
+[100%] Built target astra_configuration_service_tests
+[100%] Built target astra_timing_campaign
+[100%] Built target astra_command_authorizer_tests
+[100%] Built target astra_command_processor_tests
+[100%] Built target astra_simultaneous_fault_tests
+[100%] Built target astra_recovery_supervisor_tests
+[100%] Built target astra_event_integration_tests
+[PASS] build_sanitizers
+
+== test_sanitizers ==
++ ctest --test-dir /home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers --output-on-failure
+Internal ctest changing into directory: /home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers
+Test project /home/xpired/ghost_ws/tools/astra-os-hil/build-assurance-sanitizers
+      Start  1: mode_manager_tests
+ 1/20 Test  #1: mode_manager_tests ................   Passed    0.04 sec
+      Start  2: telemetry_packet_tests
+ 2/20 Test  #2: telemetry_packet_tests ............   Passed    0.04 sec
+      Start  3: udp_telemetry_sender_tests
+ 3/20 Test  #3: udp_telemetry_sender_tests ........   Passed    0.05 sec
+      Start  4: command_packet_tests
+ 4/20 Test  #4: command_packet_tests ..............   Passed    0.05 sec
+      Start  5: command_authorizer_tests
+ 5/20 Test  #5: command_authorizer_tests ..........   Passed    0.05 sec
+      Start  6: command_processor_tests
+ 6/20 Test  #6: command_processor_tests ...........   Passed    0.05 sec
+      Start  7: recovery_supervisor_tests
+ 7/20 Test  #7: recovery_supervisor_tests .........   Passed    0.05 sec
+      Start  8: udp_command_receiver_tests
+ 8/20 Test  #8: udp_command_receiver_tests ........   Passed    0.05 sec
+      Start  9: flight_software_app_tests
+ 9/20 Test  #9: flight_software_app_tests .........   Passed    0.06 sec
+      Start 10: health_monitor_tests
+10/20 Test #10: health_monitor_tests ..............   Passed    0.05 sec
+      Start 11: watchdog_tests
+11/20 Test #11: watchdog_tests ....................   Passed    0.04 sec
+      Start 12: rate_group_scheduler_tests
+12/20 Test #12: rate_group_scheduler_tests ........   Passed    0.05 sec
+      Start 13: extended_mode_tests
+13/20 Test #13: extended_mode_tests ...............   Passed    0.05 sec
+      Start 14: fdir_manager_tests
+14/20 Test #14: fdir_manager_tests ................   Passed    0.05 sec
+      Start 15: simultaneous_fault_tests
+15/20 Test #15: simultaneous_fault_tests ..........   Passed    0.05 sec
+      Start 16: flight_software_executive_tests
+16/20 Test #16: flight_software_executive_tests ...   Passed    0.06 sec
+      Start 17: event_logger_tests
+17/20 Test #17: event_logger_tests ................   Passed    0.05 sec
+      Start 18: event_integration_tests
+18/20 Test #18: event_integration_tests ...........   Passed    0.05 sec
+      Start 19: ground_command_guard_tests
+19/20 Test #19: ground_command_guard_tests ........   Passed    0.05 sec
+      Start 20: configuration_service_tests
+20/20 Test #20: configuration_service_tests .......   Passed    0.05 sec
+
+100% tests passed, 0 tests failed out of 20
+
+Total Test time (real) =   1.02 sec
+[PASS] test_sanitizers
+
+== controlled_mutation ==
++ /usr/bin/python3 /home/xpired/ghost_ws/tools/astra-os-hil/tools/run_controlled_mutation.py
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (4.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: /tmp/astra-os-mutation-mv98yvwh/build
+[  5%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/fdir_manager.cpp.o
+[ 10%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_authorizer.cpp.o
+[ 15%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/mode_manager.cpp.o
+[ 20%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/event_logger.cpp.o
+[ 25%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/udp_telemetry_sender.cpp.o
+[ 30%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/telemetry_packet.cpp.o
+[ 35%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_packet.cpp.o
+[ 40%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/configuration_service.cpp.o
+[ 45%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/udp_command_receiver.cpp.o
+[ 50%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/command_processor.cpp.o
+[ 55%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/recovery_supervisor.cpp.o
+[ 60%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_executive.cpp.o
+[ 65%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/ground_command_guard.cpp.o
+[ 70%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/watchdog.cpp.o
+[ 75%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/rate_group_scheduler.cpp.o
+[ 80%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/health_monitor.cpp.o
+[ 85%] Building CXX object CMakeFiles/astra_fsw_core.dir/fsw/src/flight_software_app.cpp.o
+[ 90%] Linking CXX static library libastra_fsw_core.a
+[ 90%] Built target astra_fsw_core
+[ 95%] Building CXX object CMakeFiles/astra_command_tests.dir/fsw/tests/test_command_packet.cpp.o
+[100%] Linking CXX executable astra_command_tests
+[100%] Built target astra_command_tests
+Internal ctest changing into directory: /tmp/astra-os-mutation-mv98yvwh/build
+Test project /tmp/astra-os-mutation-mv98yvwh/build
+    Start 4: command_packet_tests
+1/1 Test #4: command_packet_tests .............***Failed    0.01 sec
+Running CommandPacket tests...
+[PASS] serialized command packet has fixed expected size
+[PASS] valid SET_MODE command deserializes
+[PASS] sequence number round trip
+[PASS] timestamp round trip
+[PASS] command id round trip
+[PASS] argument round trip
+[PASS] valid INJECT_FAULT command deserializes
+[PASS] inject fault command id round trip
+[PASS] inject fault argument round trip
+[FAIL] corrupted command rejected by CRC
+[PASS] wrong-size command rejected
+[PASS] every truncated command length is rejected
+[PASS] oversized command rejected
+[PASS] invalid command id rejected even with valid CRC
+[PASS] invalid magic rejected even with valid CRC
+[PASS] unsupported command version rejected even with valid CRC
+[PASS] single-bit campaign executes 208 mutations
+[FAIL] all single-bit command corruptions are rejected
+[PASS] invalid empty packet is rejected
+[PASS] failed decode preserves sequence output
+Wrote provenance manifest: reports/latest/baseline_manifest.json
+Hashed inputs: 133
+[PASS] failed decode preserves timestamp output
+[PASS] failed decode preserves command output
+[PASS] failed decode preserves argument output
+[PASS] valid mode argument accepted
+[PASS] mode argument decoded
+[PASS] invalid mode argument rejected
+[PASS] valid fault argument accepted
+[PASS] fault argument decoded
+[PASS] invalid fault argument rejected
+[PASS] command id string conversion works
+2 CommandPacket test(s) failed.
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.02 sec
+
+The following tests FAILED:
+	  4 - command_packet_tests (Failed)
+Errors while running CTest
++ cmake -S /tmp/astra-os-mutation-mv98yvwh/source -B /tmp/astra-os-mutation-mv98yvwh/build -DCMAKE_BUILD_TYPE=Debug -DASTRA_WARNINGS_AS_ERRORS=ON
++ cmake --build /tmp/astra-os-mutation-mv98yvwh/build --target astra_command_tests --parallel
++ ctest --test-dir /tmp/astra-os-mutation-mv98yvwh/build --tests-regex ^command_packet_tests$ --output-on-failure
+MUTATION KILLED: command-packet tests detected the disabled CRC rejection path.
+[PASS] controlled_mutation
+
+Assurance status: PASSED
+Summary: reports/latest/assurance_summary.json
+Manifest: reports/latest/baseline_manifest.json

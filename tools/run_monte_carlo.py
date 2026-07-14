@@ -195,7 +195,11 @@ def scenario_report_path(name: str) -> Path:
     return REPORTS_DIR / f"scenario_{name}_output.txt"
 
 
-def run_trial(scenario: dict, build_dir: str = "build") -> tuple[bool, str]:
+def run_trial(
+    scenario: dict,
+    build_dir: str = "build",
+    timeout_s: float = 45.0,
+) -> tuple[bool, str]:
     with tempfile.NamedTemporaryFile("w", suffix=".yaml", delete=False) as f:
         yaml.safe_dump(scenario, f, sort_keys=False)
         scenario_path = Path(f.name)
@@ -213,9 +217,20 @@ def run_trial(scenario: dict, build_dir: str = "build") -> tuple[bool, str]:
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            timeout=20,
+            timeout=timeout_s,
         )
         return result.returncode == 0, result.stdout
+    except subprocess.TimeoutExpired as error:
+        partial_output = error.stdout or ""
+        if isinstance(partial_output, bytes):
+            partial_output = partial_output.decode(errors="replace")
+        message = (
+            f"Trial timed out after {timeout_s:.1f} seconds. "
+            "This is recorded as a failed trial rather than crashing the campaign."
+        )
+        if partial_output:
+            message += "\nPartial output:\n" + partial_output
+        return False, message
     finally:
         scenario_path.unlink(missing_ok=True)
         scenario_report_path(scenario["name"]).unlink(missing_ok=True)
@@ -271,10 +286,18 @@ def main() -> int:
         default="build",
         help="Directory containing the built ASTRA-OS executables.",
     )
+    parser.add_argument(
+        "--trial-timeout-s",
+        type=float,
+        default=45.0,
+        help="Maximum wall time for one generated scenario before it is recorded as failed.",
+    )
     args = parser.parse_args()
 
     if args.trials <= 0:
         raise SystemExit("ERROR: --trials must be positive")
+    if args.trial_timeout_s <= 0.0:
+        raise SystemExit("ERROR: --trial-timeout-s must be positive")
 
     rng = random.Random(args.seed)
     trials: list[tuple[dict, bool, str]] = []
@@ -284,7 +307,11 @@ def main() -> int:
 
     for trial_id in range(1, args.trials + 1):
         scenario = make_case(rng, trial_id)
-        ok, output = run_trial(scenario, args.build_dir)
+        ok, output = run_trial(
+            scenario,
+            args.build_dir,
+            timeout_s=args.trial_timeout_s,
+        )
         trials.append((scenario, ok, output))
 
         result = "PASS" if ok else "FAIL"

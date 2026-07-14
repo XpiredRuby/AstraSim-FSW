@@ -1,8 +1,8 @@
 # Changelog
 
-All notable ASTRA-OS changes are recorded here. Dates use UTC. The project does not claim semantic-version stability until the first ASTRA-OS release is tagged.
+All notable ASTRA-OS changes are recorded here. Dates use UTC. Semantic-versioned releases begin with ASTRA-OS v1.0.0.
 
-## Unreleased — final portable-software completion
+## [1.0.0] — 2026-07-14
 
 ### Added
 
@@ -10,6 +10,7 @@ All notable ASTRA-OS changes are recorded here. Dates use UTC. The project does 
 - typed `REJECTED_UNAUTHORIZED` telemetry acknowledgement;
 - bounded `RecoverySupervisor` with SAFE fallback and `REJECTED_RECOVERY_LIMIT`;
 - deterministic timestamp-aware scenario commands;
+- configurable Monte Carlo per-trial timeout with clean timeout evidence instead of an uncaught harness traceback;
 - end-to-end STANDBY TEST timestamp-guard and recovery-failure scenarios;
 - ten-case UDP FDIR campaign for every supported fault disposition;
 - per-module coverage CSV JSON and Markdown generation in CI;
@@ -36,7 +37,7 @@ All notable ASTRA-OS changes are recorded here. Dates use UTC. The project does 
 - 10/10 FDIR cases;
 - 24/24 protocol-conformance checks;
 - 25/25 Monte Carlo trials with seed `20260626`;
-- 27/27 Python tool tests;
+- 28/28 Python tool tests;
 - 129/129 governed-assistant evaluation cases;
 - zero requirement failures and zero traceability problems.
 

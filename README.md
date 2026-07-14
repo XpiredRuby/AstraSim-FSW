@@ -1,8 +1,17 @@
 # ASTRA-OS / AstraSim-FSW
 
+![ASTRA-OS architecture](docs/assets/astra_os_architecture.svg)
+
 [![C++ Build and Unit Tests](https://github.com/XpiredRuby/AstraSim-FSW/actions/workflows/unit_tests.yml/badge.svg)](https://github.com/XpiredRuby/AstraSim-FSW/actions/workflows/unit_tests.yml)
 
-ASTRA-OS is an educational C++17 and Python spacecraft-style flight-software and assurance platform. It connects deterministic operating modes, UDP command and telemetry, command integrity and policy controls, health and watchdog monitoring, FDIR, bounded recovery, scheduling, configuration control, Raspberry Pi execution, requirements traceability, and reproducible verification evidence.
+ASTRA-OS v1.0.0 is an educational C++17 and Python spacecraft-style flight-software and assurance platform. It connects deterministic operating modes, UDP command and telemetry, command integrity and policy controls, health and watchdog monitoring, FDIR, bounded recovery, scheduling, configuration control, Raspberry Pi execution, requirements traceability, and reproducible verification evidence.
+
+## Release and portfolio
+
+- Release notes: [`RELEASE_NOTES_v1.0.0.md`](RELEASE_NOTES_v1.0.0.md)
+- Recruiter-readable case study: [`docs/PORTFOLIO_CASE_STUDY.md`](docs/PORTFOLIO_CASE_STUDY.md)
+- Ready-to-record 90-second demo: [`docs/PORTFOLIO_DEMO.md`](docs/PORTFOLIO_DEMO.md)
+- Final completion report: [`reports/ASTRA_OS_FINAL_COMPLETION_REPORT.md`](reports/ASTRA_OS_FINAL_COMPLETION_REPORT.md)
 
 ## Current completion status
 
@@ -15,7 +24,7 @@ The final portable-software baseline has locally passed. The complete managed as
 | Ten-case FDIR campaign | 10/10 |
 | Protocol conformance | 24/24 |
 | Seeded Monte Carlo | 25/25 with seed `20260626` |
-| Python tool tests | 27/27 |
+| Python tool tests | 28/28 |
 | Frozen assurance-assistant evaluation | 129/129 |
 | Canonical planned requirements | 0 |
 | Requirement failures | 0 |
