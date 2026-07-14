@@ -3,15 +3,25 @@
 ![ASTRA-OS architecture](docs/assets/astra_os_architecture.svg)
 
 [![C++ Build and Unit Tests](https://github.com/XpiredRuby/AstraSim-FSW/actions/workflows/unit_tests.yml/badge.svg)](https://github.com/XpiredRuby/AstraSim-FSW/actions/workflows/unit_tests.yml)
+[![Interactive Model](https://img.shields.io/badge/interactive-model-live-5ee7ff)](https://xpiredruby.github.io/AstraSim-FSW/)
 
 ASTRA-OS v1.0.0 is an educational C++17 and Python spacecraft-style flight-software and assurance platform. It connects deterministic operating modes, UDP command and telemetry, command integrity and policy controls, health and watchdog monitoring, FDIR, bounded recovery, scheduling, configuration control, Raspberry Pi execution, requirements traceability, and reproducible verification evidence.
 
 ## Release and portfolio
 
+- Live interactive mission console: [xpiredruby.github.io/AstraSim-FSW](https://xpiredruby.github.io/AstraSim-FSW/)
 - Release notes: [`RELEASE_NOTES_v1.0.0.md`](RELEASE_NOTES_v1.0.0.md)
 - Recruiter-readable case study: [`docs/PORTFOLIO_CASE_STUDY.md`](docs/PORTFOLIO_CASE_STUDY.md)
 - Ready-to-record 90-second demo: [`docs/PORTFOLIO_DEMO.md`](docs/PORTFOLIO_DEMO.md)
 - Final completion report: [`reports/ASTRA_OS_FINAL_COMPLETION_REPORT.md`](reports/ASTRA_OS_FINAL_COMPLETION_REPORT.md)
+
+## Interactive GitHub Pages model
+
+The static browser model in [`site/`](site/) provides an interactive mission console for the documented ASTRA-OS v1 behavior. It supports mode commands, fault injection, command freshness and sequence rejection, authorization-policy toggles, health-driven internal faults, bounded recovery failure, live telemetry, event history, and deterministic scenario playback.
+
+The site is deployed from `main` by [`.github/workflows/pages.yml`](.github/workflows/pages.yml). Its logic is driven by [`site/model.json`](site/model.json), and deployment validation is covered by [`tools/tests/test_web_model.py`](tools/tests/test_web_model.py).
+
+The browser model is a portfolio demonstration of the documented state machine. It is not the native C++ executable, a WebAssembly build, the Raspberry Pi process, or real-time/flight qualification evidence.
 
 ## Current completion status
 
@@ -24,7 +34,7 @@ The final portable-software baseline has locally passed. The complete managed as
 | Ten-case FDIR campaign | 10/10 |
 | Protocol conformance | 24/24 |
 | Seeded Monte Carlo | 25/25 with seed `20260626` |
-| Python tool tests | 28/28 |
+| Python tool and web-model tests | 35/35 |
 | Frozen assurance-assistant evaluation | 129/129 |
 | Canonical planned requirements | 0 |
 | Requirement failures | 0 |

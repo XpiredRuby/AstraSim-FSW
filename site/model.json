@@ -1,0 +1,136 @@
+{
+  "schema": "astra-os.web-model.v1",
+  "version": "1.0.0",
+  "claimBoundary": "Interactive browser model of documented ASTRA-OS behavior; not the native C++ binary, Raspberry Pi execution, real-time qualification, or flight software.",
+  "modes": [
+    {"name": "BOOT", "value": 0},
+    {"name": "NOMINAL", "value": 1},
+    {"name": "DEGRADED_SENSOR", "value": 2},
+    {"name": "DEGRADED_PAYLOAD", "value": 3},
+    {"name": "SAFE", "value": 4},
+    {"name": "RECOVERY", "value": 5},
+    {"name": "STANDBY", "value": 6},
+    {"name": "TEST", "value": 7}
+  ],
+  "transitions": {
+    "BOOT": ["BOOT", "STANDBY", "NOMINAL", "SAFE"],
+    "STANDBY": ["STANDBY", "NOMINAL", "TEST", "SAFE"],
+    "NOMINAL": ["NOMINAL", "STANDBY", "DEGRADED_SENSOR", "DEGRADED_PAYLOAD", "SAFE"],
+    "DEGRADED_SENSOR": ["DEGRADED_SENSOR", "STANDBY", "RECOVERY", "SAFE"],
+    "DEGRADED_PAYLOAD": ["DEGRADED_PAYLOAD", "STANDBY", "NOMINAL", "RECOVERY", "SAFE"],
+    "TEST": ["TEST", "STANDBY", "SAFE"],
+    "SAFE": ["SAFE", "RECOVERY"],
+    "RECOVERY": ["RECOVERY", "STANDBY", "NOMINAL", "SAFE"]
+  },
+  "faults": {
+    "NONE": {"code": 0, "severity": "NONE", "priority": 0, "response": "HOLD", "targetMode": null, "detector": "none"},
+    "SENSOR_TIMEOUT": {"code": 100, "severity": "CRITICAL", "priority": 90, "response": "ENTER_SAFE", "targetMode": "SAFE", "detector": "sensor age"},
+    "SENSOR_INVALID_DATA": {"code": 101, "severity": "CRITICAL", "priority": 85, "response": "ENTER_SAFE", "targetMode": "SAFE", "detector": "policy/injection"},
+    "PAYLOAD_HEARTBEAT_TIMEOUT": {"code": 200, "severity": "DEGRADED", "priority": 50, "response": "ENTER_DEGRADED_PAYLOAD", "targetMode": "DEGRADED_PAYLOAD", "detector": "payload age"},
+    "CPU_OVERLOAD": {"code": 300, "severity": "DEGRADED", "priority": 60, "response": "ENTER_DEGRADED_PAYLOAD", "targetMode": "DEGRADED_PAYLOAD", "detector": "CPU load"},
+    "MEMORY_OVERLOAD": {"code": 301, "severity": "CRITICAL", "priority": 80, "response": "ENTER_SAFE", "targetMode": "SAFE", "detector": "memory load"},
+    "TELEMETRY_SOCKET_FAILURE": {"code": 400, "severity": "CRITICAL", "priority": 75, "response": "ENTER_SAFE", "targetMode": "SAFE", "detector": "transport policy/injection"},
+    "COMMAND_BAD_CRC": {"code": 500, "severity": "ADVISORY", "priority": 20, "response": "HOLD", "targetMode": null, "detector": "packet decoder"},
+    "COMMAND_UNKNOWN_ID": {"code": 501, "severity": "ADVISORY", "priority": 15, "response": "HOLD", "targetMode": null, "detector": "packet decoder"},
+    "COMMAND_TIMEOUT": {"code": 502, "severity": "CRITICAL", "priority": 70, "response": "ENTER_SAFE", "targetMode": "SAFE", "detector": "link policy/injection"},
+    "WATCHDOG_DEADLINE_MISS": {"code": 600, "severity": "CRITICAL", "priority": 100, "response": "ENTER_SAFE", "targetMode": "SAFE", "detector": "watchdog"}
+  },
+  "commandStatuses": [
+    "ACCEPTED",
+    "REJECTED_BAD_ARGUMENT",
+    "REJECTED_INVALID_TRANSITION",
+    "REJECTED_UNKNOWN_COMMAND",
+    "REJECTED_DUPLICATE_SEQUENCE",
+    "REJECTED_REPLAYED_SEQUENCE",
+    "REJECTED_STALE_TIMESTAMP",
+    "REJECTED_FUTURE_TIMESTAMP",
+    "REJECTED_GUARD_CONFIGURATION",
+    "REJECTED_UNAUTHORIZED",
+    "REJECTED_RECOVERY_LIMIT"
+  ],
+  "guard": {"maximumAgeMs": 2000, "maximumFutureSkewMs": 500},
+  "recoverySupervisor": {"maximumFailedExits": 3},
+  "healthThresholds": {
+    "cpuWarning": 80,
+    "cpuCritical": 95,
+    "memoryWarning": 80,
+    "memoryCritical": 95,
+    "sensorCriticalAgeMs": 1000,
+    "payloadCriticalAgeMs": 1000,
+    "watchdogWarningMs": 400,
+    "watchdogExpiredMs": 600
+  },
+  "verification": {
+    "nativeCTest": "20/20",
+    "sanitizerCTest": "20/20",
+    "pythonTests": "35/35",
+    "scenarios": "8/8",
+    "fdir": "10/10",
+    "monteCarlo": "25/25",
+    "protocol": "24/24",
+    "permissionEval": "129/129",
+    "requirementFailures": 0,
+    "traceabilityProblems": 0
+  },
+  "scenarios": [
+    {
+      "id": "nominal-fault-clear",
+      "name": "Nominal → CPU fault → clear",
+      "steps": [
+        {"command": "SET_MODE", "argument": "NOMINAL"},
+        {"command": "INJECT_FAULT", "argument": "CPU_OVERLOAD"},
+        {"command": "CLEAR_FAULT"}
+      ]
+    },
+    {
+      "id": "sensor-safe",
+      "name": "Sensor timeout → SAFE",
+      "steps": [
+        {"command": "SET_MODE", "argument": "NOMINAL"},
+        {"set": {"sensorAgeMs": 1500}},
+        {"tick": true}
+      ]
+    },
+    {
+      "id": "watchdog-safe",
+      "name": "Watchdog expiry → SAFE",
+      "steps": [
+        {"command": "SET_MODE", "argument": "NOMINAL"},
+        {"set": {"loopDurationMs": 700}},
+        {"tick": true}
+      ]
+    },
+    {
+      "id": "extended-modes",
+      "name": "STANDBY and TEST path",
+      "steps": [
+        {"command": "SET_MODE", "argument": "STANDBY"},
+        {"command": "SET_MODE", "argument": "TEST"},
+        {"command": "SET_MODE", "argument": "NOMINAL"},
+        {"command": "SET_MODE", "argument": "STANDBY"},
+        {"command": "SET_MODE", "argument": "NOMINAL"}
+      ]
+    },
+    {
+      "id": "recovery-limit",
+      "name": "Bounded recovery failure",
+      "steps": [
+        {"command": "SET_MODE", "argument": "NOMINAL"},
+        {"command": "INJECT_FAULT", "argument": "SENSOR_TIMEOUT"},
+        {"command": "SET_MODE", "argument": "RECOVERY"},
+        {"command": "SET_MODE", "argument": "TEST"},
+        {"command": "SET_MODE", "argument": "TEST"},
+        {"command": "SET_MODE", "argument": "TEST"}
+      ]
+    },
+    {
+      "id": "timestamp-guard",
+      "name": "Timestamp guard",
+      "steps": [
+        {"command": "SET_MODE", "argument": "NOMINAL", "timestampOffsetMs": -5000},
+        {"command": "SET_MODE", "argument": "NOMINAL", "timestampOffsetMs": 5000},
+        {"command": "SET_MODE", "argument": "NOMINAL"}
+      ]
+    }
+  ]
+}
