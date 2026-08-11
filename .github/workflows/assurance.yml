@@ -9,10 +9,10 @@ permissions:
 
 jobs:
   sanitizers:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - name: Install build tools
         run: sudo apt-get update && sudo apt-get install -y cmake g++
@@ -34,10 +34,10 @@ jobs:
         run: ctest --test-dir build-sanitizers --output-on-failure
 
   coverage:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - name: Install coverage tools
         run: sudo apt-get update && sudo apt-get install -y cmake g++ lcov python3
@@ -69,7 +69,7 @@ jobs:
             --markdown coverage-modules.md
 
       - name: Upload coverage evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: astra-os-coverage
           path: |
@@ -81,10 +81,10 @@ jobs:
           if-no-files-found: error
 
   clang-tidy:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - name: Install static-analysis tools
         run: sudo apt-get update && sudo apt-get install -y cmake g++ clang-tidy
@@ -100,10 +100,10 @@ jobs:
         run: cmake --build build-clang-tidy --parallel
 
   controlled-mutation:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - name: Install build tools
         run: sudo apt-get update && sudo apt-get install -y cmake g++ python3
@@ -112,10 +112,10 @@ jobs:
         run: python3 tools/run_controlled_mutation.py
 
   command-fuzz:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - name: Install fuzzing tools
         run: sudo apt-get update && sudo apt-get install -y clang cmake python3
@@ -152,7 +152,7 @@ jobs:
 
       - name: Upload fuzz evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: astra-os-command-fuzz-${{ github.run_id }}
           path: |
@@ -163,10 +163,15 @@ jobs:
           if-no-files-found: warn
 
   python-and-shell-smoke:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
 
       - name: Install analysis tools
         run: sudo apt-get update && sudo apt-get install -y python3 shellcheck
@@ -174,8 +179,11 @@ jobs:
       - name: Compile Python tooling
         run: python3 -m compileall -q tools
 
-      - name: Run Python tool tests
+      - name: Run Python tool and browser-model tests
         run: python3 -m unittest discover -s tools/tests -p 'test_*.py'
+
+      - name: Check browser JavaScript syntax
+        run: node --check site/app.js
 
       - name: Verify cross-language protocol conformance
         run: python3 tools/check_protocol_conformance.py

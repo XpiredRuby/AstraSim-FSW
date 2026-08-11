@@ -1,92 +1,66 @@
 # ASTRA-OS 90-Second Portfolio Demo
 
-This script is designed for a concise screen recording. It demonstrates the real repository and evidence without overstating certification or flight readiness.
+This outline is designed for a concise screen recording of the repository and its evidence. Keep the distinction between the evolving current tree and frozen historical baselines visible throughout.
 
 ## Preparation
 
-From the repository root:
+Build the portable software and open these artifacts:
 
 ```bash
-cmake -S . -B build-pi -DCMAKE_BUILD_TYPE=Release
-cmake --build build-pi --parallel
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DASTRA_WARNINGS_AS_ERRORS=ON
+cmake --build build --parallel
+ctest --test-dir build --output-on-failure
 ```
-
-Open the architecture image and final report in two browser tabs:
 
 - `docs/assets/astra_os_architecture.svg`
 - `reports/ASTRA_OS_FINAL_COMPLETION_REPORT.md`
+- `reports/ASTRA_OS_RASPBERRY_PI_VERIFICATION_REPORT.md`
+- the GitHub Actions page for the current branch
 
-## Recording sequence
+## Suggested sequence
 
-### 0–15 seconds — architecture
+### 0–20 seconds — architecture
 
-Show the architecture diagram.
+Show the architecture and explain that ASTRA-OS is a C++17/Python spacecraft-style flight-software and assurance platform with deterministic modes, command/telemetry, FDIR, bounded recovery, and configuration control.
 
-Narration:
+### 20–45 seconds — deterministic software behavior
 
-> ASTRA-OS is a deterministic spacecraft-style flight-software and assurance platform written in C++17 and Python. Commands pass through protocol validation, replay and freshness protection, and a separate authorization policy before reaching the scheduled flight-software core.
+Show one deterministic scenario and the ten-case FDIR report. Emphasize that the scenarios exercise documented software policy through the command/telemetry boundary; they are not a substitute for representative spacecraft hardware integration.
 
-### 15–40 seconds — deterministic behavior
+### 45–70 seconds — assurance evidence
 
-Run:
+Show the current CI results and requirement report.
 
-```bash
-python3 tools/run_scenario.py scenarios/recovery_failure_failsafe.yaml --build-dir build-pi
-```
-
-Narration:
-
-> This scenario enters NOMINAL, injects a critical sensor fault, enters RECOVERY, and then makes three prohibited recovery-exit attempts. The recovery supervisor forces the system back to SAFE on the configured limit.
-
-Expected final line:
+Current-tree summary:
 
 ```text
-Scenario passed.
+CTest suites:                    20/20
+Python tool + browser tests:     35/35
+Deterministic scenarios:          8/8
+FDIR cases:                      10/10
+Protocol checks:                 24/24
+Seeded Monte Carlo:              25/25
+Permission-boundary cases:      129/129
+Requirement failures:                0
+Traceability problems:               0
 ```
 
-### 40–58 seconds — fault campaign
+Explain that the frozen completion and v1.0.0 reports retain the smaller Python-test counts that existed at their exact tested commits. Historical evidence is intentionally not rewritten when the repository adds tests later.
 
-Run:
+### 70–90 seconds — native target evidence and boundary
 
-```bash
-python3 tools/run_fdir_campaign.py --build-dir build-pi
-```
+Show the Raspberry Pi verification report and preserved `reports/pi-hil/` evidence.
 
-Narration:
-
-> The campaign exercises all ten supported fault dispositions through the real command and telemetry boundary and verifies each resulting mode.
-
-Expected summary:
-
-```text
-FDIR cases: 10
-[PASS] ...
-```
-
-### 58–75 seconds — complete verification
-
-Show `reports/latest/assurance_summary.json` and `reports/requirement_check_report.md`.
-
-Narration:
-
-> The definitive campaign passed twenty native and sanitizer CTest suites, twenty-seven Python tests, eight deterministic scenarios, twenty-five seeded Monte Carlo trials, and a 129-case permission evaluation, with zero requirement failures or traceability problems.
-
-### 75–90 seconds — Raspberry Pi and claim boundary
-
-Show the `reports/pi-hil/` timing and resource evidence.
-
-Narration:
-
-> The same portable core was built and executed natively on Raspberry Pi, including a one-million-cycle soak. These are observed educational engineering results—not certification, hard-real-time proof, or flight qualification.
+Explain that the portable core was built and executed natively on Ubuntu 24.04 `aarch64` with a Raspberry Pi kernel, including timing and soak observations. The directory name is historical; the supported claim is native target execution, not representative spacecraft HIL, WCET proof, certification, or flight qualification.
 
 ## Suggested title
 
 ```text
-ASTRA-OS: Deterministic Flight Software, FDIR, and Raspberry Pi Assurance
+ASTRA-OS: Deterministic Flight Software, FDIR, and Assurance Evidence
 ```
 
 ## Suggested description
 
 ```text
-A 90-second demonstration of ASTRA-OS, a C++17/Python spacecraft-style flight-software and assurance platform featuring deterministic scheduling, command/telemetry protocols, replay and freshness protection, authorization policy, ten-case FDIR, bounded recovery supervision, requirements traceability, sanitizer and mutation testing, Monte Carlo regression, and Raspberry Pi evidence.
+A concise walkthrough of ASTRA-OS, a C++17/Python spacecraft-style flight-software and assurance project with deterministic scheduling, command/telemetry, FDIR, bounded recovery, configuration control, requirements traceability, randomized and fault campaigns, and preserved native Raspberry Pi/aarch64 execution evidence.
 ```

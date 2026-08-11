@@ -1,0 +1,27 @@
+name: Technical question
+description: Ask about architecture, verification, reproduction, or project scope.
+title: "[question] "
+labels: ["question"]
+body:
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      options:
+        - Architecture / scheduling
+        - Command / telemetry
+        - FDIR / recovery
+        - Verification / assurance
+        - Raspberry Pi evidence
+        - Requirements / traceability
+        - Reproduction / build
+        - Project scope / limitations
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: Include the file, report, requirement, or behavior you are referring to when possible.
+    validations:
+      required: true

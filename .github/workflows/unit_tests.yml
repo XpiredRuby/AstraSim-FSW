@@ -6,28 +6,27 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+
 jobs:
   build-and-test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - name: Install dependencies
         run: |
-          sudo apt update
-          sudo apt install -y build-essential cmake
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake
 
       - name: Configure CMake
-        run: |
-          cmake -S . -B build
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DASTRA_WARNINGS_AS_ERRORS=ON
 
       - name: Build
-        run: |
-          cmake --build build --parallel
+        run: cmake --build build --parallel
 
       - name: Run unit tests
-        run: |
-          cd build
-          ctest --output-on-failure
+        run: ctest --test-dir build --output-on-failure
