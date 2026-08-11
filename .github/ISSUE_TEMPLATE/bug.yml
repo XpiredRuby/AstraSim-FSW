@@ -1,0 +1,51 @@
+name: Bug report
+description: Report a reproducible defect in ASTRA-OS software, tooling, or evidence generation.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: "Please report behavior against the documented ASTRA-OS software model. Security-sensitive command/guard bypasses should follow SECURITY.md instead."
+  - type: input
+    id: commit
+    attributes:
+      label: Commit or release
+      placeholder: commit SHA or tag
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+      description: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect, and what requirement/document supports that expectation?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Include commands, scenario, platform, and relevant logs.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - C++ flight-software core
+        - Command / telemetry
+        - FDIR / recovery
+        - Configuration / events
+        - Python tooling / scenarios
+        - Browser model
+        - CI / evidence / provenance
+        - Documentation
+    validations:
+      required: true
