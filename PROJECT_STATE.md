@@ -1,57 +1,54 @@
 # ASTRA-OS Project State
 
-## Current baseline
+## Current status
 
-ASTRA-OS is in final software-completion and release-closure status on branch:
+The current development baseline is the repository default branch, `main`. The completed v1.0.0 software/assurance baseline and earlier native Raspberry Pi campaigns remain preserved through tags, reports, and provenance artifacts.
 
-```text
-astra-os/final-completion
-```
-
-The branch is based on the merged and previously Pi-verified `main` baseline. The older preservation worktree at `/home/xpired/ghost_ws/tools/astra-os-work` remains untouched.
+ASTRA-OS is an educational spacecraft-style flight-software and assurance platform. The portable software baseline has no known open implementation blocker, but that statement is deliberately narrower than flight readiness: representative spacecraft hardware integration, mission-derived timing budgets, cryptographic commanding, radiation behavior, and certification are outside the demonstrated scope.
 
 ## Implemented software scope
 
 - eight operational modes including STANDBY and TEST;
 - deterministic mode-transition rejection;
 - binary command and telemetry protocols with CRC;
-- duplicate replay stale and future command rejection;
+- duplicate/replay, stale, and future command rejection;
 - configurable command-execution authorization policy;
 - health and watchdog monitoring;
-- ten-fault FDIR disposition table and deterministic simultaneous-fault priority;
+- ten-fault FDIR disposition table with deterministic simultaneous-fault priority;
 - bounded recovery supervision that forces SAFE after repeated failed exits;
 - deterministic rate-group scheduling and executive dispatch;
-- versioned configuration validation revision control and runtime lock;
+- versioned configuration validation, revision control, and runtime lock;
 - bounded typed event logging;
-- UDP target demonstrations and Python ground tools;
-- deterministic scenarios seeded Monte Carlo and ten-case FDIR campaign;
-- Raspberry Pi deployment package;
-- protocol conformance requirement traceability reverse CTest allocation and reviewed interface hashes;
-- sanitizers clang-tidy coverage mutation fuzzing timing soak and provenance workflows;
-- deterministic governed-assistant permission interface with frozen quantitative evaluation.
+- UDP demonstrations and Python ground tooling;
+- deterministic scenarios, seeded Monte Carlo, and ten-case FDIR campaign;
+- native Raspberry Pi/aarch64 execution and deployment-package evidence;
+- protocol conformance, requirement traceability, reverse CTest allocation, and reviewed interface hashes;
+- sanitizer, clang-tidy, coverage, mutation, fuzzing, timing/soak, and provenance workflows;
+- deterministic governed-assurance permission interface with frozen quantitative evaluation.
 
-## Current local validation
+## Current repository verification snapshot
 
-The completion branch has passed:
+The evolving `main` branch currently carries:
 
 ```text
-Native CTest:                    20/20
-Declared YAML scenarios:         8/8
-Ten-case FDIR campaign:          10/10
-Protocol conformance:            24/24
-Seeded Monte Carlo:              25/25
-Python tool tests:               27/27
-Assurance-assistant evaluation:  129/129
-Traceability failures:           0
-Traceability problems:           0
-Planned canonical requirements:  0
+Native CTest:                     20/20
+Python tool + browser-model tests: 35/35
+Declared YAML scenarios:          8/8
+Ten-case FDIR campaign:           10/10
+Protocol conformance:             24/24
+Seeded Monte Carlo:               25/25
+Assurance-assistant evaluation:   129/129
+Requirement failures:             0
+Traceability problems:             0
+Planned canonical requirements:    0
 ```
 
-The complete managed sanitizer mutation and provenance campaign passed for source-clean commit `bdd207a396c3054e3eeb74479798110e29b3d1eb`. Generated evidence was classified separately and `source_dirty` remained false.
+Historical reports retain the exact counts from their own frozen commits. For example, the final-completion report records 27 Python tooling tests and the v1.0.0 release notes record 28; later browser-model/tool tests raised the current-tree count to 35. Those older reports are evidence of their tested baselines and are intentionally not rewritten.
 
 ## Evidence locations
 
 - `reports/ASTRA_OS_FINAL_COMPLETION_REPORT.md`
+- `reports/ASTRA_OS_RASPBERRY_PI_VERIFICATION_REPORT.md`
 - `docs/REQUIREMENTS.md`
 - `docs/VERIFICATION_MATRIX.csv`
 - `config/traceability_baseline.json`
@@ -60,22 +57,29 @@ The complete managed sanitizer mutation and provenance campaign passed for sourc
 - `reports/assurance_assistant_eval.md`
 - `reports/monte_carlo_report.md`
 - `reports/pi_deployment_package_report.md`
-- `reports/pi-hil/`
+- `reports/pi-hil/` (historical target-evidence directory name)
 - `reports/latest/`
 
 ## Completion definition
 
 Portable software completion means:
 
-- all canonical requirements are implemented or explicitly bounded by the project claim;
-- all registered tests are allocated to requirements;
-- all deterministic and randomized verification gates pass;
+- canonical requirements are implemented or explicitly bounded by the project claim;
+- registered tests are allocated to requirements;
+- deterministic and randomized verification gates pass;
 - the native package can be reproduced;
-- final assurance evidence is tied to an exact clean commit;
-- documentation contains no known stale planned-software claims.
+- final assurance evidence is tied to an exact source state;
+- documentation distinguishes current-tree results from frozen historical baselines.
 
-It does not mean certification flight qualification spacecraft-hardware compatibility production security or hard-real-time qualification.
+It does **not** mean certification, flight qualification, spacecraft-hardware compatibility, production security, operational reliability, or hard-real-time qualification.
 
 ## Remaining external work
 
-No known portable-core software blocker remains. Future expansion requires mission or hardware authority for items such as cryptographic commanding representative spacecraft buses actuator interfaces radiation behavior mission-derived scheduling budgets and physical FDIR detector calibration.
+Future expansion requires representative mission or hardware authority for items such as:
+
+- cryptographic command authentication and key management;
+- spacecraft buses, sensors, actuators, payload and power interfaces;
+- radiation and single-event-effect behavior;
+- mission-derived scheduling budgets and WCET evidence;
+- physical detector calibration and recovery dwell;
+- certification and operational approval.
