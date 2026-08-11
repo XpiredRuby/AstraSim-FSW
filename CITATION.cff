@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you reference ASTRA-OS, please cite this repository and the exact release or commit used."
+title: "ASTRA-OS: Spacecraft-Style Flight Software and Assurance Platform"
+type: software
+authors:
+  - family-names: Nair
+    given-names: Vinayak Manoj
+repository-code: "https://github.com/XpiredRuby/AstraSim-FSW"
+url: "https://xpiredruby.github.io/AstraSim-FSW/"
+license: MIT
+version: "1.0.0"
+date-released: 2026-07-14
+keywords:
+  - flight-software
+  - spacecraft
+  - verification
+  - fault-management
+  - command-telemetry
+  - raspberry-pi
